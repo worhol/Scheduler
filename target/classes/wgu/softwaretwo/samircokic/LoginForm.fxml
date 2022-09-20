@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="wgu.softwaretwo.samircokic.controller.LoginFormController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.LoginFormController">
+   <children>
+      <ImageView fitHeight="401.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/pngfind.com-geometric-background-png-1378831.png" />
+         </image>
+      </ImageView>
+      <PasswordField focusTraversable="false" layoutX="388.0" layoutY="188.0" promptText="Password" />
+      <TextField focusTraversable="false" layoutX="388.0" layoutY="141.0" promptText="Username">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></TextField>
+      <Button layoutX="465.0" layoutY="265.0" mnemonicParsing="false" text="Login" textFill="#0bc0c3">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="388.0" layoutY="166.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
+      <Label layoutX="388.0" layoutY="213.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
+      <Label layoutX="388.0" layoutY="60.0" text="ZONE America/Chicago" textFill="#08f547" />
+   </children>
+</AnchorPane>

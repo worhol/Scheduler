@@ -2,17 +2,15 @@ package wgu.softwaretwo.samircokic;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
+import wgu.softwaretwo.samircokic.controller.LoginFormController;
+import wgu.softwaretwo.samircokic.utility.JDBC;
+import wgu.softwaretwo.samircokic.utility.UserDao;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.Locale;
 
 public class SchedulerApplication extends Application {
     @Override
@@ -23,7 +21,10 @@ public class SchedulerApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        JDBC.openConnection();
+        Locale.setDefault(new Locale("fr"));
         launch();
+        JDBC.closeConnection();
     }
 }

@@ -1,6 +1,7 @@
 module wgu.softwaretwo.demo {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens wgu.softwaretwo.samircokic to javafx.fxml;

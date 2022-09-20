@@ -13,12 +13,12 @@
             <Image url="@../../../images/pngfind.com-geometric-background-png-1378831.png" />
          </image>
       </ImageView>
-      <PasswordField focusTraversable="false" layoutX="388.0" layoutY="188.0" promptText="Password" />
-      <TextField focusTraversable="false" layoutX="388.0" layoutY="141.0" promptText="Username">
+      <PasswordField fx:id="password" focusTraversable="false" layoutX="388.0" layoutY="188.0" promptText="Password" />
+      <TextField fx:id="username" focusTraversable="false" layoutX="388.0" layoutY="141.0" promptText="Username">
          <opaqueInsets>
-            <Insets />
+            <Insets bottom="100.0" />
          </opaqueInsets></TextField>
-      <Button layoutX="465.0" layoutY="265.0" mnemonicParsing="false" text="Login" textFill="#0bc0c3">
+      <Button fx:id="loginButton" layoutX="465.0" layoutY="265.0" mnemonicParsing="false" onAction="#displayAppointmentsForm" text="Login" textFill="#0bc0c3">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -26,8 +26,8 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Label layoutX="388.0" layoutY="166.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
-      <Label layoutX="388.0" layoutY="213.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
-      <Label layoutX="388.0" layoutY="60.0" text="ZONE America/Chicago" textFill="#08f547" />
+      <Label fx:id="errorUsername" layoutX="388.0" layoutY="166.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
+      <Label fx:id="errorPassword" layoutX="388.0" layoutY="213.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
+      <Label fx:id="zone" layoutX="388.0" layoutY="60.0" prefHeight="17.0" prefWidth="143.0" textFill="#08f547" />
    </children>
 </AnchorPane>

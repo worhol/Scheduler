@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import wgu.softwaretwo.samircokic.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +18,8 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
-import static wgu.softwaretwo.samircokic.utility.UserDao.*;
+import static wgu.softwaretwo.samircokic.utility.UserDao.usernameAndPasswordCheck;
+import static wgu.softwaretwo.samircokic.utility.UserDao.usernameCheck;
 
 public class LoginFormController implements Initializable {
 
@@ -39,6 +39,7 @@ public class LoginFormController implements Initializable {
     Parent scene;
     ZoneId zoneId = ZoneId.systemDefault();
     ResourceBundle bundle = ResourceBundle.getBundle("languages/language");
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zone.setText(zoneId.toString());
@@ -53,15 +54,16 @@ public class LoginFormController implements Initializable {
         errorUsername.setText("");
         String pass = password.getText();
         String user = username.getText();
-        if (usernameCheck(user)==0){
+        if (usernameCheck(user) == 0) {
             errorUsername.setText(bundle.getString("USERNAME_ERROR"));
         }
-        if (usernameAndPasswordCheck(user,pass)>0){
+        if (usernameAndPasswordCheck(user, pass) > 0) {
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));
+            stage.setMaximized(true);
             stage.show();
-        }else if (usernameCheck(user)>0&&usernameAndPasswordCheck(user,pass)==0){
+        } else if (usernameCheck(user) > 0 && usernameAndPasswordCheck(user, pass) == 0) {
             errorPassword.setText(bundle.getString("PASSWORD_ERROR"));
         }
 

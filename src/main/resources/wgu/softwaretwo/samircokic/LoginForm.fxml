@@ -18,7 +18,7 @@
          <opaqueInsets>
             <Insets bottom="100.0" />
          </opaqueInsets></TextField>
-      <Button fx:id="loginButton" layoutX="465.0" layoutY="265.0" mnemonicParsing="false" onAction="#displayAppointmentsForm" text="Login" textFill="#0bc0c3">
+      <Button fx:id="loginButton" layoutX="385.0" layoutY="254.0" mnemonicParsing="false" onAction="#displayAppointmentsForm" prefHeight="35.0" prefWidth="149.0" text="Login" textFill="#0bc0c3">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -26,8 +26,14 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Label fx:id="errorUsername" layoutX="388.0" layoutY="166.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
-      <Label fx:id="errorPassword" layoutX="388.0" layoutY="213.0" prefHeight="17.0" prefWidth="149.0" text="Label" textFill="#f80606" />
+      <Label fx:id="errorUsername" layoutX="388.0" layoutY="166.0" prefHeight="17.0" prefWidth="149.0" textFill="#f80606">
+         <font>
+            <Font size="10.0" />
+         </font></Label>
+      <Label fx:id="errorPassword" layoutX="388.0" layoutY="213.0" prefHeight="17.0" prefWidth="149.0" textFill="#f80606">
+         <font>
+            <Font size="9.0" />
+         </font></Label>
       <Label fx:id="zone" layoutX="388.0" layoutY="60.0" prefHeight="17.0" prefWidth="143.0" textFill="#08f547" />
    </children>
 </AnchorPane>

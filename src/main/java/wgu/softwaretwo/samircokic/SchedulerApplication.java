@@ -23,7 +23,7 @@ public class SchedulerApplication extends Application {
 
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
-        Locale.setDefault(new Locale("fr"));
+//        Locale.setDefault(new Locale("fr"));
         launch();
         JDBC.closeConnection();
     }

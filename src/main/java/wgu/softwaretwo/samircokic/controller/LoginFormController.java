@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
-import static wgu.softwaretwo.samircokic.utility.UserDao.passwordCheck;
+import static wgu.softwaretwo.samircokic.utility.UserDao.*;
 
 public class LoginFormController implements Initializable {
 
@@ -42,21 +42,27 @@ public class LoginFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zone.setText(zoneId.toString());
-//        System.out.println(bundle.getString("TEST"));
-        loginButton.setText(bundle.getString("TEST"));
+        loginButton.setText(bundle.getString("BUTTON"));
+        username.setPromptText(bundle.getString("USERNAME"));
+        password.setPromptText(bundle.getString("PASSWORD"));
     }
 
     @FXML
     public void displayAppointmentsForm(ActionEvent actionEvent) throws IOException, SQLException {
+        errorPassword.setText("");
+        errorUsername.setText("");
         String pass = password.getText();
         String user = username.getText();
-        if (passwordCheck(user,pass)>0){
+        if (usernameCheck(user)==0){
+            errorUsername.setText(bundle.getString("USERNAME_ERROR"));
+        }
+        if (usernameAndPasswordCheck(user,pass)>0){
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
-        }else {
-            System.out.println("No such user");
+        }else if (usernameCheck(user)>0&&usernameAndPasswordCheck(user,pass)==0){
+            errorPassword.setText(bundle.getString("PASSWORD_ERROR"));
         }
 
     }

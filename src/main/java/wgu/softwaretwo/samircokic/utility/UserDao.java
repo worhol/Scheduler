@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public abstract class UserDao {
 
 
-    public static int passwordCheck(String name, String pass) throws SQLException {
+    public static int usernameAndPasswordCheck(String name, String pass) throws SQLException {
         int id = 0;
         String sql = "SELECT * FROM USERS WHERE User_Name=? AND Password = ?";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
@@ -21,4 +21,19 @@ public abstract class UserDao {
         }
         return id;
     }
+    public static int usernameCheck(String name) throws SQLException {
+        int id = 0;
+        String sql = "SELECT * FROM USERS WHERE User_Name=? ";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(!resultSet.next()){
+           id=0;
+        }else {
+            id = resultSet.getInt("USER_ID");
+        }
+
+        return id;
+    }
+
 }

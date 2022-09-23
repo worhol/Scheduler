@@ -6,7 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import wgu.softwaretwo.samircokic.model.Schedulle;
 
 import java.net.URL;
 import java.time.ZoneId;
@@ -45,5 +47,17 @@ public class AppointmentsFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZone.setText(zoneId.toString());
+        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        userIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+//        appointmentsTable.setItems(Schedulle.getAppointments());
+
     }
+
 }

@@ -4,28 +4,34 @@ import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
 
+import static wgu.softwaretwo.samircokic.DAO.AppointmentDao.users;
+
 public class Appointment {
     private int appointmentId;
     private String title;
     private String description;
     private String location;
+    private String contact;
     private String type;
     private LocalDateTime start;
     private LocalDateTime end;
     private int customerId;
     private int userId;
 
-    public Appointment(int appointmentId, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId) {
+    public Appointment(int appointmentId, String title, String description, String location, String contact, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
         this.location = location;
+        this.contact = contact;
         this.type = type;
         this.start = start;
         this.end = end;
         this.customerId = customerId;
         this.userId = userId;
     }
+
+//    int id = users.get(0).getId();
 
     public int getAppointmentId() {
         return appointmentId;
@@ -57,6 +63,14 @@ public class Appointment {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public String getType() {

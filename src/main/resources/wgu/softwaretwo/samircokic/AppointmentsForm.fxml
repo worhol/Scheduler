@@ -94,6 +94,7 @@
                                     <TextField layoutX="10.0" layoutY="190.0" />
                                     <TextField layoutX="10.0" layoutY="178.0" />
                                     <TextField layoutX="10.0" layoutY="202.0" />
+                                    <Button mnemonicParsing="false" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                  </children>
                                  <padding>
                                     <Insets top="4.0" />

@@ -16,5 +16,8 @@ public class Schedulle {
     public static void deleteAppointment(Appointment appointment){
         //this can be lambda stream
     }
+    public static ObservableList<Appointment> getAppointments(){
+        return appointments;
+    }
 
 }

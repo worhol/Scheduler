@@ -11,6 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
+import wgu.softwaretwo.samircokic.DAO.UserDao;
+import wgu.softwaretwo.samircokic.model.Appointment;
+import wgu.softwaretwo.samircokic.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,8 +22,8 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
-import static wgu.softwaretwo.samircokic.utility.UserDao.usernameAndPasswordCheck;
-import static wgu.softwaretwo.samircokic.utility.UserDao.usernameCheck;
+import static wgu.softwaretwo.samircokic.DAO.UserDao.usernameAndPasswordCheck;
+import static wgu.softwaretwo.samircokic.DAO.UserDao.usernameCheck;
 
 public class LoginFormController implements Initializable {
 
@@ -58,14 +62,20 @@ public class LoginFormController implements Initializable {
             errorUsername.setText(bundle.getString("USERNAME_ERROR"));
         }
         if (usernameAndPasswordCheck(user, pass) > 0) {
+            User user1 = new User(usernameCheck(user),user,pass);
+            AppointmentDao.addUser(user1);
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));
             stage.setMaximized(true);
             stage.show();
+//            System.out.println(AppointmentDao.name());
         } else if (usernameCheck(user) > 0 && usernameAndPasswordCheck(user, pass) == 0) {
             errorPassword.setText(bundle.getString("PASSWORD_ERROR"));
         }
-
     }
+//    public  User sendUser() throws SQLException {
+//       return UserDao.user(username.getText(),password.getText());
+//    }
+
 }

@@ -1,12 +1,16 @@
 package wgu.softwaretwo.samircokic.model;
 
+import wgu.softwaretwo.samircokic.DAO.UserDao;
+
+import java.sql.SQLException;
+
 public class User {
     private int id;
     private String userName;
     private String password;
 
-    public User(int id, String userName, String password) {
-        this.id = id;
+    public User(int id, String userName, String password) throws SQLException {
+        this.id = UserDao.usernameAndPasswordCheck(userName,password);
         this.userName = userName;
         this.password = password;
     }

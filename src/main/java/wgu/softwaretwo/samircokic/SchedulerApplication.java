@@ -4,13 +4,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
+import wgu.softwaretwo.samircokic.DAO.JDBC;
+import wgu.softwaretwo.samircokic.DAO.UserDao;
 import wgu.softwaretwo.samircokic.controller.LoginFormController;
-import wgu.softwaretwo.samircokic.utility.JDBC;
-import wgu.softwaretwo.samircokic.utility.UserDao;
+import wgu.softwaretwo.samircokic.model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Locale;
 
 public class SchedulerApplication extends Application {
     @Override
@@ -23,8 +24,10 @@ public class SchedulerApplication extends Application {
 
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
-//        Locale.setDefault(new Locale("fr"));
+//        Locale.setDefault(new Locale("fr"));;
         launch();
+//        System.out.println(AppointmentDao.setTheAppointment(1).getType());
         JDBC.closeConnection();
+
     }
 }

@@ -1,4 +1,4 @@
-package wgu.softwaretwo.samircokic.utility;
+package wgu.softwaretwo.samircokic.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

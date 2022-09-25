@@ -5,35 +5,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="440.0" prefWidth="923.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.AppointmentsFormController">
+<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="440.0" prefWidth="949.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.AppointmentsFormController">
   <columnConstraints>
       <ColumnConstraints />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="254.0" prefWidth="734.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="0.0" prefWidth="13.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="725.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="0.0" prefWidth="14.0" />
   </columnConstraints>
   <rowConstraints>
       <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="357.0" vgrow="ALWAYS" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="357.0" prefHeight="403.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" prefHeight="17.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TableView fx:id="appointmentsTable" minWidth="-Infinity" prefWidth="800.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-        <columns>
-          <TableColumn fx:id="appointmentIdColumn" maxWidth="154.0" minWidth="-Infinity" prefWidth="154.0" text="Appointment ID" />
-          <TableColumn fx:id="titleColumn" maxWidth="103.0" minWidth="-Infinity" prefWidth="7.0" text="Title" />
-            <TableColumn fx:id="descriptionColumn" maxWidth="103.0" minWidth="-Infinity" prefWidth="100.0" text="Description" />
-            <TableColumn fx:id="contactColumn" maxWidth="103.0" minWidth="-Infinity" prefWidth="100.0" text="Contact" />
-            <TableColumn fx:id="typeColumn" maxWidth="103.0" minWidth="-Infinity" prefWidth="100.0" text="Type" />
-            <TableColumn fx:id="startDateColumn" maxWidth="185.0" minWidth="-Infinity" prefWidth="185.0" text="Start Date and Time" />
-            <TableColumn fx:id="endDateColumn" maxWidth="259.0" minWidth="-Infinity" prefWidth="183.0" text="End date and Time" />
-            <TableColumn fx:id="customerIdColumn" maxWidth="175.0" minWidth="-Infinity" prefWidth="147.0" text="Customer ID" />
-            <TableColumn fx:id="userIdColumn" maxWidth="170.0" minWidth="-Infinity" prefWidth="97.0" text="User ID" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
          <children>
             <Label fx:id="timeZone" prefHeight="17.0" prefWidth="149.0" textAlignment="CENTER" textFill="#13e80c">
@@ -143,5 +126,82 @@
             <Insets left="5.0" right="5.0" top="10.0" />
          </padding>
       </VBox>
+      <TabPane prefHeight="497.0" prefWidth="736.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+        <tabs>
+          <Tab text="All Appointments">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <TableView fx:id="appointmentsTable" layoutX="1.0" layoutY="8.0" minWidth="-Infinity" prefHeight="391.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="appointmentIdColumn" maxWidth="154.0" minWidth="-Infinity" prefWidth="99.0" text="Appointment ID" />
+                            <TableColumn fx:id="titleColumn" maxWidth="201.0" minWidth="-Infinity" prefWidth="129.0" text="Title" />
+                              <TableColumn fx:id="descriptionColumn" maxWidth="350.0" minWidth="-Infinity" prefWidth="164.0" text="Description" />
+                              <TableColumn fx:id="locationColumn" maxWidth="228.0" minWidth="-Infinity" prefWidth="106.0" text="Location" />
+                              <TableColumn fx:id="contactColumn" maxWidth="409.0" minWidth="-Infinity" prefWidth="409.0" text="Contact" />
+                              <TableColumn fx:id="typeColumn" maxWidth="103.0" minWidth="-Infinity" prefWidth="100.0" text="Type" />
+                              <TableColumn fx:id="startDateColumn" maxWidth="185.0" minWidth="-Infinity" prefWidth="185.0" text="Start Date and Time" />
+                              <TableColumn fx:id="endDateColumn" maxWidth="259.0" minWidth="-Infinity" prefWidth="183.0" text="End date and Time" />
+                              <TableColumn fx:id="customerIdColumn" maxWidth="175.0" minWidth="-Infinity" prefWidth="147.0" text="Customer ID" />
+                              <TableColumn fx:id="userIdColumn" maxWidth="170.0" minWidth="-Infinity" prefWidth="97.0" text="User ID" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Week">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <TableView fx:id="appointmentsTable1" minWidth="-Infinity" prefHeight="391.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columns>
+                              <TableColumn fx:id="appointmentIdColumn1" maxWidth="154.0" minWidth="-Infinity" prefWidth="99.0" text="Appointment ID" />
+                              <TableColumn fx:id="titleColumn1" maxWidth="201.0" minWidth="-Infinity" prefWidth="129.0" text="Title" />
+                              <TableColumn fx:id="descriptionColumn1" maxWidth="350.0" minWidth="-Infinity" prefWidth="164.0" text="Description" />
+                              <TableColumn fx:id="locationColumn1" maxWidth="228.0" minWidth="-Infinity" prefWidth="106.0" text="Location" />
+                              <TableColumn fx:id="contactColumn1" maxWidth="409.0" minWidth="-Infinity" prefWidth="409.0" text="Contact" />
+                              <TableColumn fx:id="typeColumn1" maxWidth="103.0" minWidth="-Infinity" prefWidth="100.0" text="Type" />
+                              <TableColumn fx:id="startDateColumn1" maxWidth="185.0" minWidth="-Infinity" prefWidth="185.0" text="Start Date and Time" />
+                              <TableColumn fx:id="endDateColumn1" maxWidth="259.0" minWidth="-Infinity" prefWidth="183.0" text="End date and Time" />
+                              <TableColumn fx:id="customerIdColumn1" maxWidth="175.0" minWidth="-Infinity" prefWidth="147.0" text="Customer ID" />
+                              <TableColumn fx:id="userIdColumn1" maxWidth="170.0" minWidth="-Infinity" prefWidth="97.0" text="User ID" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Month">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                        <children>
+                            <TableView fx:id="appointmentsTable2" minWidth="-Infinity" prefHeight="391.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                    <TableColumn fx:id="appointmentIdColumn2" maxWidth="154.0" minWidth="-Infinity" prefWidth="99.0" text="Appointment ID" />
+                                    <TableColumn fx:id="titleColumn2" maxWidth="201.0" minWidth="-Infinity" prefWidth="129.0" text="Title" />
+                                    <TableColumn fx:id="descriptionColumn2" maxWidth="350.0" minWidth="-Infinity" prefWidth="164.0" text="Description" />
+                                    <TableColumn fx:id="locationColumn2" maxWidth="228.0" minWidth="-Infinity" prefWidth="106.0" text="Location" />
+                                    <TableColumn fx:id="contactColumn2" maxWidth="409.0" minWidth="-Infinity" prefWidth="409.0" text="Contact" />
+                                    <TableColumn fx:id="typeColumn2" maxWidth="103.0" minWidth="-Infinity" prefWidth="100.0" text="Type" />
+                                    <TableColumn fx:id="startDateColumn2" maxWidth="185.0" minWidth="-Infinity" prefWidth="185.0" text="Start Date and Time" />
+                                    <TableColumn fx:id="endDateColumn2" maxWidth="259.0" minWidth="-Infinity" prefWidth="183.0" text="End date and Time" />
+                                    <TableColumn fx:id="customerIdColumn2" maxWidth="175.0" minWidth="-Infinity" prefWidth="147.0" text="Customer ID" />
+                                    <TableColumn fx:id="userIdColumn2" maxWidth="170.0" minWidth="-Infinity" prefWidth="97.0" text="User ID" />
+                                </columns>
+                                <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                </columnResizePolicy>
+                            </TableView>
+                        </children></AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </GridPane>

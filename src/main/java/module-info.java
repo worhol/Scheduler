@@ -8,4 +8,5 @@ module wgu.softwaretwo.demo {
     exports wgu.softwaretwo.samircokic;
     exports wgu.softwaretwo.samircokic.controller;
     opens wgu.softwaretwo.samircokic.controller to javafx.fxml;
+    opens wgu.softwaretwo.samircokic.model to javafx.base;
 }

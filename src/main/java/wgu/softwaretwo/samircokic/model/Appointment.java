@@ -1,10 +1,6 @@
 package wgu.softwaretwo.samircokic.model;
 
-import javafx.collections.ObservableList;
-
 import java.time.LocalDateTime;
-
-import static wgu.softwaretwo.samircokic.DAO.AppointmentDao.users;
 
 public class Appointment {
     private int appointmentId;

@@ -32,8 +32,8 @@ public abstract class AppointmentDao {
         String location = "";
         String contact = "";
         String type = "";
-        LocalDateTime start =null;
-        LocalDateTime end =null;
+        LocalDateTime start = null;
+        LocalDateTime end = null;
         int customerId = 0;
         int userId = 0;
         int contactId = 0;
@@ -56,11 +56,12 @@ public abstract class AppointmentDao {
             customerId = resultSet.getInt("Customer_ID");
             userId = resultSet.getInt("User_ID");
         }
-        Appointment appointment = new Appointment(appointmentId,title,description,location,contact,type,start,end,customerId,userId);
+        Appointment appointment = new Appointment(appointmentId, title, description, location, contact, type, start, end, customerId, userId);
         Schedulle.addAppointment(appointment);//try to add it to table
 //        return appointment;
     }
-//    public static String contactName(){
+
+    //    public static String contactName(){
 //
 //    }
     public static String contact(int num) throws SQLException {
@@ -74,4 +75,21 @@ public abstract class AppointmentDao {
         }
         return contact;
     }
+
+    public static int addAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contact) throws SQLException {
+        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID ) VALUES(?, ?,?,?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, description);
+        preparedStatement.setString(3, location);
+        preparedStatement.setString(4, type);
+        preparedStatement.setTimestamp(5, null);
+        preparedStatement.setTimestamp(6, null);
+        preparedStatement.setInt(7, customerId);
+        preparedStatement.setInt(8, userId);
+        preparedStatement.setInt(9, contact);
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected;
+    }
+
 }

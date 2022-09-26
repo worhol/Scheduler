@@ -1,11 +1,10 @@
 package wgu.softwaretwo.samircokic.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.model.Schedulle;
@@ -46,6 +45,68 @@ public class AppointmentsFormController implements Initializable {
 
 
     ZoneId zoneId = ZoneId.systemDefault();
+    @FXML
+    private TableColumn endDateColumn1;
+    @FXML
+    private TableColumn endDateColumn2;
+    @FXML
+    private TableColumn appointmentIdColumn2;
+    @FXML
+    private TableColumn appointmentIdColumn1;
+    @FXML
+    private TextField addTitleTxt;
+    @FXML
+    private TableView appointmentsTable1;
+    @FXML
+    private TableColumn customerIdColumn1;
+    @FXML
+    private TableColumn startDateColumn2;
+    @FXML
+    private TableView appointmentsTable2;
+    @FXML
+    private TableColumn customerIdColumn2;
+    @FXML
+    private TableColumn descriptionColumn2;
+    @FXML
+    private TableColumn userIdColumn2;
+    @FXML
+    private TableColumn locationColumn1;
+    @FXML
+    private TableColumn userIdColumn1;
+    @FXML
+    private TableColumn startDateColumn1;
+    @FXML
+    private TableColumn locationColumn2;
+    @FXML
+    private TableColumn descriptionColumn1;
+    @FXML
+    private TextField addUserId;
+    @FXML
+    private TextField addCustomerId;
+    @FXML
+    private TableColumn contactColumn1;
+    @FXML
+    private TextField addDescriptionTxt;
+    @FXML
+    private TextField addLocationTxt;
+    @FXML
+    private TableColumn contactColumn2;
+    @FXML
+    private TableColumn typeColumn2;
+    @FXML
+    private TableColumn typeColumn1;
+    @FXML
+    private DatePicker addStartDateAndTimePicker;
+    @FXML
+    private DatePicker addEndDateAndTimePicker;
+    @FXML
+    private TableColumn titleColumn2;
+    @FXML
+    private TableColumn titleColumn1;
+    @FXML
+    private ComboBox addTypeDropBox;
+    @FXML
+    private ComboBox addContactDropBox;
 
 
     @Override
@@ -66,4 +127,8 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    @FXML
+    public void addAppointment(ActionEvent actionEvent) {
+
+    }
 }

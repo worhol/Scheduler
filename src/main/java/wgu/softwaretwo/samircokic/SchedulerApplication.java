@@ -27,7 +27,14 @@ public class SchedulerApplication extends Application {
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
 //        Locale.setDefault(new Locale("fr"));;
+//        int rowsAffected = AppointmentDao.addAppointment("One","Two","Three","Four",null,null,5,6,7);
+//        if (rowsAffected>0){
+//            System.out.println("Insertion successful");
+//        }else {
+//            System.out.println("Insert failed");
+//        }
         launch();
+
 //        System.out.println(AppointmentDao.setTheAppointment(1).getType());
 //        AppointmentDao.setTheAppointment(1);
 //        System.out.println(Schedulle.getAppointments());

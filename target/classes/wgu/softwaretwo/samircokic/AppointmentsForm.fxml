@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="440.0" prefWidth="949.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.AppointmentsFormController">
+<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1149.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.AppointmentsFormController">
   <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="725.0" />
@@ -13,11 +27,11 @@
   </columnConstraints>
   <rowConstraints>
       <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="357.0" prefHeight="403.0" vgrow="ALWAYS" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" prefHeight="17.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="357.0" prefHeight="652.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="7.0" prefHeight="15.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
+      <VBox alignment="TOP_CENTER" prefHeight="583.0" prefWidth="210.0" spacing="10.0" GridPane.rowIndex="1">
          <children>
             <Label fx:id="timeZone" prefHeight="17.0" prefWidth="149.0" textAlignment="CENTER" textFill="#13e80c">
                <font>
@@ -33,16 +47,16 @@
                               <VBox alignment="CENTER_RIGHT" layoutX="22.0" layoutY="4.0" prefHeight="335.0" prefWidth="151.0" spacing="10.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
                                  <children>
                                     <TextField editable="false" promptText="Auto Genereated" />
-                                    <TextField promptText="Title" />
-                                    <TextField promptText="Description" />
-                                    <TextField promptText="Location" />
-                                    <TextField promptText="Contact" />
-                                    <TextField promptText="Type" />
-                                    <TextField layoutX="10.0" layoutY="160.0" promptText="Start Date and Time" />
-                                    <TextField layoutX="10.0" layoutY="190.0" promptText="End Date and Time" />
-                                    <TextField layoutX="10.0" layoutY="178.0" promptText="Customer ID" />
-                                    <TextField layoutX="10.0" layoutY="202.0" promptText="User ID" />
-                                    <Button mnemonicParsing="false" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                    <TextField fx:id="addTitleTxt" promptText="Title" />
+                                    <TextField fx:id="addDescriptionTxt" promptText="Description" />
+                                    <TextField fx:id="addLocationTxt" promptText="Location" />
+                                    <ComboBox fx:id="addContactDropBox" prefHeight="27.0" prefWidth="170.0" promptText="Contact" />
+                                    <ComboBox fx:id="addTypeDropBox" layoutX="10.0" layoutY="165.0" prefHeight="27.0" prefWidth="170.0" promptText="Type" />
+                                    <DatePicker fx:id="addStartDateAndTimePicker" promptText="Start Date and Time" />
+                                    <DatePicker fx:id="addEndDateAndTimePicker" layoutX="10.0" layoutY="239.0" promptText="End Date and Time" />
+                                    <TextField fx:id="addCustomerId" layoutX="10.0" layoutY="178.0" promptText="Customer ID" />
+                                    <TextField fx:id="addUserId" layoutX="10.0" layoutY="202.0" promptText="User ID" />
+                                    <Button mnemonicParsing="false" onAction="#addAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                  </children>
                                  <padding>
                                     <Insets top="4.0" />
@@ -61,7 +75,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                 </TitledPane>
-                  <TitledPane text="UPDATE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane prefHeight="465.0" prefWidth="199.0" text="UPDATE APPOINTMENT" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #696969;">
                            <children>
@@ -96,7 +110,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="45.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane layoutX="10.0" layoutY="45.0" prefHeight="259.0" prefWidth="200.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="292.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>

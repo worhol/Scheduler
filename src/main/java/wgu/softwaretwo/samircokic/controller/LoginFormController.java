@@ -67,7 +67,10 @@ public class LoginFormController implements Initializable {
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));
-            stage.setMaximized(true);
+//            stage.setMaximized(true);
+//            stage.setFullScreen(true);
+//            stage.getMinHeight();
+//            stage.getMinWidth();
             stage.show();
         } else if (usernameCheck(user) > 0 && usernameAndPasswordCheck(user, pass) == 0) {
             errorPassword.setText(bundle.getString("PASSWORD_ERROR"));

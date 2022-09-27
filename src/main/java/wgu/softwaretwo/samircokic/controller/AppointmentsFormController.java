@@ -1,15 +1,23 @@
 package wgu.softwaretwo.samircokic.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import wgu.softwaretwo.samircokic.DAO.CustomerDao;
+import wgu.softwaretwo.samircokic.model.Country;
+import wgu.softwaretwo.samircokic.model.Customer;
+import wgu.softwaretwo.samircokic.model.Division;
 import wgu.softwaretwo.samircokic.model.Schedulle;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
@@ -107,7 +115,38 @@ public class AppointmentsFormController implements Initializable {
     private ComboBox addTypeDropBox;
     @FXML
     private ComboBox addContactDropBox;
+    @FXML
+    private TextField addCustomerAddress;
+    @FXML
+    private TextField addPhoneNumber;
+    @FXML
+    private TextField addCustomerName;
+    @FXML
+    private ComboBox addCustomerCountry;
+    @FXML
+    private TextField addCustomerPostalCode;
+    @FXML
+    private TextField customerId;
+    @FXML
+    private ComboBox addCustomerProvince;
+    @FXML
+    private TableView customerTable;
 
+    public static ObservableList<Country> countries;
+    public static ObservableList<Division> divisions;
+
+    static {
+        try {
+            divisions = Customer.getDivisions();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            countries = Customer.getCountries();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -124,11 +163,26 @@ public class AppointmentsFormController implements Initializable {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
 
+        addCustomerCountry.setItems(countries);
 
     }
 
     @FXML
     public void addAppointment(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    public void addCustomer(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void chooseCustomerDivision(ActionEvent actionEvent) throws SQLException {
+        int c = addCustomerCountry.getSelectionModel().getSelectedIndex();
+        addCustomerProvince.getItems().clear();
+        CustomerDao.divisions(c + 1);
+        addCustomerProvince.setItems(divisions);
+        addCustomerProvince.setVisibleRowCount(5);
 
     }
 }

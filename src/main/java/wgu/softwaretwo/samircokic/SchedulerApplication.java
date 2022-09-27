@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
+import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 import wgu.softwaretwo.samircokic.DAO.JDBC;
 import wgu.softwaretwo.samircokic.DAO.UserDao;
 import wgu.softwaretwo.samircokic.controller.LoginFormController;
@@ -34,7 +35,7 @@ public class SchedulerApplication extends Application {
 //            System.out.println("Insert failed");
 //        }
         launch();
-
+        ;
 //        System.out.println(AppointmentDao.setTheAppointment(1).getType());
 //        AppointmentDao.setTheAppointment(1);
 //        System.out.println(Schedulle.getAppointments());

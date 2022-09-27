@@ -61,9 +61,6 @@ public abstract class AppointmentDao {
 //        return appointment;
     }
 
-    //    public static String contactName(){
-//
-//    }
     public static String contact(int num) throws SQLException {
         String contact = "";
         String sql = "SELECT * FROM CONTACTS WHERE Contact_ID = ?";

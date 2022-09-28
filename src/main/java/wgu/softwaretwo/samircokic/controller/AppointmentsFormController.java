@@ -1,5 +1,8 @@
 package wgu.softwaretwo.samircokic.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,19 +10,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 import wgu.softwaretwo.samircokic.model.Country;
 import wgu.softwaretwo.samircokic.model.Customer;
 import wgu.softwaretwo.samircokic.model.Division;
 import wgu.softwaretwo.samircokic.model.Schedulle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 public class AppointmentsFormController implements Initializable {
 
@@ -148,6 +157,23 @@ public class AppointmentsFormController implements Initializable {
         }
     }
 
+    @FXML
+    private TableColumn customerNameCol;
+    @FXML
+    private TableColumn customerPhoneCol;
+    @FXML
+    private TableColumn customerProvinceCol;
+    @FXML
+    private TableColumn customerPostalCodeCol;
+    @FXML
+    private TableColumn customerIdCol;
+    @FXML
+    private TableColumn customerAdressCol;
+    @FXML
+    private TableColumn customerCountry;
+    @FXML
+    private Label deleteCustomerLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZone.setText(zoneId.toString());
@@ -164,6 +190,19 @@ public class AppointmentsFormController implements Initializable {
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
 
         addCustomerCountry.setItems(countries);
+        try {
+            CustomerDao.setCustomer();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        customerTable.setItems(Schedulle.getCustomers());
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerAdressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerPostalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        customerCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
+        customerProvinceCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
     }
 
@@ -173,7 +212,18 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    public void addCustomer(ActionEvent actionEvent) {
+    public void addCustomer(ActionEvent actionEvent) throws SQLException, IOException {
+        String name = addCustomerName.getText();
+        String address = addCustomerAddress.getText();
+        String postalCode = addCustomerPostalCode.getText();
+        String phone = addPhoneNumber.getText();
+        String country = addCustomerCountry.getSelectionModel().getSelectedItem().toString();
+        String province = addCustomerProvince.getSelectionModel().getSelectedItem().toString();
+        int divisionID = CustomerDao.getDivisionId(province);
+        CustomerDao.addCustomer(name,address,postalCode,phone, divisionID);
+
+        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,country,province));
+        customerTable.setItems(Schedulle.getCustomers());
     }
 
     @FXML
@@ -185,4 +235,37 @@ public class AppointmentsFormController implements Initializable {
         addCustomerProvince.setVisibleRowCount(5);
 
     }
+
+    @FXML
+    public void deleteCustomer(ActionEvent actionEvent) throws SQLException, InterruptedException {
+        int index = customerTable.getSelectionModel().getSelectedIndex();
+        int id = 0;
+        Customer customer = null;
+        for(int i = 0; i<Schedulle.getCustomers().size();i++){
+            if(i==index){
+                id = Schedulle.getCustomers().get(i).getCustomerId();
+                customer = Schedulle.getCustomers().get(i);
+            }
+        }
+//        System.out.println(id);
+       if (CustomerDao.deleteCustomer(id)>0){
+           deleteCustomerLabel.setText("Customer Deleted");
+           Timeline timeline = new Timeline();
+           List<KeyValue> values = new ArrayList<>();
+           values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Customer Deleted"));
+           values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Please select the customer you want to delete and press DELETE button."));
+           timeline.getKeyFrames().add(new KeyFrame(new Duration(1500), values.toArray(new  KeyValue[values.size()])));
+           timeline.play();
+
+
+       }
+
+
+
+        Schedulle.deleteCustomer(customer);
+        customerTable.setItems(Schedulle.getCustomers());
+//        Thread.sleep(1000);
+//        deleteCustomerLabel.setText("Please select the customer you want to delete and press DELETE button.");
+    }
+
 }

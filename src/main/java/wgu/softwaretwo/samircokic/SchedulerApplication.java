@@ -34,6 +34,11 @@ public class SchedulerApplication extends Application {
 //        }else {
 //            System.out.println("Insert failed");
 //        }
+//        int rows = CustomerDao.addCustomer("Y","Y","u","p",9);
+//        System.out.println(rows);
+//        System.out.println(CustomerDao.getDivisionId("Alaska"));
+//        int rows = CustomerDao.deleteCustomer(7);
+//        System.out.println(rows);
         launch();
         ;
 //        System.out.println(AppointmentDao.setTheAppointment(1).getType());

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" prefHeight="856.0" prefWidth="1237.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.AppointmentsFormController">
+<GridPane alignment="CENTER" prefHeight="856.0" prefWidth="1237.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwaretwo.samircokic.controller.AppointmentsFormController">
   <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="1000.0" />
@@ -35,7 +49,7 @@
                            <children>
                               <VBox alignment="CENTER_RIGHT" layoutX="22.2" layoutY="33.2" prefHeight="438.0" prefWidth="168.0" spacing="10.0" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="150.0">
                                  <children>
-                                    <TextField editable="false" promptText="Auto Genereated" />
+                                    <TextField disable="true" editable="false" promptText="Auto Genereated" />
                                     <TextField fx:id="addTitleTxt" promptText="Title" />
                                     <TextField fx:id="addDescriptionTxt" promptText="Description" />
                                     <TextField fx:id="addLocationTxt" promptText="Location" />
@@ -64,13 +78,13 @@
                         <Insets bottom="5.0" />
                      </padding>
                 </TitledPane>
-                  <TitledPane prefHeight="500.0" prefWidth="199.0" text="UPDATE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane prefHeight="500.0" prefWidth="200.0" text="UPDATE APPOINTMENT" textFill="#8c98f2">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #696969;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="299.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
-                              <VBox alignment="CENTER_RIGHT" layoutX="22.0" layoutY="4.0" prefHeight="335.0" prefWidth="151.0" spacing="10.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
+                              <VBox alignment="CENTER_RIGHT" layoutX="37.2" layoutY="37.2" prefHeight="112.0" prefWidth="146.0" spacing="10.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="26.0">
                                  <children>
-                                    <TextField editable="false" prefHeight="2.0" prefWidth="168.0" promptText="Auto Genereated" />
+                                    <TextField disable="true" editable="false" prefHeight="2.0" prefWidth="168.0" promptText="Auto Genereated" />
                                     <TextField />
                                     <TextField />
                                     <TextField />
@@ -99,7 +113,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="45.0" prefHeight="655.0" prefWidth="200.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane layoutX="10.0" layoutY="45.0" prefHeight="246.0" prefWidth="200.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" style="-fx-background-color: #696969;">
                            <children>
@@ -127,11 +141,11 @@
                   </TitledPane>
                   <TitledPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" text="ADD CUSTOMER" textFill="#8c98f2">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="431.0" prefWidth="198.0" style="-fx-background-color: #696969;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
                               <VBox alignment="CENTER_RIGHT" layoutX="26.2" layoutY="26.2" prefHeight="381.0" prefWidth="168.0" spacing="10.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="200.0">
                                  <children>
-                                    <TextField fx:id="customerId" editable="false" promptText="ID - Auto Genereated" />
+                                    <TextField fx:id="customerId" disable="true" editable="false" promptText="ID - Auto Genereated" />
                                     <TextField fx:id="addCustomerName" promptText="Name" />
                                     <TextField fx:id="addCustomerAddress" promptText="Address" />
                                     <TextField fx:id="addCustomerPostalCode" promptText="Postal Code" />
@@ -141,6 +155,37 @@
                                     <Button mnemonicParsing="false" onAction="#addCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                  </children>
                               </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </TitledPane>
+                  <TitledPane layoutX="10.0" layoutY="80.0" prefHeight="246.0" prefWidth="200.0" text="DELETE CUSTOMER" textFill="#8c98f2">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" style="-fx-background-color: #696969;">
+                           <children>
+                              <VBox alignment="TOP_CENTER" layoutX="37.2" layoutY="37.2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="298.0" prefWidth="146.0" AnchorPane.bottomAnchor="273.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="26.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#deleteCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Delete" textFill="#8c98f2">
+                                       <VBox.margin>
+                                          <Insets top="90.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                              <Label fx:id="deleteCustomerLabel" alignment="TOP_LEFT" layoutX="30.0" layoutY="18.0" prefHeight="103.0" prefWidth="149.0" text="Please select the customer you want to delete and press DELETE button." textAlignment="CENTER" textFill="#f4f4f8" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </content>
@@ -259,12 +304,13 @@
                      <children>
                         <TableView fx:id="customerTable" layoutY="7.0" prefHeight="794.0" prefWidth="1013.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Customer ID" />
-                            <TableColumn prefWidth="221.0" text="Name" />
-                              <TableColumn prefWidth="219.0" text="Address" />
-                              <TableColumn prefWidth="140.0" text="Postal Code" />
-                              <TableColumn prefWidth="161.0" text="Phone Number" />
-                              <TableColumn prefWidth="196.0" text="State/Province" />
+                            <TableColumn fx:id="customerIdCol" prefWidth="75.0" text="Customer ID" />
+                            <TableColumn fx:id="customerNameCol" prefWidth="183.0" text="Name" />
+                              <TableColumn fx:id="customerAdressCol" prefWidth="190.0" text="Address" />
+                              <TableColumn fx:id="customerPostalCodeCol" prefWidth="105.0" text="Postal Code" />
+                              <TableColumn fx:id="customerPhoneCol" prefWidth="158.0" text="Phone Number" />
+                              <TableColumn fx:id="customerCountry" prefWidth="150.0" text="Country" />
+                              <TableColumn fx:id="customerProvinceCol" minWidth="0.0" prefWidth="151.0" text="State/Province" />
                           </columns>
                         </TableView>
                      </children>

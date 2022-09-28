@@ -33,9 +33,7 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" object-ref="schemas/client_schedule/tables/first_level_divisions" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" />
@@ -49,7 +47,9 @@
     <filter-actions connection-id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" dataset="client_schedule.appointments" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
-    <last-used-providers />
+    <last-used-providers>
+      <object-type object-type="TABLE" editor-provider="DATA" />
+    </last-used-providers>
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />

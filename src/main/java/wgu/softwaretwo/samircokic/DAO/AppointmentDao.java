@@ -15,15 +15,6 @@ import java.time.format.DateTimeFormatter;
 
 public abstract class AppointmentDao {
 
-//    public static ObservableList<User> users = FXCollections.observableArrayList();
-//
-//    public static void addUser(User user) {
-//        users.add(user);
-//    }
-//
-//    public static ObservableList<User> getUsers() {
-//        return users;
-//    }
 
     public static void setTheAppointment(int num) throws SQLException {
         int appointmentId = 0;

@@ -37,7 +37,7 @@ public class SchedulerApplication extends Application {
 //        int rows = CustomerDao.addCustomer("Y","Y","u","p",9);
 //        System.out.println(rows);
 //        System.out.println(CustomerDao.getDivisionId("Alaska"));
-//        int rows = CustomerDao.deleteCustomer(7);
+//        int rows = CustomerDao.updateCustomer(45,"YES","YES","YES","YES", 45);
 //        System.out.println(rows);
         launch();
         ;

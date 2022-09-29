@@ -62,7 +62,7 @@ public class CustomerDao {
                 countryID = getCountryID(divisionID);
                 country = getCountryName(countryID);
                 division = getDivisionName(divisionID);
-                Customer customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, countryID, country,divisionID, division);
+                Customer customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, countryID, country, divisionID, division);
                 Schedulle.addCustomers(customer);
             }
 
@@ -71,35 +71,18 @@ public class CustomerDao {
         }
     }
 
-//    public static Customer updateCustomer(int num) throws SQLException {
-//        int customerId = 0;
-//        String customerName = "";
-//        String address = "";
-//        String postalCode = "";
-//        String phoneNumber = "";
-//        int divisionID = 0;
-//        String country = "";
-//        String division = "";
-//        Customer customer = null;
-//
-//        String sql = "SELECT * FROM CUSTOMERS WHERE Customer_ID = ?";
-//        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
-//        preparedStatement.setInt(1, num);
-//        ResultSet resultSet = preparedStatement.executeQuery();
-//        while (resultSet.next()) {
-//            customerId = resultSet.getInt("Customer_ID");
-//            customerName = resultSet.getString("Customer_Name");
-//            address = resultSet.getString("Address");
-//            postalCode = resultSet.getString("Postal_Code");
-//            phoneNumber = resultSet.getString("Phone");
-//            divisionID = resultSet.getInt("Division_ID");
-//            country = getCountryName(getCountryID(divisionID));
-//            division = getDivisionName(divisionID);
-//            customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, country, division);
-//
-//        }
-//        return customer;
-//    }
+    public static int updateCustomer(int customerID, String name, String address, String postalCode, String phone, int divisionID) throws SQLException {
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, address);
+        preparedStatement.setString(3, postalCode);
+        preparedStatement.setString(4, phone);
+        preparedStatement.setInt(5,divisionID);
+        preparedStatement.setInt(6, customerID);
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected;
+    }
 
     public static int getCountryID(int divisionID) throws SQLException {
         int countryID = 0;

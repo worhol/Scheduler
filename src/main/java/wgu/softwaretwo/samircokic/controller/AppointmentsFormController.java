@@ -290,8 +290,27 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    public void updateCustomer(ActionEvent actionEvent) {
-        int index = customerTable.getSelectionModel().getSelectedIndex();
+    public void updateCustomer(ActionEvent actionEvent) throws SQLException {
+        Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+        String name = updateCustomerName.getText();
+        String address = updateCustomerAddress.getText();
+        String postalCode = updateCustomerPostalCode.getText();
+        String phone = updatePhoneNumber.getText();
+//        String country = updateCustomerCountry.getSelectionModel().getSelectedItem().getCountryName();
+        int divisionId = updateCustomerProvince.getSelectionModel().getSelectedItem().getDivisionId();
+        int customerID = Integer.valueOf(updateCustomerID.getText());
+       if (CustomerDao.updateCustomer(customerID,name,address,postalCode,phone,divisionId)>0){
+           Schedulle.refreshCustomers();
+
+           updateCostumerTitlePane.setExpanded(false);
+       }
+        updateCustomerName.clear();
+        updateCustomerAddress.clear();
+        updateCustomerPostalCode.clear();
+        updatePhoneNumber.clear();
+        updateCustomerProvince.getSelectionModel().clearSelection();
+        updateCustomerCountry.getSelectionModel().clearSelection();//this would throw null pointer
+        updateCustomerID.clear();
     }
 
     @FXML
@@ -322,8 +341,10 @@ public class AppointmentsFormController implements Initializable {
     }
 
     public void chooseCustomerDivisionUpdate(ActionEvent actionEvent) throws SQLException {
-//        int c = updateCustomerCountry.getSelectionModel().getSelectedIndex();
         Country c = updateCustomerCountry.getValue();
+        if (c==null){
+            return;
+        }// there was a nullpointer bug
         updateCustomerProvince.getItems().clear();
         CustomerDao.divisions(c.getCountryId());
         updateCustomerProvince.setItems(divisions);

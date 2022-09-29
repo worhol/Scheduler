@@ -14,8 +14,26 @@ public class Customer {
     private String phoneNumber;
     private String country;
     private String division;
+    private int countryID;
+    private int divisionID;
 
-    public Customer(int customerId, String customerName, String address, String postalCode, String phoneNumber, String country, String division) {
+    public int getCountryID() {
+        return countryID;
+    }
+
+    public void setCountryID(int countryID) {
+        this.countryID = countryID;
+    }
+
+    public int getDivisionID() {
+        return divisionID;
+    }
+
+    public void setDivisionID(int divisionID) {
+        this.divisionID = divisionID;
+    }
+
+    public Customer(int customerId, String customerName, String address, String postalCode, String phoneNumber, int countryID, String country, int divisionID, String division) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -23,6 +41,8 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.country = country;
         this.division = division;
+        this.countryID = countryID;
+        this.divisionID = divisionID;
     }
 
     public static ObservableList<Country>countries = FXCollections.observableArrayList();

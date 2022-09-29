@@ -192,7 +192,7 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private TextField updateCustomerPostalCode;
     @FXML
-    private ComboBox updateCustomerCountry;
+    private ComboBox<Country> updateCustomerCountry;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -210,11 +210,10 @@ public class AppointmentsFormController implements Initializable {
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
 
         addCustomerCountry.setItems(countries);
-        try {
-            CustomerDao.setCustomer();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        updateCustomerCountry.setItems(countries);
+
+        CustomerDao.setCustomer();
+
         customerTable.setItems(Schedulle.getCustomers());
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -240,7 +239,8 @@ public class AppointmentsFormController implements Initializable {
         String country = addCustomerCountry.getSelectionModel().getSelectedItem().toString();
         String province = addCustomerProvince.getSelectionModel().getSelectedItem().toString();
         int divisionID = CustomerDao.getDivisionId(province);
-        CustomerDao.addCustomer(name,address,postalCode,phone, divisionID);
+        CustomerDao.addCustomer(name, address, postalCode, phone, divisionID);
+        Schedulle.refreshCustomers();
 
 //        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,country,province));
         customerTable.setItems(Schedulle.getCustomers());
@@ -268,22 +268,22 @@ public class AppointmentsFormController implements Initializable {
         int index = customerTable.getSelectionModel().getSelectedIndex();
         int id = 0;
         Customer customer = null;
-        for(int i = 0; i<Schedulle.getCustomers().size();i++){
-            if(i==index){
+        for (int i = 0; i < Schedulle.getCustomers().size(); i++) {
+            if (i == index) {
                 id = Schedulle.getCustomers().get(i).getCustomerId();
                 customer = Schedulle.getCustomers().get(i);
             }
         }
-       if (CustomerDao.deleteCustomer(id)>0){
-           deleteCustomerLabel.setText("Customer Deleted");
-           Timeline timeline = new Timeline();
-           List<KeyValue> values = new ArrayList<>();
-           values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Customer Deleted"));
-           values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Please select the customer you want to delete and press DELETE button."));
-           timeline.getKeyFrames().add(new KeyFrame(new Duration(1000), values.toArray(new  KeyValue[values.size()])));
-           timeline.play();
-           deleteCostumerTitlePane.setExpanded(false);
-       }
+        if (CustomerDao.deleteCustomer(id) > 0) {
+            deleteCustomerLabel.setText("Customer Deleted");
+            Timeline timeline = new Timeline();
+            List<KeyValue> values = new ArrayList<>();
+            values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Customer Deleted"));
+            values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Please select the customer you want to delete and press DELETE button."));
+            timeline.getKeyFrames().add(new KeyFrame(new Duration(1000), values.toArray(new KeyValue[values.size()])));
+            timeline.play();
+            deleteCostumerTitlePane.setExpanded(false);
+        }
 
         Schedulle.deleteCustomer(customer);
         customerTable.setItems(Schedulle.getCustomers());
@@ -293,10 +293,47 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void updateCustomer(ActionEvent actionEvent) {
+        int index = customerTable.getSelectionModel().getSelectedIndex();
     }
 
     @FXML
-    public void getCustomer(ActionEvent actionEvent) {
-        int index = customerTable.getSelectionModel().getSelectedIndex();
+    public void getCustomer(ActionEvent actionEvent) throws SQLException {
+        //select objcet instead
+//        int index = customerTable.getSelectionModel().getSelectedIndex();
+        Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+//        System.out.println(index);
+//        int id = 0;
+//        for (int i = 0; i < Schedulle.getCustomers().size(); i++) {
+//            if (i == index) {
+//                id = Schedulle.getCustomers().get(i).getCustomerId();
+////                customer = Schedulle.getCustomers().get(i);
+//            }
+//        }
+        updateCustomerID.setText(String.valueOf(customer.getCustomerId()));
+        updateCustomerName.setText(customer.getCustomerName());
+        updateCustomerAddress.setText(customer.getAddress());
+        updatePhoneNumber.setText(customer.getPhoneNumber());
+        updateCustomerPostalCode.setText(customer.getPostalCode());
+
+        for (Country country: updateCustomerCountry.getItems()){
+            if (country.getCountryId()==customer.getCountryID()){
+                updateCustomerCountry.setValue(country);
+                break;
+            }
+        }
+
+        CustomerDao.divisions(customer.getCountryID());
+        updateCustomerProvince.setItems(divisions);
+
+    }
+
+    public void chooseCustomerDivisionUpdate(ActionEvent actionEvent) throws SQLException {
+//        int c = updateCustomerCountry.getSelectionModel().getSelectedIndex();
+        Country c = updateCustomerCountry.getValue();
+        updateCustomerProvince.getItems().clear();
+        CustomerDao.divisions(c.getCountryId());
+        updateCustomerProvince.setItems(divisions);
+        updateCustomerProvince.setVisibleRowCount(5);
+
     }
 }

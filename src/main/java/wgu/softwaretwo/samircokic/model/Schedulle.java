@@ -2,6 +2,7 @@ package wgu.softwaretwo.samircokic.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -31,6 +32,10 @@ public class Schedulle {
 
     public static void addCustomers(Customer customer) {
         customers.add(customer);
+    }
+    public  static  void refreshCustomers(){
+        customers.clear();
+        CustomerDao.setCustomer();
     }
     public static void deleteCustomer(Customer customer){
         customers.remove(customer);

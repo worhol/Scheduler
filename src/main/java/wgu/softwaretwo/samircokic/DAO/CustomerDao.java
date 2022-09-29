@@ -23,6 +23,7 @@ public class CustomerDao {
     }
 
     public static void divisions(int countryId) throws SQLException {
+        Customer.getDivisions().clear();
         String divisionName = "";
         int divisionId = 0;
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Country_ID = ?";
@@ -37,7 +38,7 @@ public class CustomerDao {
         }
     }
 
-    public static void setCustomer() throws SQLException {
+    public static void setCustomer() {
         int customerId = 0;
         String customerName = "";
         String address = "";
@@ -46,23 +47,60 @@ public class CustomerDao {
         int divisionID = 0;
         String country = "";
         String division = "";
+        int countryID = 0;
+        try {
+            String sql = "SELECT * FROM CUSTOMERS";
+            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customerId = resultSet.getInt("Customer_ID");
+                customerName = resultSet.getString("Customer_Name");
+                address = resultSet.getString("Address");
+                postalCode = resultSet.getString("Postal_Code");
+                phoneNumber = resultSet.getString("Phone");
+                divisionID = resultSet.getInt("Division_ID");
+                countryID = getCountryID(divisionID);
+                country = getCountryName(countryID);
+                division = getDivisionName(divisionID);
+                Customer customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, countryID, country,divisionID, division);
+                Schedulle.addCustomers(customer);
+            }
 
-        String sql = "SELECT * FROM CUSTOMERS";
-        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            customerId = resultSet.getInt("Customer_ID");
-            customerName = resultSet.getString("Customer_Name");
-            address = resultSet.getString("Address");
-            postalCode = resultSet.getString("Postal_Code");
-            phoneNumber = resultSet.getString("Phone");
-            divisionID = resultSet.getInt("Division_ID");
-            country = getCountryName(getCountryID(divisionID));
-            division = getDivisionName(divisionID);
-            Customer customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, country, division);
-            Schedulle.addCustomers(customer);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
+//    public static Customer updateCustomer(int num) throws SQLException {
+//        int customerId = 0;
+//        String customerName = "";
+//        String address = "";
+//        String postalCode = "";
+//        String phoneNumber = "";
+//        int divisionID = 0;
+//        String country = "";
+//        String division = "";
+//        Customer customer = null;
+//
+//        String sql = "SELECT * FROM CUSTOMERS WHERE Customer_ID = ?";
+//        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+//        preparedStatement.setInt(1, num);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        while (resultSet.next()) {
+//            customerId = resultSet.getInt("Customer_ID");
+//            customerName = resultSet.getString("Customer_Name");
+//            address = resultSet.getString("Address");
+//            postalCode = resultSet.getString("Postal_Code");
+//            phoneNumber = resultSet.getString("Phone");
+//            divisionID = resultSet.getInt("Division_ID");
+//            country = getCountryName(getCountryID(divisionID));
+//            division = getDivisionName(divisionID);
+//            customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, country, division);
+//
+//        }
+//        return customer;
+//    }
+
     public static int getCountryID(int divisionID) throws SQLException {
         int countryID = 0;
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Division_ID = ?";
@@ -74,8 +112,9 @@ public class CustomerDao {
         }
         return countryID;
     }
+
     public static String getCountryName(int countryID) throws SQLException {
-        String countryName ="";
+        String countryName = "";
         String sql = "SELECT * FROM COUNTRIES WHERE Country_ID = ?";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
         preparedStatement.setInt(1, countryID);
@@ -93,7 +132,7 @@ public class CustomerDao {
         preparedStatement.setInt(1, divisionID);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            divisionName = resultSet.getString("Division_ID");
+            divisionName = resultSet.getString("Division");
         }
         return divisionName;
     }
@@ -105,9 +144,9 @@ public class CustomerDao {
         preparedStatement.setString(2, address);
         preparedStatement.setString(3, postalCode);
         preparedStatement.setString(4, phone);
-        preparedStatement.setInt(5,divisionId);
+        preparedStatement.setInt(5, divisionId);
 
-        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,getCountryName(getCountryID(divisionId)),getDivisionName(divisionId)));
+//        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,getCountryName(getCountryID(divisionId)),getDivisionName(divisionId)));
 
 
         int rowsAffected = preparedStatement.executeUpdate();

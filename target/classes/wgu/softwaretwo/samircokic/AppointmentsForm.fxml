@@ -210,7 +210,7 @@
                                     <TextField fx:id="updateCustomerAddress" promptText="Address" />
                                     <TextField fx:id="updateCustomerPostalCode" promptText="Postal Code" />
                                     <TextField fx:id="updatePhoneNumber" layoutX="10.0" layoutY="178.0" promptText="Phone number" />
-                                    <ComboBox fx:id="updateCustomerCountry" onAction="#chooseCustomerDivision" prefHeight="27.0" prefWidth="172.0" promptText="Country" />
+                                    <ComboBox fx:id="updateCustomerCountry" onAction="#chooseCustomerDivisionUpdate" prefHeight="27.0" prefWidth="172.0" promptText="Country" />
                                     <ComboBox fx:id="updateCustomerProvince" layoutX="10.0" layoutY="219.0" prefHeight="27.0" prefWidth="172.0" promptText="State/Province" />
                                  </children>
                               </VBox>

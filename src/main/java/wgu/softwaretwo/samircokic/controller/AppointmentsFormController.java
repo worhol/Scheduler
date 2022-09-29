@@ -182,7 +182,7 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private TextField updateCustomerID;
     @FXML
-    private ComboBox updateCustomerProvince;
+    private ComboBox<Division> updateCustomerProvince;
     @FXML
     private TextField updatePhoneNumber;
     @FXML
@@ -242,7 +242,6 @@ public class AppointmentsFormController implements Initializable {
         CustomerDao.addCustomer(name, address, postalCode, phone, divisionID);
         Schedulle.refreshCustomers();
 
-//        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,country,province));
         customerTable.setItems(Schedulle.getCustomers());
         addCustomerName.clear();
         addCustomerAddress.clear();
@@ -260,7 +259,6 @@ public class AppointmentsFormController implements Initializable {
         CustomerDao.divisions(c + 1);
         addCustomerProvince.setItems(divisions);
         addCustomerProvince.setVisibleRowCount(5);
-
     }
 
     @FXML
@@ -298,17 +296,8 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void getCustomer(ActionEvent actionEvent) throws SQLException {
-        //select objcet instead
-//        int index = customerTable.getSelectionModel().getSelectedIndex();
         Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
-//        System.out.println(index);
-//        int id = 0;
-//        for (int i = 0; i < Schedulle.getCustomers().size(); i++) {
-//            if (i == index) {
-//                id = Schedulle.getCustomers().get(i).getCustomerId();
-////                customer = Schedulle.getCustomers().get(i);
-//            }
-//        }
+
         updateCustomerID.setText(String.valueOf(customer.getCustomerId()));
         updateCustomerName.setText(customer.getCustomerName());
         updateCustomerAddress.setText(customer.getAddress());
@@ -319,6 +308,11 @@ public class AppointmentsFormController implements Initializable {
             if (country.getCountryId()==customer.getCountryID()){
                 updateCustomerCountry.setValue(country);
                 break;
+            }
+        }
+        for (Division division:updateCustomerProvince.getItems()){
+            if (division.getDivisionId()==customer.getDivisionID()){
+                updateCustomerProvince.setValue(division);
             }
         }
 

@@ -23,7 +23,7 @@ public class CustomerDao {
     }
 
     public static void divisions(int countryId) throws SQLException {
-        Customer.getDivisions().clear();
+//        Customer.getDivisions().clear();
         String divisionName = "";
         int divisionId = 0;
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Country_ID = ?";

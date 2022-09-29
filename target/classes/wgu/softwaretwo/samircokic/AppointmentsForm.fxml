@@ -139,7 +139,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" text="ADD CUSTOMER" textFill="#8c98f2">
+                  <TitledPane fx:id="addCostumerTitlePane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" text="ADD CUSTOMER" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
@@ -168,7 +168,7 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="80.0" prefHeight="246.0" prefWidth="200.0" text="DELETE CUSTOMER" textFill="#8c98f2">
+                  <TitledPane fx:id="deleteCostumerTitlePane" layoutX="10.0" layoutY="80.0" prefHeight="246.0" prefWidth="200.0" text="DELETE CUSTOMER" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" style="-fx-background-color: #696969;">
                            <children>
@@ -186,6 +186,36 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </TitledPane>
+                  <TitledPane fx:id="updateCostumerTitlePane" layoutX="10.0" layoutY="115.0" prefHeight="400.0" text="UPDATE CUSTOMER" textFill="#8c98f2">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="198.0" style="-fx-background-color: #696969;">
+                           <children>
+                              <VBox alignment="CENTER_RIGHT" layoutX="26.2" layoutY="26.2" prefHeight="381.0" prefWidth="168.0" spacing="10.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="200.0">
+                                 <children>
+                                    <TextField fx:id="updateCustomerID" disable="true" editable="false" promptText="ID - Auto Genereated" />
+                                    <TextField fx:id="updateCustomerName" promptText="Name" />
+                                    <TextField fx:id="updateCustomerAddress" promptText="Address" />
+                                    <TextField fx:id="updateCustomerPostalCode" promptText="Postal Code" />
+                                    <TextField fx:id="updatePhoneNumber" layoutX="10.0" layoutY="178.0" promptText="Phone number" />
+                                    <ComboBox fx:id="updateCustomerCountry" onAction="#chooseCustomerDivision" prefHeight="27.0" prefWidth="172.0" promptText="Country" />
+                                    <ComboBox fx:id="updateCustomerProvince" layoutX="10.0" layoutY="219.0" prefHeight="27.0" prefWidth="172.0" promptText="State/Province" />
+                                 </children>
+                              </VBox>
+                              <Button layoutX="40.0" layoutY="313.0" mnemonicParsing="false" onAction="#getCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Select" textFill="#8c98f2" />
+                              <Button layoutX="120.0" layoutY="313.0" mnemonicParsing="false" onAction="#updateCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                            </children>
                         </AnchorPane>
                      </content>

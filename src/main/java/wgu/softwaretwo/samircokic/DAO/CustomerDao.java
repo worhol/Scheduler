@@ -107,6 +107,9 @@ public class CustomerDao {
         preparedStatement.setString(4, phone);
         preparedStatement.setInt(5,divisionId);
 
+        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,getCountryName(getCountryID(divisionId)),getDivisionName(divisionId)));
+
+
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;
     }

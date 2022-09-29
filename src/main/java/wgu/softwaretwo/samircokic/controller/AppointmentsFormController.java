@@ -173,6 +173,26 @@ public class AppointmentsFormController implements Initializable {
     private TableColumn customerCountry;
     @FXML
     private Label deleteCustomerLabel;
+    @FXML
+    private TitledPane addCostumerTitlePane;
+    @FXML
+    private TitledPane deleteCostumerTitlePane;
+    @FXML
+    private TextField updateCustomerAddress;
+    @FXML
+    private TextField updateCustomerID;
+    @FXML
+    private ComboBox updateCustomerProvince;
+    @FXML
+    private TextField updatePhoneNumber;
+    @FXML
+    private TextField updateCustomerName;
+    @FXML
+    private TitledPane updateCostumerTitlePane;
+    @FXML
+    private TextField updateCustomerPostalCode;
+    @FXML
+    private ComboBox updateCustomerCountry;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -222,8 +242,15 @@ public class AppointmentsFormController implements Initializable {
         int divisionID = CustomerDao.getDivisionId(province);
         CustomerDao.addCustomer(name,address,postalCode,phone, divisionID);
 
-        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,country,province));
+//        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,country,province));
         customerTable.setItems(Schedulle.getCustomers());
+        addCustomerName.clear();
+        addCustomerAddress.clear();
+        addCustomerPostalCode.clear();
+        addPhoneNumber.clear();
+        addCustomerCountry.getSelectionModel().clearSelection();
+        addCustomerProvince.getSelectionModel().clearSelection();
+        addCostumerTitlePane.setExpanded(false);
     }
 
     @FXML
@@ -247,25 +274,29 @@ public class AppointmentsFormController implements Initializable {
                 customer = Schedulle.getCustomers().get(i);
             }
         }
-//        System.out.println(id);
        if (CustomerDao.deleteCustomer(id)>0){
            deleteCustomerLabel.setText("Customer Deleted");
            Timeline timeline = new Timeline();
            List<KeyValue> values = new ArrayList<>();
            values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Customer Deleted"));
            values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Please select the customer you want to delete and press DELETE button."));
-           timeline.getKeyFrames().add(new KeyFrame(new Duration(1500), values.toArray(new  KeyValue[values.size()])));
+           timeline.getKeyFrames().add(new KeyFrame(new Duration(1000), values.toArray(new  KeyValue[values.size()])));
            timeline.play();
-
-
+           deleteCostumerTitlePane.setExpanded(false);
        }
-
-
 
         Schedulle.deleteCustomer(customer);
         customerTable.setItems(Schedulle.getCustomers());
-//        Thread.sleep(1000);
-//        deleteCustomerLabel.setText("Please select the customer you want to delete and press DELETE button.");
+
+
     }
 
+    @FXML
+    public void updateCustomer(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void getCustomer(ActionEvent actionEvent) {
+        int index = customerTable.getSelectionModel().getSelectedIndex();
+    }
 }

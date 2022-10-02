@@ -1,5 +1,8 @@
 package wgu.softwaretwo.samircokic.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.time.LocalDateTime;
 
 public class Appointment {
@@ -59,6 +62,40 @@ public class Appointment {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+
+    public static ObservableList contactIDs = FXCollections.observableArrayList();
+    public static ObservableList typeOfAppointment = FXCollections.observableArrayList();
+    public static ObservableList customerIDs = FXCollections.observableArrayList();
+    public static ObservableList userIDs = FXCollections.observableArrayList();
+
+    public static ObservableList getUserIDs() {
+        return userIDs;
+    }
+    public static void addUserID(int id){
+        userIDs.add(id);
+    }
+
+    public static ObservableList getCustomerIDs() {
+        return customerIDs;
+    }
+    public static void addCustomerID(int id){
+       customerIDs.add(id);
+    }
+
+    public static ObservableList getTypeOfAppointment() {
+        return typeOfAppointment;
+    }
+    public static void addType(String type){
+        typeOfAppointment.add(type);
+    }
+
+    public static ObservableList getContactIDs() {
+        return contactIDs;
+    }
+    public static void addContactID(int id){
+        contactIDs.add(id);
     }
 
     public String getContact() {

@@ -45,20 +45,21 @@
                <panes>
                 <TitledPane prefHeight="500.0" prefWidth="200.0" text="ADD APPOINTMENT" textFill="#8c98f2">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="198.0" style="-fx-background-color: #696969;">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="463.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
-                              <VBox alignment="CENTER_RIGHT" layoutX="22.2" layoutY="33.2" prefHeight="438.0" prefWidth="168.0" spacing="10.0" AnchorPane.bottomAnchor="195.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="150.0">
+                              <VBox alignment="CENTER_RIGHT" layoutX="26.2" layoutY="216.2" prefHeight="52.0" prefWidth="173.0" spacing="10.0" AnchorPane.bottomAnchor="212.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="205.0">
                                  <children>
-                                    <TextField disable="true" editable="false" promptText="Auto Genereated" />
+                                    <TextField fx:id="addAppointmentID" disable="true" editable="false" promptText="Auto Genereated" />
                                     <TextField fx:id="addTitleTxt" promptText="Title" />
                                     <TextField fx:id="addDescriptionTxt" promptText="Description" />
                                     <TextField fx:id="addLocationTxt" promptText="Location" />
                                     <ComboBox fx:id="addContactDropBox" prefHeight="27.0" prefWidth="170.0" promptText="Contact" />
                                     <ComboBox fx:id="addTypeDropBox" layoutX="10.0" layoutY="165.0" prefHeight="27.0" prefWidth="170.0" promptText="Type" />
-                                    <DatePicker fx:id="addStartDateAndTimePicker" promptText="Start Date and Time" />
-                                    <DatePicker fx:id="addEndDateAndTimePicker" layoutX="10.0" layoutY="239.0" promptText="End Date and Time" />
-                                    <TextField fx:id="addCustomerId" layoutX="10.0" layoutY="178.0" promptText="Customer ID" />
-                                    <TextField fx:id="addUserId" layoutX="10.0" layoutY="202.0" promptText="User ID" />
+                                    <DatePicker fx:id="addDate" promptText="Date" />
+                                    <ComboBox fx:id="addAppointmentStart" prefWidth="150.0" promptText="Start Time" />
+                                    <ComboBox fx:id="addAppointmentEnd" prefWidth="150.0" promptText="EndTime" />
+                                    <ComboBox fx:id="addCustomerID" prefWidth="150.0" promptText="Customer ID" />
+                                    <ComboBox fx:id="addUserID" layoutX="11.0" layoutY="160.0" prefWidth="150.0" promptText="User ID" />
                                     <Button mnemonicParsing="false" onAction="#addAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                  </children>
                                  <padding>

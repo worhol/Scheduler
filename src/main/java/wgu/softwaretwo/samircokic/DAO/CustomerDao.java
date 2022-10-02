@@ -63,7 +63,7 @@ public class CustomerDao {
                 country = getCountryName(countryID);
                 division = getDivisionName(divisionID);
                 Customer customer = new Customer(customerId, customerName, address, postalCode, phoneNumber, countryID, country, divisionID, division);
-                Schedulle.addCustomers(customer);
+                Schedule.addCustomers(customer);
             }
 
         } catch (SQLException e) {

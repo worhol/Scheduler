@@ -3,32 +3,29 @@ package wgu.softwaretwo.samircokic.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
-import wgu.softwaretwo.samircokic.model.Country;
-import wgu.softwaretwo.samircokic.model.Customer;
-import wgu.softwaretwo.samircokic.model.Division;
-import wgu.softwaretwo.samircokic.model.Schedulle;
+import wgu.softwaretwo.samircokic.model.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Timer;
 
 public class AppointmentsFormController implements Initializable {
 
@@ -71,7 +68,13 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private TableColumn appointmentIdColumn1;
     @FXML
+    private TextField addAppointmentID;
+    @FXML
     private TextField addTitleTxt;
+    @FXML
+    private ComboBox addAppointmentStart;
+    @FXML
+    private ComboBox addAppointmentEnd;
     @FXML
     private TableView appointmentsTable1;
     @FXML
@@ -97,25 +100,19 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private TableColumn descriptionColumn1;
     @FXML
-    private TextField addUserId;
-    @FXML
-    private TextField addCustomerId;
-    @FXML
     private TableColumn contactColumn1;
     @FXML
     private TextField addDescriptionTxt;
     @FXML
     private TextField addLocationTxt;
     @FXML
+    private DatePicker addDate;
+    @FXML
     private TableColumn contactColumn2;
     @FXML
     private TableColumn typeColumn2;
     @FXML
     private TableColumn typeColumn1;
-    @FXML
-    private DatePicker addStartDateAndTimePicker;
-    @FXML
-    private DatePicker addEndDateAndTimePicker;
     @FXML
     private TableColumn titleColumn2;
     @FXML
@@ -193,11 +190,16 @@ public class AppointmentsFormController implements Initializable {
     private TextField updateCustomerPostalCode;
     @FXML
     private ComboBox<Country> updateCustomerCountry;
+    @FXML
+    private ComboBox addCustomerID;
+    @FXML
+    private ComboBox addUserID;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZone.setText(zoneId.toString());
-        appointmentsTable.setItems(Schedulle.getAppointments());
+        appointmentsTable.setItems(Schedule.getAppointments());
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -214,7 +216,7 @@ public class AppointmentsFormController implements Initializable {
 
         CustomerDao.setCustomer();
 
-        customerTable.setItems(Schedulle.getCustomers());
+        customerTable.setItems(Schedule.getCustomers());
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         customerAdressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -223,12 +225,53 @@ public class AppointmentsFormController implements Initializable {
         customerCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         customerProvinceCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
+        LocalTime timeIn = LocalTime.of(5,0);
+        LocalTime timeOut = LocalTime.of(22,0);
+        while (timeIn.isBefore(timeOut.plusSeconds(1))){
+            addAppointmentStart.getItems().add(timeIn);
+            addAppointmentEnd.getItems().add(timeIn);
+            timeIn = timeIn.plusMinutes(15);
+        }
+        try {
+            AppointmentDao.contactID();
+            AppointmentDao.type();
+            AppointmentDao.customerID();
+            AppointmentDao.userID();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        addContactDropBox.setItems(Appointment.getContactIDs());
+        addTypeDropBox.setItems(Appointment.getTypeOfAppointment());
+        addCustomerID.setItems(Appointment.getCustomerIDs());
+        addUserID.setItems(Appointment.getUserIDs());
+
+
     }
 
     @FXML
-    public void addAppointment(ActionEvent actionEvent) {
+    public void addAppointment(ActionEvent actionEvent) throws SQLException {
+//        int appointmentID = Integer.valueOf(addAppointmentID.getText());
+        String title = addTitleTxt.getText();
+        String descritpion = addDescriptionTxt.getText();
+        String location = addLocationTxt.getText();
+        int contact =Integer.valueOf(addContactDropBox.getSelectionModel().getSelectedItem().toString());
+        String type = addTypeDropBox.getSelectionModel().getSelectedItem().toString();
+        LocalTime start =(LocalTime) addAppointmentStart.getValue();
+        LocalTime end =(LocalTime) addAppointmentEnd.getValue();
+        LocalDate date = addDate.getValue();
+        LocalDateTime appointmentStart = LocalDateTime.of(date,start);
+        LocalDateTime appointmentEnd = LocalDateTime.of(date,end);
+        int customerID =Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
+        int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
 
+//        Appointment appointment = new Appointment(appointmentID,title,descritpion,location,contact,type,appointmentStart,appointmentEnd,customerID,userID);
+        AppointmentDao.addAppointment(title,descritpion,location,type,appointmentStart,appointmentEnd,customerID,userID,contact);
+//        Schedulle.getAppointments().clear();
+        AppointmentDao.setTheAppointment(userID);
+        appointmentsTable.setItems(Schedule.getAppointments());
+        //fix the type of the meeting, clear the inputs after saving
     }
+
 
     @FXML
     public void addCustomer(ActionEvent actionEvent) throws SQLException, IOException {
@@ -240,9 +283,9 @@ public class AppointmentsFormController implements Initializable {
         String province = addCustomerProvince.getSelectionModel().getSelectedItem().toString();
         int divisionID = CustomerDao.getDivisionId(province);
         CustomerDao.addCustomer(name, address, postalCode, phone, divisionID);
-        Schedulle.refreshCustomers();
+        Schedule.refreshCustomers();
 
-        customerTable.setItems(Schedulle.getCustomers());
+        customerTable.setItems(Schedule.getCustomers());
         addCustomerName.clear();
         addCustomerAddress.clear();
         addCustomerPostalCode.clear();
@@ -266,10 +309,10 @@ public class AppointmentsFormController implements Initializable {
         int index = customerTable.getSelectionModel().getSelectedIndex();
         int id = 0;
         Customer customer = null;
-        for (int i = 0; i < Schedulle.getCustomers().size(); i++) {
+        for (int i = 0; i < Schedule.getCustomers().size(); i++) {
             if (i == index) {
-                id = Schedulle.getCustomers().get(i).getCustomerId();
-                customer = Schedulle.getCustomers().get(i);
+                id = Schedule.getCustomers().get(i).getCustomerId();
+                customer = Schedule.getCustomers().get(i);
             }
         }
         if (CustomerDao.deleteCustomer(id) > 0) {
@@ -283,8 +326,8 @@ public class AppointmentsFormController implements Initializable {
             deleteCostumerTitlePane.setExpanded(false);
         }
 
-        Schedulle.deleteCustomer(customer);
-        customerTable.setItems(Schedulle.getCustomers());
+        Schedule.deleteCustomer(customer);
+        customerTable.setItems(Schedule.getCustomers());
 
 
     }
@@ -299,11 +342,11 @@ public class AppointmentsFormController implements Initializable {
 //        String country = updateCustomerCountry.getSelectionModel().getSelectedItem().getCountryName();
         int divisionId = updateCustomerProvince.getSelectionModel().getSelectedItem().getDivisionId();
         int customerID = Integer.valueOf(updateCustomerID.getText());
-       if (CustomerDao.updateCustomer(customerID,name,address,postalCode,phone,divisionId)>0){
-           Schedulle.refreshCustomers();
+        if (CustomerDao.updateCustomer(customerID, name, address, postalCode, phone, divisionId) > 0) {
+            Schedule.refreshCustomers();
 
-           updateCostumerTitlePane.setExpanded(false);
-       }
+            updateCostumerTitlePane.setExpanded(false);
+        }
         updateCustomerName.clear();
         updateCustomerAddress.clear();
         updateCustomerPostalCode.clear();
@@ -323,14 +366,14 @@ public class AppointmentsFormController implements Initializable {
         updatePhoneNumber.setText(customer.getPhoneNumber());
         updateCustomerPostalCode.setText(customer.getPostalCode());
 
-        for (Country country: updateCustomerCountry.getItems()){
-            if (country.getCountryId()==customer.getCountryID()){
+        for (Country country : updateCustomerCountry.getItems()) {
+            if (country.getCountryId() == customer.getCountryID()) {
                 updateCustomerCountry.setValue(country);
                 break;
             }
         }
-        for (Division division:updateCustomerProvince.getItems()){
-            if (division.getDivisionId()==customer.getDivisionID()){
+        for (Division division : updateCustomerProvince.getItems()) {
+            if (division.getDivisionId() == customer.getDivisionID()) {
                 updateCustomerProvince.setValue(division);
             }
         }
@@ -339,10 +382,10 @@ public class AppointmentsFormController implements Initializable {
         updateCustomerProvince.setItems(divisions);
 
     }
-
+    @FXML
     public void chooseCustomerDivisionUpdate(ActionEvent actionEvent) throws SQLException {
         Country c = updateCustomerCountry.getValue();
-        if (c==null){
+        if (c == null) {
             return;
         }// there was a nullpointer bug
         updateCustomerProvince.getItems().clear();

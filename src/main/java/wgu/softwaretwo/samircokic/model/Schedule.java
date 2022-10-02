@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-public class Schedulle {
+public class Schedule {
 
     private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
@@ -23,6 +20,10 @@ public class Schedulle {
     public static ObservableList<Appointment> getAppointments(){
         return appointments;
     }
+
+//    public static void refreshAppointments(){
+//        appointments.clear();
+//    }
 
     public static ObservableList<Customer> customers = FXCollections.observableArrayList();
 

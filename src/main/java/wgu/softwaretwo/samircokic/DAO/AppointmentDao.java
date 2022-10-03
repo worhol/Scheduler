@@ -34,13 +34,13 @@ public abstract class AppointmentDao {
             title = resultSet.getString("Title");
             description = resultSet.getString("Description");
             location = resultSet.getString("Location");
-            contact = contact(contactId);
+//            contact = contact(contactId);
             type = resultSet.getString("Type");
             start = resultSet.getTimestamp("Start").toLocalDateTime();
             end = resultSet.getTimestamp("End").toLocalDateTime();
             customerId = resultSet.getInt("Customer_ID");
             userId = resultSet.getInt("User_ID");
-            Appointment appointment = new Appointment(appointmentId, title, description, location, contact, type, start, end, customerId, userId);
+            Appointment appointment = new Appointment(appointmentId, title, description, location, contactId, type, start, end, customerId, userId);
             Schedule.addAppointment(appointment);
         }
     }
@@ -56,6 +56,18 @@ public abstract class AppointmentDao {
         }
         return contact;
     }
+    public static int contact(String name) throws SQLException {
+        int contact=0;
+        String sql = "SELECT * FROM CONTACTS WHERE Contact_Name = ?";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            contact = resultSet.getInt("Contact_ID");
+        }
+        return contact;
+    }
+
    public static void contactID() throws SQLException {
         int id  = 0;
         String sql = "SELECT * FROM CONTACTS";
@@ -88,7 +100,7 @@ public abstract class AppointmentDao {
     }
     public static void type() throws SQLException {
         String type = "";
-        String sql = "SELECT * FROM APPOINTMENTS";
+        String sql = "SELECT DISTINCT TYPE FROM APPOINTMENTS";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
@@ -110,6 +122,29 @@ public abstract class AppointmentDao {
         preparedStatement.setInt(7, customerId);
         preparedStatement.setInt(8, userId);
         preparedStatement.setInt(9, contact);
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected;
+    }
+    public static int deleteAppointment(Appointment appointment) throws SQLException {
+        String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID =?";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setInt(1, appointment.getAppointmentId());
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected;
+    }
+    public static int updateAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contact, int appointmentId) throws SQLException {
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End =?, Customer_ID = ?, User_ID = ?, Contact_ID =? WHERE Appointment_ID = ?";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, description);
+        preparedStatement.setString(3, location);
+        preparedStatement.setString(4, type);
+        preparedStatement.setTimestamp(5,Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
+        preparedStatement.setInt(7, customerId);
+        preparedStatement.setInt(8,userId);
+        preparedStatement.setInt(9,contact);
+        preparedStatement.setInt(10, appointmentId);
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;
     }

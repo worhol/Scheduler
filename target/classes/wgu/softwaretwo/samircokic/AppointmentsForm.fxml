@@ -43,7 +43,7 @@
             </Label>
             <Accordion>
                <panes>
-                <TitledPane prefHeight="500.0" prefWidth="200.0" text="ADD APPOINTMENT" textFill="#8c98f2">
+                <TitledPane fx:id="addAppointmentTitlePane" prefHeight="500.0" prefWidth="200.0" text="ADD APPOINTMENT" textFill="#8c98f2">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="463.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
@@ -79,28 +79,30 @@
                         <Insets bottom="5.0" />
                      </padding>
                 </TitledPane>
-                  <TitledPane prefHeight="500.0" prefWidth="200.0" text="UPDATE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane fx:id="updateAppointmentTitlePane" prefHeight="500.0" prefWidth="200.0" text="UPDATE APPOINTMENT" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="299.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
-                              <VBox alignment="CENTER_RIGHT" layoutX="37.2" layoutY="37.2" prefHeight="112.0" prefWidth="146.0" spacing="10.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="26.0">
+                              <VBox alignment="CENTER_RIGHT" layoutX="24.2" layoutY="34.2" prefHeight="423.0" prefWidth="175.0" spacing="10.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="23.0">
                                  <children>
-                                    <TextField disable="true" editable="false" prefHeight="2.0" prefWidth="168.0" promptText="Auto Genereated" />
-                                    <TextField />
-                                    <TextField />
-                                    <TextField />
-                                    <TextField />
-                                    <TextField />
-                                    <TextField layoutX="10.0" layoutY="160.0" />
-                                    <TextField layoutX="10.0" layoutY="190.0" />
-                                    <TextField layoutX="10.0" layoutY="178.0" />
-                                    <TextField layoutX="10.0" layoutY="202.0" />
-                                    <Button mnemonicParsing="false" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                    <TextField fx:id="updateAppointmentID" disable="true" editable="false" prefHeight="2.0" prefWidth="168.0" promptText="Auto Genereated" />
+                                    <TextField fx:id="updateTitleTxt" promptText="Title" />
+                                    <TextField fx:id="updateDescriptionTxt" promptText="Description" />
+                                    <TextField fx:id="updateLocationTxt" promptText="Location" />
+                                    <ComboBox fx:id="updateContactCombo" prefHeight="27.0" prefWidth="160.0" promptText="Contact" />
+                                    <ComboBox fx:id="updateTypeCombo" prefHeight="27.0" prefWidth="156.0" promptText="Type" />
+                                    <DatePicker fx:id="updateDatePicker" promptText="Date" />
+                                    <ComboBox fx:id="updateStartTimeCombo" prefHeight="27.0" prefWidth="163.0" promptText="Start Time" />
+                                    <ComboBox fx:id="updateEndTimeCombo" prefHeight="27.0" prefWidth="159.0" promptText="End Time" />
+                                    <ComboBox fx:id="updateCustomerIdCombo" prefHeight="27.0" prefWidth="160.0" promptText="Customer ID" />
+                                    <ComboBox fx:id="updateUserIdCombo" prefHeight="27.0" prefWidth="162.0" promptText="User ID" />
+                                    <Button mnemonicParsing="false" onAction="#updateAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                  </children>
                                  <padding>
                                     <Insets top="4.0" />
                                  </padding>
                               </VBox>
+                              <Button layoutX="68.0" layoutY="426.0" mnemonicParsing="false" onAction="#selectAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Select" textFill="#8c98f2" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -114,14 +116,14 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="45.0" prefHeight="246.0" prefWidth="200.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane fx:id="deleteAppointmentTitlePane" layoutX="10.0" layoutY="45.0" prefHeight="246.0" prefWidth="200.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" style="-fx-background-color: #696969;">
                            <children>
-                              <VBox alignment="TOP_CENTER" layoutX="37.2" layoutY="37.2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="298.0" prefWidth="146.0" AnchorPane.bottomAnchor="273.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="26.0">
+                              <VBox alignment="TOP_CENTER" layoutX="10.2" layoutY="15.2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="201.0" prefWidth="189.0" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="19.0">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="83.0" prefWidth="179.0" text="Please select the appointment you want to delete and press DELETE button" textAlignment="CENTER" textFill="#f5eeee" wrapText="true" />
-                                    <Button mnemonicParsing="false" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Delete" textFill="#8c98f2">
+                                    <Label alignment="CENTER" prefHeight="76.0" prefWidth="175.0" text="Please select the appointment you want to delete and press DELETE button" textAlignment="CENTER" textFill="#f5eeee" wrapText="true" />
+                                    <Button mnemonicParsing="false" onAction="#deleteAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Delete" textFill="#8c98f2">
                                        <VBox.margin>
                                           <Insets top="90.0" />
                                        </VBox.margin></Button>
@@ -216,7 +218,7 @@
                                  </children>
                               </VBox>
                               <Button layoutX="40.0" layoutY="313.0" mnemonicParsing="false" onAction="#getCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Select" textFill="#8c98f2" />
-                              <Button layoutX="120.0" layoutY="313.0" mnemonicParsing="false" onAction="#updateCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                              <Button layoutX="116.0" layoutY="313.0" mnemonicParsing="false" onAction="#updateCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                            </children>
                         </AnchorPane>
                      </content>

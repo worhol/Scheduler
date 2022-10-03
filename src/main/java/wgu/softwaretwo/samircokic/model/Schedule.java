@@ -2,6 +2,7 @@ package wgu.softwaretwo.samircokic.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 
 public class Schedule {
@@ -15,7 +16,7 @@ public class Schedule {
         appointments.set(index,appointment);
     }
     public static void deleteAppointment(Appointment appointment){
-        //this can be lambda stream
+       appointments.remove(appointment);
     }
     public static ObservableList<Appointment> getAppointments(){
         return appointments;
@@ -37,6 +38,9 @@ public class Schedule {
     public  static  void refreshCustomers(){
         customers.clear();
         CustomerDao.setCustomer();
+    }
+    public static void refreshAppointments(){
+        appointments.clear();
     }
     public static void deleteCustomer(Customer customer){
         customers.remove(customer);

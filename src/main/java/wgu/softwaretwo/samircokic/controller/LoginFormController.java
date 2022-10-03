@@ -4,12 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.UserDao;
@@ -67,7 +69,19 @@ public class LoginFormController implements Initializable {
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));
+            stage.setResizable(false);
+//            stage.centerOnScreen();
+//            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+//
+////set Stage boundaries to the lower right corner of the visible bounds of the main screen
+//            stage.setX(primaryScreenBounds.getMinX() + primaryScreenBounds.getWidth() - 1280);
+//            stage.setY(primaryScreenBounds.getMinY() + primaryScreenBounds.getHeight() - 700);
+//            stage.setWidth(1280);
+//            stage.setHeight(700);
+//
+//            stage.show();
 //            stage.setMaximized(true);
+
 //            stage.setFullScreen(true);
 //            stage.getMinHeight();
 //            stage.getMinWidth();

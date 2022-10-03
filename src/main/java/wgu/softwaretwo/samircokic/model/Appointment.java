@@ -10,14 +10,14 @@ public class Appointment {
     private String title;
     private String description;
     private String location;
-    private String contact;
+    private int contact;
     private String type;
     private LocalDateTime start;
     private LocalDateTime end;
     private int customerId;
     private int userId;
 
-    public Appointment(int appointmentId, String title, String description, String location, String contact, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId) {
+    public Appointment(int appointmentId, String title, String description, String location, int contact, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
@@ -94,15 +94,17 @@ public class Appointment {
     public static ObservableList getContactIDs() {
         return contactIDs;
     }
+
     public static void addContactID(int id){
         contactIDs.add(id);
     }
 
-    public String getContact() {
+
+    public int getContact() {
         return contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(int contact) {
         this.contact = contact;
     }
 

@@ -194,6 +194,34 @@ public class AppointmentsFormController implements Initializable {
     private ComboBox addCustomerID;
     @FXML
     private ComboBox addUserID;
+    @FXML
+    private TitledPane deleteAppointmentTitlePane;
+    @FXML
+    private TitledPane addAppointmentTitlePane;
+    @FXML
+    private TitledPane updateAppointmentTitlePane;
+    @FXML
+    private ComboBox updateContactCombo;
+    @FXML
+    private TextField updateTitleTxt;
+    @FXML
+    private TextField updateDescriptionTxt;
+    @FXML
+    private ComboBox updateEndTimeCombo;
+    @FXML
+    private TextField updateAppointmentID;
+    @FXML
+    private ComboBox updateUserIdCombo;
+    @FXML
+    private ComboBox updateStartTimeCombo;
+    @FXML
+    private ComboBox updateTypeCombo;
+    @FXML
+    private ComboBox updateCustomerIdCombo;
+    @FXML
+    private DatePicker updateDatePicker;
+    @FXML
+    private TextField updateLocationTxt;
 
 
     @Override
@@ -225,11 +253,13 @@ public class AppointmentsFormController implements Initializable {
         customerCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         customerProvinceCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
-        LocalTime timeIn = LocalTime.of(5,0);
-        LocalTime timeOut = LocalTime.of(22,0);
-        while (timeIn.isBefore(timeOut.plusSeconds(1))){
+        LocalTime timeIn = LocalTime.of(5, 0);
+        LocalTime timeOut = LocalTime.of(22, 0);
+        while (timeIn.isBefore(timeOut.plusSeconds(1))) {
             addAppointmentStart.getItems().add(timeIn);
             addAppointmentEnd.getItems().add(timeIn);
+            updateStartTimeCombo.getItems().add(timeIn);
+            updateEndTimeCombo.getItems().add(timeIn);
             timeIn = timeIn.plusMinutes(15);
         }
         try {
@@ -244,6 +274,10 @@ public class AppointmentsFormController implements Initializable {
         addTypeDropBox.setItems(Appointment.getTypeOfAppointment());
         addCustomerID.setItems(Appointment.getCustomerIDs());
         addUserID.setItems(Appointment.getUserIDs());
+        updateContactCombo.setItems(Appointment.getContactIDs());
+        updateTypeCombo.setItems(Appointment.getTypeOfAppointment());
+        updateCustomerIdCombo.setItems(Appointment.getCustomerIDs());
+        updateUserIdCombo.setItems(Appointment.getUserIDs());
 
 
     }
@@ -254,22 +288,45 @@ public class AppointmentsFormController implements Initializable {
         String title = addTitleTxt.getText();
         String descritpion = addDescriptionTxt.getText();
         String location = addLocationTxt.getText();
-        int contact =Integer.valueOf(addContactDropBox.getSelectionModel().getSelectedItem().toString());
+        int contact = Integer.valueOf(addContactDropBox.getSelectionModel().getSelectedItem().toString());
         String type = addTypeDropBox.getSelectionModel().getSelectedItem().toString();
-        LocalTime start =(LocalTime) addAppointmentStart.getValue();
-        LocalTime end =(LocalTime) addAppointmentEnd.getValue();
+        LocalTime start = (LocalTime) addAppointmentStart.getValue();
+        LocalTime end = (LocalTime) addAppointmentEnd.getValue();
         LocalDate date = addDate.getValue();
-        LocalDateTime appointmentStart = LocalDateTime.of(date,start);
-        LocalDateTime appointmentEnd = LocalDateTime.of(date,end);
-        int customerID =Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
+        LocalDateTime appointmentStart = LocalDateTime.of(date, start);
+        LocalDateTime appointmentEnd = LocalDateTime.of(date, end);
+        int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
         int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
 
 //        Appointment appointment = new Appointment(appointmentID,title,descritpion,location,contact,type,appointmentStart,appointmentEnd,customerID,userID);
-        AppointmentDao.addAppointment(title,descritpion,location,type,appointmentStart,appointmentEnd,customerID,userID,contact);
-//        Schedulle.getAppointments().clear();
+        AppointmentDao.addAppointment(title, descritpion, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
+        Schedule.getAppointments().clear();
         AppointmentDao.setTheAppointment(userID);
         appointmentsTable.setItems(Schedule.getAppointments());
-        //fix the type of the meeting, clear the inputs after saving
+
+        addTitleTxt.clear();
+        addDescriptionTxt.clear();
+        addLocationTxt.clear();
+        addContactDropBox.getSelectionModel().clearSelection();
+        addTypeDropBox.getSelectionModel().clearSelection();
+        addDate.getEditor().clear();
+        addDate.setValue(null);
+        addAppointmentStart.getSelectionModel().clearSelection();
+        addAppointmentEnd.getSelectionModel().clearSelection();
+        addCustomerID.getSelectionModel().clearSelection();
+        addUserID.getSelectionModel().clearSelection();
+        addAppointmentTitlePane.setExpanded(false);
+    }
+
+    @FXML
+    public void deleteAppointment(ActionEvent actionEvent) throws SQLException {
+        Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+        AppointmentDao.deleteAppointment(appointment);
+        Schedule.deleteAppointment(appointment);
+        appointmentsTable.setItems(Schedule.getAppointments());
+        //needs to add the alert
+        deleteAppointmentTitlePane.setExpanded(false);
+
     }
 
 
@@ -382,6 +439,7 @@ public class AppointmentsFormController implements Initializable {
         updateCustomerProvince.setItems(divisions);
 
     }
+
     @FXML
     public void chooseCustomerDivisionUpdate(ActionEvent actionEvent) throws SQLException {
         Country c = updateCustomerCountry.getValue();
@@ -394,4 +452,45 @@ public class AppointmentsFormController implements Initializable {
         updateCustomerProvince.setVisibleRowCount(5);
 
     }
+
+    @FXML
+    public void updateAppointment(ActionEvent actionEvent) throws SQLException {
+        int appointmentId = Integer.valueOf(updateAppointmentID.getText());
+        String title = updateTitleTxt.getText();
+        String description = updateDescriptionTxt.getText();
+        String location = updateLocationTxt.getText();
+        String type = updateTypeCombo.getSelectionModel().getSelectedItem().toString();
+        LocalTime start = (LocalTime) updateStartTimeCombo.getValue();
+        LocalTime end = (LocalTime) updateEndTimeCombo.getValue();
+        LocalDate date = updateDatePicker.getValue();
+        LocalDateTime startAppointment = LocalDateTime.of(date, start);
+        LocalDateTime endAppointment = LocalDateTime.of(date, end);
+        int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
+        int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
+        int contactID = Integer.valueOf(updateContactCombo.getSelectionModel().getSelectedItem().toString());// when not changed to number exception
+        AppointmentDao.updateAppointment(title,description,location,type,startAppointment,endAppointment,customerID,userID,contactID,appointmentId);
+        Schedule.refreshAppointments();
+        AppointmentDao.setTheAppointment(userID);
+        appointmentsTable.setItems(Schedule.getAppointments());
+        updateAppointmentTitlePane.setExpanded(false);
+    }
+
+    @FXML
+    public void selectAppointment(ActionEvent actionEvent) {
+        Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+        updateAppointmentID.setText(String.valueOf(appointment.getAppointmentId()));
+        updateTitleTxt.setText(appointment.getTitle());
+        updateDescriptionTxt.setText(appointment.getDescription());
+        updateLocationTxt.setText(appointment.getLocation());
+        updateContactCombo.setValue(appointment.getContact());
+        updateTypeCombo.setValue(appointment.getType());
+        updateDatePicker.setValue(appointment.getStart().toLocalDate());
+        updateStartTimeCombo.setValue(appointment.getStart().toLocalTime());
+        updateEndTimeCombo.setValue(appointment.getEnd().toLocalTime());
+        updateCustomerIdCombo.setValue(appointment.getCustomerId());
+        updateUserIdCombo.setValue(appointment.getUserId());
+
+
+    }
+
 }

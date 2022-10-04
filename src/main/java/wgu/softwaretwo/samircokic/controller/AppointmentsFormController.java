@@ -337,7 +337,7 @@ public class AppointmentsFormController implements Initializable {
             public void run() {
                 Platform.runLater(() -> {
                 deleteAppointmentTitlePane.setExpanded(false);
-                cancelAppointmentLbl.setText("Please select the appointment you want to delete and press DELETE button");
+                cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
 
                 });
             }
@@ -394,7 +394,7 @@ public class AppointmentsFormController implements Initializable {
                 public void run() {
                     Platform.runLater(() -> {
                         deleteCostumerTitlePane.setExpanded(false);
-                        cancelAppointmentLbl.setText("Please select the customer you want to delete and press DELETE button");
+                        cancelAppointmentLbl.setText("Please select the customer you want to delete and press SELECT button");
 
                     });
                 }
@@ -512,4 +512,31 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    @FXML
+    public void cancelDeleteAppointment(ActionEvent actionEvent) {
+        cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
+        appointmentsTable.getSelectionModel().clearSelection();
+        deleteAppointmentTitlePane.setExpanded(false);
+    }
+
+    @FXML
+    public void cancelDeleteCustomer(ActionEvent actionEvent) {
+        deleteCustomerLabel.setText("Please select the customer you want to delete and press SELECT button");
+        customerTable.getSelectionModel().clearSelection();
+        deleteCostumerTitlePane.setExpanded(false);
+    }
+
+
+
+    @FXML
+    public void selectAppointmenForDelete(ActionEvent actionEvent) {
+        cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
+                "press CANCEL to exit");
+    }
+
+    @FXML
+    public void selectCustomerForDelete(ActionEvent actionEvent) {
+        deleteCustomerLabel.setText("Are you sure you want to remove this customer? Press DELETE to DELETE or " +
+                "press CANCEL to exit");
+    }
 }

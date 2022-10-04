@@ -34,13 +34,13 @@ public abstract class AppointmentDao {
             title = resultSet.getString("Title");
             description = resultSet.getString("Description");
             location = resultSet.getString("Location");
-//            contact = contact(contactId);
+            contact = contact(contactId);
             type = resultSet.getString("Type");
             start = resultSet.getTimestamp("Start").toLocalDateTime();
             end = resultSet.getTimestamp("End").toLocalDateTime();
             customerId = resultSet.getInt("Customer_ID");
             userId = resultSet.getInt("User_ID");
-            Appointment appointment = new Appointment(appointmentId, title, description, location, contactId, type, start, end, customerId, userId);
+            Appointment appointment = new Appointment(appointmentId, title, description, location, contact, type, start, end, customerId, userId);
             Schedule.addAppointment(appointment);
         }
     }
@@ -78,6 +78,16 @@ public abstract class AppointmentDao {
             Appointment.addContactID(id);
         }
     }
+    public static void contactName() throws SQLException {
+        String name = "";
+        String sql = "SELECT * FROM CONTACTS";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            name = resultSet.getString("Contact_Name");
+            Appointment.addContactName(name);
+        }
+    }
     public static void customerID() throws SQLException {
         int id  = 0;
         String sql = "SELECT * FROM CUSTOMERS";
@@ -110,7 +120,7 @@ public abstract class AppointmentDao {
 
     }
 
-    public static int addAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contact) throws SQLException {
+    public static int addAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, String contact) throws SQLException {
         String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID ) VALUES(?, ?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
         preparedStatement.setString(1, title);
@@ -121,7 +131,7 @@ public abstract class AppointmentDao {
         preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setInt(7, customerId);
         preparedStatement.setInt(8, userId);
-        preparedStatement.setInt(9, contact);
+        preparedStatement.setInt(9, contact(contact));
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;
     }
@@ -132,7 +142,7 @@ public abstract class AppointmentDao {
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;
     }
-    public static int updateAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contact, int appointmentId) throws SQLException {
+    public static int updateAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, String contact, int appointmentId) throws SQLException {
         String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End =?, Customer_ID = ?, User_ID = ?, Contact_ID =? WHERE Appointment_ID = ?";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
         preparedStatement.setString(1, title);
@@ -143,7 +153,7 @@ public abstract class AppointmentDao {
         preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setInt(7, customerId);
         preparedStatement.setInt(8,userId);
-        preparedStatement.setInt(9,contact);
+        preparedStatement.setInt(9,contact(contact));
         preparedStatement.setInt(10, appointmentId);
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;

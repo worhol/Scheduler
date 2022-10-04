@@ -116,13 +116,13 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane fx:id="deleteAppointmentTitlePane" layoutX="10.0" layoutY="45.0" prefHeight="246.0" prefWidth="200.0" text="DELETE APPOINTMENT" textFill="#8c98f2">
+                  <TitledPane fx:id="deleteAppointmentTitlePane" layoutX="10.0" layoutY="45.0" prefHeight="246.0" prefWidth="200.0" text="CANCEL APPOINTMENT" textFill="#8c98f2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" style="-fx-background-color: #696969;">
                            <children>
                               <VBox alignment="TOP_CENTER" layoutX="10.2" layoutY="15.2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="201.0" prefWidth="189.0" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="19.0">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="76.0" prefWidth="175.0" text="Please select the appointment you want to delete and press DELETE button" textAlignment="CENTER" textFill="#f5eeee" wrapText="true" />
+                                    <Label fx:id="cancelAppointmentLbl" alignment="CENTER" prefHeight="76.0" prefWidth="175.0" text="Please select the appointment you want to delete and press DELETE button" textAlignment="CENTER" textFill="#f5eeee" wrapText="true" />
                                     <Button mnemonicParsing="false" onAction="#deleteAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Delete" textFill="#8c98f2">
                                        <VBox.margin>
                                           <Insets top="90.0" />

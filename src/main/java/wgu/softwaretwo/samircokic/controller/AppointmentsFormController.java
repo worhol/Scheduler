@@ -1,8 +1,10 @@
 package wgu.softwaretwo.samircokic.controller;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,13 +21,13 @@ import wgu.softwaretwo.samircokic.model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class AppointmentsFormController implements Initializable {
 
@@ -222,6 +224,8 @@ public class AppointmentsFormController implements Initializable {
     private DatePicker updateDatePicker;
     @FXML
     private TextField updateLocationTxt;
+    @FXML
+    private Label cancelAppointmentLbl;
 
 
     @Override
@@ -263,18 +267,21 @@ public class AppointmentsFormController implements Initializable {
             timeIn = timeIn.plusMinutes(15);
         }
         try {
-            AppointmentDao.contactID();
+//            AppointmentDao.contactID();
+            AppointmentDao.contactName();
             AppointmentDao.type();
             AppointmentDao.customerID();
             AppointmentDao.userID();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        addContactDropBox.setItems(Appointment.getContactIDs());
+//        addContactDropBox.setItems(Appointment.getContactIDs());
+        addContactDropBox.setItems(Appointment.getContactName());
         addTypeDropBox.setItems(Appointment.getTypeOfAppointment());
         addCustomerID.setItems(Appointment.getCustomerIDs());
         addUserID.setItems(Appointment.getUserIDs());
-        updateContactCombo.setItems(Appointment.getContactIDs());
+//        updateContactCombo.setItems(Appointment.getContactIDs());
+        updateContactCombo.setItems(Appointment.getContactName());
         updateTypeCombo.setItems(Appointment.getTypeOfAppointment());
         updateCustomerIdCombo.setItems(Appointment.getCustomerIDs());
         updateUserIdCombo.setItems(Appointment.getUserIDs());
@@ -288,7 +295,7 @@ public class AppointmentsFormController implements Initializable {
         String title = addTitleTxt.getText();
         String descritpion = addDescriptionTxt.getText();
         String location = addLocationTxt.getText();
-        int contact = Integer.valueOf(addContactDropBox.getSelectionModel().getSelectedItem().toString());
+        String contact = addContactDropBox.getSelectionModel().getSelectedItem().toString();
         String type = addTypeDropBox.getSelectionModel().getSelectedItem().toString();
         LocalTime start = (LocalTime) addAppointmentStart.getValue();
         LocalTime end = (LocalTime) addAppointmentEnd.getValue();
@@ -319,14 +326,22 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    public void deleteAppointment(ActionEvent actionEvent) throws SQLException {
+    public void deleteAppointment(ActionEvent actionEvent) throws SQLException, InterruptedException {
         Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
         AppointmentDao.deleteAppointment(appointment);
         Schedule.deleteAppointment(appointment);
         appointmentsTable.setItems(Schedule.getAppointments());
-        //needs to add the alert
-        deleteAppointmentTitlePane.setExpanded(false);
+        cancelAppointmentLbl.setText("Appointment "+appointment.getAppointmentId()+" "+appointment.getType()+" was canceled.");
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Platform.runLater(() -> {
+                deleteAppointmentTitlePane.setExpanded(false);
+                cancelAppointmentLbl.setText("Please select the appointment you want to delete and press DELETE button");
 
+                });
+            }
+        },2000l);
     }
 
 
@@ -373,14 +388,18 @@ public class AppointmentsFormController implements Initializable {
             }
         }
         if (CustomerDao.deleteCustomer(id) > 0) {
-            deleteCustomerLabel.setText("Customer Deleted");
-            Timeline timeline = new Timeline();
-            List<KeyValue> values = new ArrayList<>();
-            values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Customer Deleted"));
-            values.add(new KeyValue(deleteCustomerLabel.textProperty(), "Please select the customer you want to delete and press DELETE button."));
-            timeline.getKeyFrames().add(new KeyFrame(new Duration(1000), values.toArray(new KeyValue[values.size()])));
-            timeline.play();
-            deleteCostumerTitlePane.setExpanded(false);
+            deleteCustomerLabel.setText("Customer removed.");
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    Platform.runLater(() -> {
+                        deleteCostumerTitlePane.setExpanded(false);
+                        cancelAppointmentLbl.setText("Please select the customer you want to delete and press DELETE button");
+
+                    });
+                }
+            },2000l);
+
         }
 
         Schedule.deleteCustomer(customer);
@@ -467,8 +486,8 @@ public class AppointmentsFormController implements Initializable {
         LocalDateTime endAppointment = LocalDateTime.of(date, end);
         int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
         int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
-        int contactID = Integer.valueOf(updateContactCombo.getSelectionModel().getSelectedItem().toString());// when not changed to number exception
-        AppointmentDao.updateAppointment(title,description,location,type,startAppointment,endAppointment,customerID,userID,contactID,appointmentId);
+        String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
+        AppointmentDao.updateAppointment(title,description,location,type,startAppointment,endAppointment,customerID,userID,contact,appointmentId);
         Schedule.refreshAppointments();
         AppointmentDao.setTheAppointment(userID);
         appointmentsTable.setItems(Schedule.getAppointments());

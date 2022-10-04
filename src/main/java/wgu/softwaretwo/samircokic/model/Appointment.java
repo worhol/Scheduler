@@ -10,14 +10,14 @@ public class Appointment {
     private String title;
     private String description;
     private String location;
-    private int contact;
+    private String contact;
     private String type;
     private LocalDateTime start;
     private LocalDateTime end;
     private int customerId;
     private int userId;
 
-    public Appointment(int appointmentId, String title, String description, String location, int contact, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId) {
+    public Appointment(int appointmentId, String title, String description, String location, String contact, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
@@ -66,6 +66,7 @@ public class Appointment {
 
 
     public static ObservableList contactIDs = FXCollections.observableArrayList();
+    public static ObservableList contactName = FXCollections.observableArrayList();
     public static ObservableList typeOfAppointment = FXCollections.observableArrayList();
     public static ObservableList customerIDs = FXCollections.observableArrayList();
     public static ObservableList userIDs = FXCollections.observableArrayList();
@@ -94,17 +95,23 @@ public class Appointment {
     public static ObservableList getContactIDs() {
         return contactIDs;
     }
+    public static ObservableList getContactName() {
+        return contactName;
+    }
+    public static void addContactName(String name){
+        contactName.add(name);
+    }
 
     public static void addContactID(int id){
         contactIDs.add(id);
     }
 
 
-    public int getContact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setContact(int contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 

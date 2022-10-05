@@ -34,9 +34,6 @@
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" object-ref="schemas/client_schedule/tables/contacts" />
-      <object connection-id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" object-ref="schemas/client_schedule/tables/first_level_divisions" />
-      <object connection-id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" object-ref="schemas/client_schedule/tables/customers" />
       <object connection-id="470318dc-0e34-4f16-8f72-3ebf6a16ebfd" object-ref="schemas/client_schedule/tables/appointments" />
     </open-files>
   </component>

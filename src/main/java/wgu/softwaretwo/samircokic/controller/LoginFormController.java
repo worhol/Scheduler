@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.UserDao;
 import wgu.softwaretwo.samircokic.model.Appointment;
+import wgu.softwaretwo.samircokic.model.Schedule;
 import wgu.softwaretwo.samircokic.model.User;
 
 import java.io.IOException;
@@ -65,12 +66,14 @@ public class LoginFormController implements Initializable {
         }
         if (usernameAndPasswordCheck(user, pass) > 0) {
             //do i have appointemnt in next 15 mins...
+            Schedule.addUser(new User(usernameAndPasswordCheck(user,pass),user,pass));
             AppointmentDao.setTheAppointment(usernameAndPasswordCheck(user,pass));
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));
             stage.setResizable(false);
-//            stage.centerOnScreen();
+            stage.centerOnScreen();
+            stage.setMaximized(true);
 //            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 //
 ////set Stage boundaries to the lower right corner of the visible bounds of the main screen

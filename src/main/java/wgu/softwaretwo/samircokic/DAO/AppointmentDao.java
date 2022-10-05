@@ -89,6 +89,7 @@ public abstract class AppointmentDao {
         }
     }
     public static void customerID() throws SQLException {
+        Appointment.getCustomerIDs().clear();
         int id  = 0;
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
@@ -142,6 +143,14 @@ public abstract class AppointmentDao {
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;
     }
+    public static int deleteAllCustomerAppointments(int id) throws SQLException {
+        String sql = "DELETE FROM APPOINTMENTS WHERE Customer_ID =?";
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        int rowsAffected = preparedStatement.executeUpdate();
+        return rowsAffected;
+    }
+
     public static int updateAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, String contact, int appointmentId) throws SQLException {
         String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End =?, Customer_ID = ?, User_ID = ?, Contact_ID =? WHERE Appointment_ID = ?";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);

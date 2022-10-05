@@ -2,7 +2,6 @@ package wgu.softwaretwo.samircokic.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 
 public class Schedule {
@@ -18,14 +17,24 @@ public class Schedule {
     public static void deleteAppointment(Appointment appointment){
        appointments.remove(appointment);
     }
+    public static void deleteCustomersAppointments(int id){
+        for (Appointment appointment: appointments){
+            if (appointment.getAppointmentId()==id){
+                appointments.remove(appointment);
+            }
+        }
+    }
     public static ObservableList<Appointment> getAppointments(){
         return appointments;
     }
+public static ObservableList<User> users = FXCollections.observableArrayList();
 
-//    public static void refreshAppointments(){
-//        appointments.clear();
-//    }
-
+    public static int getUserID() {
+        return users.get(0).getId();
+    }
+    public static void addUser(User user){
+        users.add(user);
+    }
     public static ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     public static ObservableList<Customer> getCustomers() {

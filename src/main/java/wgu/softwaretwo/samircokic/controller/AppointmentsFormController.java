@@ -1,9 +1,5 @@
 package wgu.softwaretwo.samircokic.controller;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 import wgu.softwaretwo.samircokic.model.*;
@@ -21,13 +16,13 @@ import wgu.softwaretwo.samircokic.model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AppointmentsFormController implements Initializable {
 
@@ -62,14 +57,6 @@ public class AppointmentsFormController implements Initializable {
 
     ZoneId zoneId = ZoneId.systemDefault();
     @FXML
-    private TableColumn endDateColumn1;
-    @FXML
-    private TableColumn endDateColumn2;
-    @FXML
-    private TableColumn appointmentIdColumn2;
-    @FXML
-    private TableColumn appointmentIdColumn1;
-    @FXML
     private TextField addAppointmentID;
     @FXML
     private TextField addTitleTxt;
@@ -78,47 +65,11 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private ComboBox addAppointmentEnd;
     @FXML
-    private TableView appointmentsTable1;
-    @FXML
-    private TableColumn customerIdColumn1;
-    @FXML
-    private TableColumn startDateColumn2;
-    @FXML
-    private TableView appointmentsTable2;
-    @FXML
-    private TableColumn customerIdColumn2;
-    @FXML
-    private TableColumn descriptionColumn2;
-    @FXML
-    private TableColumn userIdColumn2;
-    @FXML
-    private TableColumn locationColumn1;
-    @FXML
-    private TableColumn userIdColumn1;
-    @FXML
-    private TableColumn startDateColumn1;
-    @FXML
-    private TableColumn locationColumn2;
-    @FXML
-    private TableColumn descriptionColumn1;
-    @FXML
-    private TableColumn contactColumn1;
-    @FXML
     private TextField addDescriptionTxt;
     @FXML
     private TextField addLocationTxt;
     @FXML
     private DatePicker addDate;
-    @FXML
-    private TableColumn contactColumn2;
-    @FXML
-    private TableColumn typeColumn2;
-    @FXML
-    private TableColumn typeColumn1;
-    @FXML
-    private TableColumn titleColumn2;
-    @FXML
-    private TableColumn titleColumn1;
     @FXML
     private ComboBox addTypeDropBox;
     @FXML
@@ -226,6 +177,50 @@ public class AppointmentsFormController implements Initializable {
     private TextField updateLocationTxt;
     @FXML
     private Label cancelAppointmentLbl;
+    @FXML
+    private TableColumn weeklyLocationColumn;
+    @FXML
+    private TableColumn weeklyTypeColumn;
+    @FXML
+    private TableColumn monthlyStartDateColumn;
+    @FXML
+    private TableColumn monthlyTypeColumn;
+    @FXML
+    private TableColumn weeklyTitleColumn;
+    @FXML
+    private TableColumn monthlyCustomerIdColumn;
+    @FXML
+    private TableColumn monthlyDescriptionColumn;
+    @FXML
+    private TableColumn monthlyLocationColumn;
+    @FXML
+    private TableColumn monthlyAppointmentIdColumn;
+    @FXML
+    private TableColumn weeklyEndDateColumn;
+    @FXML
+    private TableColumn weeklyStartDateColumn;
+    @FXML
+    private TableColumn weeklyUserIdColumn;
+    @FXML
+    private TableColumn monthlyEndDateColumn;
+    @FXML
+    private TableColumn weeklyAppointmentIdColumn;
+    @FXML
+    private TableColumn monthlyTitleColumn;
+    @FXML
+    private TableColumn monthlyContactColumn;
+    @FXML
+    private TableColumn weeklyContactColumn;
+    @FXML
+    private TableColumn weeklyCustomerIdColumn;
+    @FXML
+    private TableColumn weeklyDescriptionColumn;
+    @FXML
+    private TableColumn monthlyUserIdColumn;
+    @FXML
+    private TableView weeklyAppointmentsTable;
+    @FXML
+    private TableView monthlyAppointmentsTable;
 
 
     @Override
@@ -305,7 +300,6 @@ public class AppointmentsFormController implements Initializable {
         int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
         int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
 
-//        Appointment appointment = new Appointment(appointmentID,title,descritpion,location,contact,type,appointmentStart,appointmentEnd,customerID,userID);
         AppointmentDao.addAppointment(title, descritpion, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
         Schedule.getAppointments().clear();
         AppointmentDao.setTheAppointment(userID);
@@ -331,17 +325,17 @@ public class AppointmentsFormController implements Initializable {
         AppointmentDao.deleteAppointment(appointment);
         Schedule.deleteAppointment(appointment);
         appointmentsTable.setItems(Schedule.getAppointments());
-        cancelAppointmentLbl.setText("Appointment "+appointment.getAppointmentId()+" "+appointment.getType()+" was canceled.");
+        cancelAppointmentLbl.setText("Appointment " + appointment.getAppointmentId() + " " + appointment.getType() + " was canceled.");
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 Platform.runLater(() -> {
-                deleteAppointmentTitlePane.setExpanded(false);
-                cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
+                    deleteAppointmentTitlePane.setExpanded(false);
+                    cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
 
                 });
             }
-        },2000l);
+        }, 2000l);
     }
 
 
@@ -365,6 +359,7 @@ public class AppointmentsFormController implements Initializable {
         addCustomerCountry.getSelectionModel().clearSelection();
         addCustomerProvince.getSelectionModel().clearSelection();
         addCostumerTitlePane.setExpanded(false);
+        AppointmentDao.customerID();
     }
 
     @FXML
@@ -377,7 +372,7 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    public void deleteCustomer(ActionEvent actionEvent) throws SQLException, InterruptedException {
+    public void deleteCustomer(ActionEvent actionEvent) throws SQLException, InterruptedException, IOException {
         int index = customerTable.getSelectionModel().getSelectedIndex();
         int id = 0;
         Customer customer = null;
@@ -387,6 +382,12 @@ public class AppointmentsFormController implements Initializable {
                 customer = Schedule.getCustomers().get(i);
             }
         }
+
+        AppointmentDao.deleteAllCustomerAppointments(id);
+        Schedule.deleteCustomersAppointments(id);
+        Schedule.getAppointments().clear();
+        AppointmentDao.setTheAppointment(Schedule.getUserID());
+        appointmentsTable.setItems(Schedule.getAppointments());
         if (CustomerDao.deleteCustomer(id) > 0) {
             deleteCustomerLabel.setText("Customer removed.");
             Timer timer = new Timer();
@@ -394,11 +395,11 @@ public class AppointmentsFormController implements Initializable {
                 public void run() {
                     Platform.runLater(() -> {
                         deleteCostumerTitlePane.setExpanded(false);
-                        cancelAppointmentLbl.setText("Please select the customer you want to delete and press SELECT button");
+                        cancelAppointmentLbl.setText("Please select the customer you want to remove and press SELECT button");
 
                     });
                 }
-            },2000l);
+            }, 2000l);
 
         }
 
@@ -487,7 +488,7 @@ public class AppointmentsFormController implements Initializable {
         int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
         int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
         String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
-        AppointmentDao.updateAppointment(title,description,location,type,startAppointment,endAppointment,customerID,userID,contact,appointmentId);
+        AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
         Schedule.refreshAppointments();
         AppointmentDao.setTheAppointment(userID);
         appointmentsTable.setItems(Schedule.getAppointments());
@@ -527,7 +528,6 @@ public class AppointmentsFormController implements Initializable {
     }
 
 
-
     @FXML
     public void selectAppointmenForDelete(ActionEvent actionEvent) {
         cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
@@ -539,4 +539,5 @@ public class AppointmentsFormController implements Initializable {
         deleteCustomerLabel.setText("Are you sure you want to remove this customer? Press DELETE to DELETE or " +
                 "press CANCEL to exit");
     }
+
 }

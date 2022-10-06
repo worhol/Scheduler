@@ -356,6 +356,13 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     public void deleteAppointment(ActionEvent actionEvent) throws SQLException, InterruptedException {
         Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+        Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
+        Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
+        if (appointment == null && appointmentMonthly == null) {
+            appointment = appointmentWeekly;
+        } else if (appointment == null && appointmentWeekly == null) {
+            appointment = appointmentMonthly;
+        }
         AppointmentDao.deleteAppointment(appointment);
         Schedule.refreshAppointments();
 //        AppointmentDao.setTheAppointment(Schedule.getUserID());
@@ -537,12 +544,21 @@ public class AppointmentsFormController implements Initializable {
 //        AppointmentDao.setTheAppointment(userID);
         AppointmentDao.setTheAppointment();
         appointmentsTable.setItems(Schedule.getAppointments());
+        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
         updateAppointmentTitlePane.setExpanded(false);
     }
 
     @FXML
     public void selectAppointment(ActionEvent actionEvent) {
         Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+        Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
+        Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
+        if (appointment == null && appointmentMonthly == null) {
+            appointment = appointmentWeekly;
+        } else if (appointment == null && appointmentWeekly == null) {
+            appointment = appointmentMonthly;
+        }
         updateAppointmentID.setText(String.valueOf(appointment.getAppointmentId()));
         updateTitleTxt.setText(appointment.getTitle());
         updateDescriptionTxt.setText(appointment.getDescription());

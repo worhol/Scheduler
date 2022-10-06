@@ -66,7 +66,8 @@ public class LoginFormController implements Initializable {
         }
         if (usernameAndPasswordCheck(user, pass) > 0) {
             Schedule.addUser(new User(usernameAndPasswordCheck(user,pass),user,pass));
-            AppointmentDao.setTheAppointment(usernameAndPasswordCheck(user,pass));
+//            AppointmentDao.setTheAppointment(usernameAndPasswordCheck(user,pass));
+            AppointmentDao.setTheAppointment();
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/wgu/softwaretwo/samircokic/AppointmentsForm.fxml"));
             stage.setScene(new Scene(scene));

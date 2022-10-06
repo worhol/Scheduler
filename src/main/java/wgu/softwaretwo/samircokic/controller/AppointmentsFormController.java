@@ -227,6 +227,7 @@ public class AppointmentsFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentAlert.setText(Schedule.appointmentAlert(zoneId));
 
+        //All appointments table
         appointmentsTable.setItems(Schedule.getAppointments());
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
@@ -238,6 +239,33 @@ public class AppointmentsFormController implements Initializable {
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+
+        //Weekly appointments table
+        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+        weeklyContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        weeklyEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        weeklyAppointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        weeklyTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        weeklyUserIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        weeklyStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        weeklyTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        weeklyCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        weeklyDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        weeklyLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+
+        //Monthly appointments table
+        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+        monthlyContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        monthlyEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        monthlyAppointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        monthlyTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        monthlyUserIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        monthlyStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        monthlyTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        monthlyCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        monthlyDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        monthlyLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+
 
         addCustomerCountry.setItems(countries);
         updateCustomerCountry.setItems(countries);
@@ -303,8 +331,13 @@ public class AppointmentsFormController implements Initializable {
 
         AppointmentDao.addAppointment(title, descritpion, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
         Schedule.getAppointments().clear();
-        AppointmentDao.setTheAppointment(userID);
+//        AppointmentDao.setTheAppointment(userID);
+        AppointmentDao.setTheAppointment();
         appointmentsTable.setItems(Schedule.getAppointments());
+        Schedule.getWeeklyAppointments(zoneId).clear();
+        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+        Schedule.getMonthlyAppointments(zoneId).clear();
+        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
 
         addTitleTxt.clear();
         addDescriptionTxt.clear();
@@ -324,8 +357,16 @@ public class AppointmentsFormController implements Initializable {
     public void deleteAppointment(ActionEvent actionEvent) throws SQLException, InterruptedException {
         Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
         AppointmentDao.deleteAppointment(appointment);
-        Schedule.deleteAppointment(appointment);
+        Schedule.refreshAppointments();
+//        AppointmentDao.setTheAppointment(Schedule.getUserID());
+        AppointmentDao.setTheAppointment();
+//        Schedule.deleteAppointment(appointment);
         appointmentsTable.setItems(Schedule.getAppointments());
+//        Schedule.deleteWeeklyAppointment(appointment);
+        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+//        Schedule.deleteMonthlyAppointment(appointment);
+        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+
         cancelAppointmentLbl.setText("Appointment " + appointment.getAppointmentId() + " " + appointment.getType() + " was canceled.");
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -387,8 +428,10 @@ public class AppointmentsFormController implements Initializable {
         AppointmentDao.deleteAllCustomerAppointments(id);
         Schedule.deleteCustomersAppointments(id);
         Schedule.getAppointments().clear();
-        AppointmentDao.setTheAppointment(Schedule.getUserID());
+//        AppointmentDao.setTheAppointment(Schedule.getUserID());
+        AppointmentDao.setTheAppointment();
         appointmentsTable.setItems(Schedule.getAppointments());
+        //for all three tables
         if (CustomerDao.deleteCustomer(id) > 0) {
             deleteCustomerLabel.setText("Customer removed.");
             Timer timer = new Timer();
@@ -491,7 +534,8 @@ public class AppointmentsFormController implements Initializable {
         String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
         AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
         Schedule.refreshAppointments();
-        AppointmentDao.setTheAppointment(userID);
+//        AppointmentDao.setTheAppointment(userID);
+        AppointmentDao.setTheAppointment();
         appointmentsTable.setItems(Schedule.getAppointments());
         updateAppointmentTitlePane.setExpanded(false);
     }

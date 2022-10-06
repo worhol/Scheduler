@@ -4,6 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 public class Schedule {
 
     private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -26,6 +31,19 @@ public class Schedule {
     }
     public static ObservableList<Appointment> getAppointments(){
         return appointments;
+    }
+    public static String appointmentAlert(ZoneId zoneId){
+        LocalDateTime currentTime = LocalDateTime.now(zoneId);
+        String meetingAlert = "";
+        for (Appointment appointment: appointments){
+            long timeDifference = ChronoUnit.MINUTES.between(currentTime,appointment.getStart());
+           if (timeDifference<15&&timeDifference>0){
+               meetingAlert = "You have upcoming appointment with the id: "+appointment.getAppointmentId()+" at: "+appointment.getStart();
+            }else {
+               meetingAlert = "There are no upcoming appointments";
+           }
+        }
+        return meetingAlert;
     }
 public static ObservableList<User> users = FXCollections.observableArrayList();
 

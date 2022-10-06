@@ -48,8 +48,6 @@ public class AppointmentsFormController implements Initializable {
     private TableColumn locationColumn;
     @FXML
     private TableView appointmentsTable;
-    @FXML
-    private Label timeZone;
 
     Stage stage;
     Parent scene;
@@ -221,11 +219,14 @@ public class AppointmentsFormController implements Initializable {
     private TableView weeklyAppointmentsTable;
     @FXML
     private TableView monthlyAppointmentsTable;
+    @FXML
+    private Label appointmentAlert;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        timeZone.setText(zoneId.toString());
+        appointmentAlert.setText(Schedule.appointmentAlert(zoneId));
+
         appointmentsTable.setItems(Schedule.getAppointments());
         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("end"));

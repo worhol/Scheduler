@@ -65,7 +65,6 @@ public class LoginFormController implements Initializable {
             errorUsername.setText(bundle.getString("USERNAME_ERROR"));
         }
         if (usernameAndPasswordCheck(user, pass) > 0) {
-            //do i have appointemnt in next 15 mins...
             Schedule.addUser(new User(usernameAndPasswordCheck(user,pass),user,pass));
             AppointmentDao.setTheAppointment(usernameAndPasswordCheck(user,pass));
             stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();

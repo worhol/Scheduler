@@ -34,6 +34,17 @@ public class Schedule {
                 appointments.remove(appointment);
             }
         }
+        for (Appointment appointment:weeklyAppointments){
+            if (appointment.getAppointmentId()==id){
+                weeklyAppointments.remove(appointment);
+            }
+        }
+        for (Appointment appointment:monthlyAppointments){
+            if (appointment.getAppointmentId()==id){
+                monthlyAppointments.remove(appointment);
+            }
+        }
+
     }
 
     public static ObservableList<Appointment> getAppointments() {

@@ -435,9 +435,13 @@ public class AppointmentsFormController implements Initializable {
         AppointmentDao.deleteAllCustomerAppointments(id);
         Schedule.deleteCustomersAppointments(id);
         Schedule.getAppointments().clear();
+        Schedule.getWeeklyAppointments(zoneId).clear();
+        Schedule.getMonthlyAppointments(zoneId).clear();
 //        AppointmentDao.setTheAppointment(Schedule.getUserID());
         AppointmentDao.setTheAppointment();
         appointmentsTable.setItems(Schedule.getAppointments());
+        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
         //for all three tables
         if (CustomerDao.deleteCustomer(id) > 0) {
             deleteCustomerLabel.setText("Customer removed.");

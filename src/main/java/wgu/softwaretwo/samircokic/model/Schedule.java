@@ -28,19 +28,35 @@ public class Schedule {
         appointments.remove(appointment);
     }
 
+    public static boolean appointmentOverlap(LocalDateTime start, LocalDateTime end, int customerID) {
+        boolean isItOverlap = false;
+        for (Appointment appointment : appointments) {
+            if (appointment.getCustomerId() == customerID) {
+                if ((start.isAfter(appointment.getStart()) && start.isBefore(appointment.getEnd())) || (start.isEqual(appointment.getStart()))
+                        || (end.isAfter(appointment.getStart()) && end.isBefore(appointment.getEnd()))
+                        ||(start.isBefore(appointment.getStart())&&end.isAfter(appointment.getEnd()))) {
+                    isItOverlap = true;
+                    System.out.println("Overlap");
+                }
+            }
+
+        }
+        return isItOverlap;
+    }
+
     public static void deleteCustomersAppointments(int id) {
         for (Appointment appointment : appointments) {
             if (appointment.getAppointmentId() == id) {
                 appointments.remove(appointment);
             }
         }
-        for (Appointment appointment:weeklyAppointments){
-            if (appointment.getAppointmentId()==id){
+        for (Appointment appointment : weeklyAppointments) {
+            if (appointment.getAppointmentId() == id) {
                 weeklyAppointments.remove(appointment);
             }
         }
-        for (Appointment appointment:monthlyAppointments){
-            if (appointment.getAppointmentId()==id){
+        for (Appointment appointment : monthlyAppointments) {
+            if (appointment.getAppointmentId() == id) {
                 monthlyAppointments.remove(appointment);
             }
         }

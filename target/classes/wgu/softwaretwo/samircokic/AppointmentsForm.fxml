@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,6 +19,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -35,7 +43,7 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="515.0" prefWidth="210.0" spacing="10.0" GridPane.rowIndex="1">
          <children>
-            <Label fx:id="appointmentAlert" alignment="TOP_LEFT" prefHeight="103.0" prefWidth="149.0" text="A custom message should be displayed in the user interface and include the appointment ID, date, and time." textAlignment="CENTER" textFill="#13e80c" wrapText="true">
+            <Label fx:id="appointmentAlert" alignment="TOP_LEFT" prefHeight="96.0" prefWidth="159.0" text="A custom message should be displayed in the nd time." textAlignment="CENTER" textFill="#13e80c" wrapText="true">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -45,6 +53,13 @@
                <effect>
                   <Glow />
                </effect>
+               <graphic>
+                  <ImageView fx:id="imageAlert" fitHeight="38.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/meeting.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Label>
             <Accordion>
                <panes>
@@ -377,6 +392,71 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="REPORTS">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TabPane prefHeight="737.0" prefWidth="1013.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <tabs>
+                            <Tab text="Customer Appointments">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #eeebeb;">
+                                       <children>
+                                          <BarChart layoutX="47.0" layoutY="233.0" legendSide="TOP" title="Customer Appointments By Month">
+                                            <xAxis>
+                                              <CategoryAxis label="Months" side="BOTTOM" tickLabelFill="#fcf8f8" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis label="Appointments" minorTickCount="0" side="RIGHT" tickLabelFill="#a19494" upperBound="10.0">
+                                                   <tickLabelFont>
+                                                      <Font name="System Bold" size="10.0" />
+                                                   </tickLabelFont>
+                                                </NumberAxis>
+                                            </yAxis>
+                                          </BarChart>
+                                          <PieChart layoutX="547.0" layoutY="245.0" prefHeight="342.0" prefWidth="435.0" title="Customer's Appointments By Type" />
+                                          <Separator layoutX="543.0" layoutY="271.0" orientation="VERTICAL" prefHeight="318.0" prefWidth="10.0" />
+                                          <ComboBox layoutX="47.0" layoutY="37.0" prefWidth="150.0" promptText="Select Customer" />
+                                          <Button layoutX="239.0" layoutY="37.0" mnemonicParsing="false" text="Select" />
+                                          <Button layoutX="316.0" layoutY="37.0" mnemonicParsing="false" text="Clear" />
+                                          <ChoiceBox layoutX="397.0" layoutY="37.0" prefWidth="150.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Contact's Schedule">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ComboBox fx:id="contactReportCombo" layoutX="14.0" layoutY="26.0" prefWidth="150.0" promptText="Choose Contact" />
+                                          <Button layoutX="197.0" layoutY="26.0" mnemonicParsing="false" onAction="#selectContactReportButton" text="Select" />
+                                          <Button layoutX="271.0" layoutY="26.0" mnemonicParsing="false" onAction="#clearContactReportButton" text="Clear" />
+                                          <TableView fx:id="contactReportTable" layoutX="14.0" layoutY="72.0" prefHeight="623.0" prefWidth="990.0">
+                                            <columns>
+                                              <TableColumn fx:id="contactReportAppointmentIDColumn" prefWidth="110.0" text="Appointment ID" />
+                                              <TableColumn fx:id="contactReportTitleColumn" prefWidth="127.0" text="Title" />
+                                                <TableColumn fx:id="contactReportTypeColumn" prefWidth="122.0" text="Type" />
+                                                <TableColumn fx:id="contactReportDescriptionColumn" prefWidth="111.0" text="Description" />
+                                                <TableColumn fx:id="contactReportStartColumn" prefWidth="168.0" text="Start Date And Time" />
+                                                <TableColumn fx:id="contactReportEndColumn" prefWidth="181.0" text="End Date And Time" />
+                                                <TableColumn fx:id="contactReportCustomerIDColumn" prefWidth="170.0" text="Customer ID" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                              <Tab text="Third Report">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                 </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
          <GridPane.margin>
             <Insets />

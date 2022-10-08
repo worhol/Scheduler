@@ -8,11 +8,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 import wgu.softwaretwo.samircokic.model.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -221,11 +225,41 @@ public class AppointmentsFormController implements Initializable {
     private TableView monthlyAppointmentsTable;
     @FXML
     private Label appointmentAlert;
+    @FXML
+    private ImageView imageAlert;
+    @FXML
+    private ComboBox contactReportCombo;
+    @FXML
+    private TableColumn contactReportCustomerIDColumn;
+    @FXML
+    private TableColumn contactReportEndColumn;
+    @FXML
+    private TableColumn contactReportAppointmentIDColumn;
+    @FXML
+    private TableColumn contactReportTypeColumn;
+    @FXML
+    private TableView contactReportTable;
+    @FXML
+    private TableColumn contactReportDescriptionColumn;
+    @FXML
+    private TableColumn contactReportTitleColumn;
+    @FXML
+    private TableColumn contactReportStartColumn;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentAlert.setText(Schedule.appointmentAlert(zoneId));
+        imageAlert.setVisible(true);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Platform.runLater(() -> {
+                   imageAlert.setVisible(false);
+                });
+            }
+        }, 5000l);
+
 
         //All appointments table
         appointmentsTable.setItems(Schedule.getAppointments());
@@ -266,6 +300,18 @@ public class AppointmentsFormController implements Initializable {
         monthlyDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         monthlyLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
 
+        //Contact Report Table
+//        contactReportTable
+
+        contactReportEndColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+        contactReportAppointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        contactReportTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        contactReportStartColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        contactReportTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        contactReportCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        contactReportDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        contactReportCombo.setItems(Appointment.getContactName());
 
         addCustomerCountry.setItems(countries);
         updateCustomerCountry.setItems(countries);
@@ -328,30 +374,41 @@ public class AppointmentsFormController implements Initializable {
         LocalDateTime appointmentEnd = LocalDateTime.of(date, end);
         int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
         int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
-
-        AppointmentDao.addAppointment(title, descritpion, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
-        Schedule.getAppointments().clear();
+        if (!Schedule.appointmentOverlap(appointmentStart, appointmentEnd, customerID)) {
+            AppointmentDao.addAppointment(title, descritpion, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
+            Schedule.getAppointments().clear();
 //        AppointmentDao.setTheAppointment(userID);
-        AppointmentDao.setTheAppointment();
-        appointmentsTable.setItems(Schedule.getAppointments());
-        Schedule.getWeeklyAppointments(zoneId).clear();
-        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
-        Schedule.getMonthlyAppointments(zoneId).clear();
-        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+            AppointmentDao.setTheAppointment();
+            appointmentsTable.setItems(Schedule.getAppointments());
+            Schedule.getWeeklyAppointments(zoneId).clear();
+            weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+            Schedule.getMonthlyAppointments(zoneId).clear();
+            monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
 
-        addTitleTxt.clear();
-        addDescriptionTxt.clear();
-        addLocationTxt.clear();
-        addContactDropBox.getSelectionModel().clearSelection();
-        addTypeDropBox.getSelectionModel().clearSelection();
-        addDate.getEditor().clear();
-        addDate.setValue(null);
-        addAppointmentStart.getSelectionModel().clearSelection();
-        addAppointmentEnd.getSelectionModel().clearSelection();
-        addCustomerID.getSelectionModel().clearSelection();
-        addUserID.getSelectionModel().clearSelection();
-        addAppointmentTitlePane.setExpanded(false);
+            addTitleTxt.clear();
+            addDescriptionTxt.clear();
+            addLocationTxt.clear();
+            addContactDropBox.getSelectionModel().clearSelection();
+            addTypeDropBox.getSelectionModel().clearSelection();
+            addDate.getEditor().clear();
+            addDate.setValue(null);
+            addAppointmentStart.getSelectionModel().clearSelection();
+            addAppointmentEnd.getSelectionModel().clearSelection();
+            addCustomerID.getSelectionModel().clearSelection();
+            addUserID.getSelectionModel().clearSelection();
+            addAppointmentTitlePane.setExpanded(false);
+        } else {
+//            addAppointmentStart.getSelectionModel().clearSelection();
+//            addAppointmentStart.setValue(null);
+//            addAppointmentStart.setPromptText("Overlap");
+//            addAppointmentStart.setAccessibleText("Test");
+            appointmentAlert.setText("Meeting is overlaping");
+//            imageAlert.setImage(new Image("file:images/alarm.png"));
+            imageAlert.setVisible(true);
+            addAppointmentStart.setStyle("-fx-border-color: RED;");
+        }
     }
+
 
     @FXML
     public void deleteAppointment(ActionEvent actionEvent) throws SQLException, InterruptedException {
@@ -605,4 +662,15 @@ public class AppointmentsFormController implements Initializable {
                 "press CANCEL to exit");
     }
 
+    @FXML
+    public void selectContactReportButton(ActionEvent actionEvent) {
+        String name = contactReportCombo.getSelectionModel().getSelectedItem().toString();
+       contactReportTable.setItems(Report.contactAppointments(name));
+    }
+
+    @FXML
+    public void clearContactReportButton(ActionEvent actionEvent) {
+        contactReportCombo.getSelectionModel().clearSelection();
+        contactReportTable.getItems().clear();
+    }
 }

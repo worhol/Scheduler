@@ -141,17 +141,17 @@ public static void setTheAppointment() throws SQLException {
             Appointment.addUserID(id);
         }
     }
-    public static void type() throws SQLException {
-        String type = "";
-        String sql = "SELECT DISTINCT TYPE FROM APPOINTMENTS";
-        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            type = resultSet.getString("Type");
-            Appointment.addType(type);
-        }
-
-    }
+//    public static void type() throws SQLException {
+//        String type = "";
+//        String sql = "SELECT DISTINCT TYPE FROM APPOINTMENTS";
+//        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        while (resultSet.next()) {
+//            type = resultSet.getString("Type");
+//            Appointment.addType(type);
+//        }
+//
+//    }
 
     public static int addAppointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, String contact) throws SQLException {
         String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID ) VALUES(?, ?,?,?,?,?,?,?,?)";

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -245,6 +247,10 @@ public class AppointmentsFormController implements Initializable {
     private TableColumn contactReportTitleColumn;
     @FXML
     private TableColumn contactReportStartColumn;
+    @FXML
+    private ComboBox customerReportAppointmentsCombo;
+    @FXML
+    private PieChart customerAppointmentsPieChart;
 
 
     @Override
@@ -312,6 +318,7 @@ public class AppointmentsFormController implements Initializable {
         contactReportDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         contactReportCombo.setItems(Appointment.getContactName());
+        customerReportAppointmentsCombo.setItems(Appointment.getCustomerIDs());
 
         addCustomerCountry.setItems(countries);
         updateCustomerCountry.setItems(countries);
@@ -339,7 +346,7 @@ public class AppointmentsFormController implements Initializable {
         try {
 //            AppointmentDao.contactID();
             AppointmentDao.contactName();
-            AppointmentDao.type();
+            Appointment.getTypeOfAppointment();
             AppointmentDao.customerID();
             AppointmentDao.userID();
         } catch (SQLException e) {
@@ -398,14 +405,18 @@ public class AppointmentsFormController implements Initializable {
             addUserID.getSelectionModel().clearSelection();
             addAppointmentTitlePane.setExpanded(false);
         } else {
-//            addAppointmentStart.getSelectionModel().clearSelection();
-//            addAppointmentStart.setValue(null);
-//            addAppointmentStart.setPromptText("Overlap");
-//            addAppointmentStart.setAccessibleText("Test");
-            appointmentAlert.setText("Meeting is overlaping");
-//            imageAlert.setImage(new Image("file:images/alarm.png"));
-            imageAlert.setVisible(true);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment time overlap");
+            alert.setHeaderText(null);
+            alert.setContentText("You attempted to schedule meeting that overlaps with the other customer's meetings");
             addAppointmentStart.setStyle("-fx-border-color: RED;");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+            if(buttonType==ButtonType.OK){
+                addAppointmentStart.setStyle(null);
+            }
+
+
         }
     }
 
@@ -672,5 +683,17 @@ public class AppointmentsFormController implements Initializable {
     public void clearContactReportButton(ActionEvent actionEvent) {
         contactReportCombo.getSelectionModel().clearSelection();
         contactReportTable.getItems().clear();
+    }
+
+    @FXML
+    public void customerReportAppointmentsClearButton(ActionEvent actionEvent) {
+        customerReportAppointmentsCombo.getSelectionModel().clearSelection();
+        customerAppointmentsPieChart.getData().clear();
+    }
+
+    @FXML
+    public void customerReportAppointmentsSelectButton(ActionEvent actionEvent) {
+        int id = Integer.valueOf(customerReportAppointmentsCombo.getSelectionModel().getSelectedItem().toString());
+        customerAppointmentsPieChart.setData(Report.typePieChart(id));
     }
 }

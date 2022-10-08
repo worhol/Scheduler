@@ -7,7 +7,6 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -414,12 +413,11 @@
                                                 </NumberAxis>
                                             </yAxis>
                                           </BarChart>
-                                          <PieChart layoutX="547.0" layoutY="245.0" prefHeight="342.0" prefWidth="435.0" title="Customer's Appointments By Type" />
+                                          <PieChart fx:id="customerAppointmentsPieChart" layoutX="547.0" layoutY="245.0" prefHeight="342.0" prefWidth="435.0" title="Customer's Appointments By Type" />
                                           <Separator layoutX="543.0" layoutY="271.0" orientation="VERTICAL" prefHeight="318.0" prefWidth="10.0" />
-                                          <ComboBox layoutX="47.0" layoutY="37.0" prefWidth="150.0" promptText="Select Customer" />
-                                          <Button layoutX="239.0" layoutY="37.0" mnemonicParsing="false" text="Select" />
-                                          <Button layoutX="316.0" layoutY="37.0" mnemonicParsing="false" text="Clear" />
-                                          <ChoiceBox layoutX="397.0" layoutY="37.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="customerReportAppointmentsCombo" layoutX="47.0" layoutY="37.0" prefWidth="150.0" promptText="Select Customer" />
+                                          <Button layoutX="239.0" layoutY="37.0" mnemonicParsing="false" onAction="#customerReportAppointmentsSelectButton" text="Select" />
+                                          <Button layoutX="316.0" layoutY="37.0" mnemonicParsing="false" onAction="#customerReportAppointmentsClearButton" text="Clear" />
                                        </children>
                                     </AnchorPane>
                               </content>

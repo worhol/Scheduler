@@ -67,7 +67,7 @@ public class Appointment {
 
     public static ObservableList contactIDs = FXCollections.observableArrayList();
     public static ObservableList contactName = FXCollections.observableArrayList();
-    public static ObservableList typeOfAppointment = FXCollections.observableArrayList();
+    public static ObservableList typeOfAppointment = FXCollections.observableArrayList("Preliminary", "General", "De-Briefing");
     public static ObservableList customerIDs = FXCollections.observableArrayList();
     public static ObservableList userIDs = FXCollections.observableArrayList();
 
@@ -84,13 +84,12 @@ public class Appointment {
     public static void addCustomerID(int id){
        customerIDs.add(id);
     }
-
     public static ObservableList getTypeOfAppointment() {
         return typeOfAppointment;
     }
-    public static void addType(String type){
-        typeOfAppointment.add(type);
-    }
+//    public static void addType(String type){
+//        typeOfAppointment.add(type);
+//    }
 
     public static ObservableList getContactIDs() {
         return contactIDs;

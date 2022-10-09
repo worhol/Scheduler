@@ -4,24 +4,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
-import wgu.softwaretwo.samircokic.DAO.UserDao;
-import wgu.softwaretwo.samircokic.model.Appointment;
 import wgu.softwaretwo.samircokic.model.Schedule;
 import wgu.softwaretwo.samircokic.model.User;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.security.Timestamp;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
@@ -47,6 +47,7 @@ public class LoginFormController implements Initializable {
     ZoneId zoneId = ZoneId.systemDefault();
     ResourceBundle bundle = ResourceBundle.getBundle("languages/language");
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zone.setText(zoneId.toString());
@@ -62,9 +63,13 @@ public class LoginFormController implements Initializable {
         String pass = password.getText();
         String user = username.getText();
         if (usernameCheck(user) == 0) {
+            boolean success = false;
             errorUsername.setText(bundle.getString("USERNAME_ERROR"));
+            loginActivity(user,success,zoneId);
         }
         if (usernameAndPasswordCheck(user, pass) > 0) {
+            boolean success = true;
+            loginActivity(user,success,zoneId);
             Schedule.addUser(new User(usernameAndPasswordCheck(user,pass),user,pass));
 //            AppointmentDao.setTheAppointment(usernameAndPasswordCheck(user,pass));
             AppointmentDao.setTheAppointment();
@@ -90,8 +95,23 @@ public class LoginFormController implements Initializable {
 //            stage.getMinWidth();
             stage.show();
         } else if (usernameCheck(user) > 0 && usernameAndPasswordCheck(user, pass) == 0) {
+            boolean success = false;
+            loginActivity(user,success,zoneId);
             errorPassword.setText(bundle.getString("PASSWORD_ERROR"));
         }
+    }
+
+    public static void loginActivity(String user, boolean success, ZoneId zoneId) throws IOException {
+        String filename = "src/main/java/wgu/softwaretwo/samircokic/login_activity.txt";
+        FileWriter fileWriter = new FileWriter(filename,true);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        if (success){
+            printWriter.println("User "+user+" attempted login SUCCESS on "+ LocalDateTime.now(zoneId)+" "+zoneId+" time.");
+        }else {
+            user="unknown";
+            printWriter.println("User "+user+" attempted login FAILED on "+ LocalDateTime.now(zoneId)+" "+zoneId+" time.");
+        }
+        printWriter.close();
     }
 
 }

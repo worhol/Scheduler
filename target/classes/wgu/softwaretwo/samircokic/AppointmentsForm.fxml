@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -401,23 +398,14 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #eeebeb;">
                                        <children>
-                                          <BarChart layoutX="47.0" layoutY="233.0" legendSide="TOP" title="Customer Appointments By Month">
-                                            <xAxis>
-                                              <CategoryAxis label="Months" side="BOTTOM" tickLabelFill="#fcf8f8" />
-                                            </xAxis>
-                                            <yAxis>
-                                              <NumberAxis label="Appointments" minorTickCount="0" side="RIGHT" tickLabelFill="#a19494" upperBound="10.0">
-                                                   <tickLabelFont>
-                                                      <Font name="System Bold" size="10.0" />
-                                                   </tickLabelFont>
-                                                </NumberAxis>
-                                            </yAxis>
-                                          </BarChart>
-                                          <PieChart fx:id="customerAppointmentsPieChart" layoutX="547.0" layoutY="245.0" prefHeight="342.0" prefWidth="435.0" title="Customer's Appointments By Type" />
-                                          <Separator layoutX="543.0" layoutY="271.0" orientation="VERTICAL" prefHeight="318.0" prefWidth="10.0" />
-                                          <ComboBox fx:id="customerReportAppointmentsCombo" layoutX="47.0" layoutY="37.0" prefWidth="150.0" promptText="Select Customer" />
-                                          <Button layoutX="239.0" layoutY="37.0" mnemonicParsing="false" onAction="#customerReportAppointmentsSelectButton" text="Select" />
-                                          <Button layoutX="316.0" layoutY="37.0" mnemonicParsing="false" onAction="#customerReportAppointmentsClearButton" text="Clear" />
+                                          <PieChart fx:id="customerAppointmentsPieChart" layoutX="540.0" layoutY="312.0" prefHeight="310.0" prefWidth="426.0" title="Customer's Appointments By Type" />
+                                          <Separator layoutX="486.0" layoutY="323.0" orientation="VERTICAL" prefHeight="318.0" prefWidth="10.0" />
+                                          <ComboBox fx:id="customerReportAppointmentsCombo" layoutX="70.0" layoutY="93.0" prefWidth="150.0" promptText="Select Customer" />
+                                          <Button layoutX="147.0" layoutY="62.0" mnemonicParsing="false" onAction="#customerReportAppointmentsSelectButton" prefHeight="25.0" prefWidth="73.0" text="Select" />
+                                          <Button layoutX="70.0" layoutY="62.0" mnemonicParsing="false" onAction="#customerReportAppointmentsClearButton" prefHeight="25.0" prefWidth="71.0" text="Clear" />
+                                          <PieChart fx:id="customerMonthlyMeetingsPieChart" layoutX="40.0" layoutY="227.0" prefHeight="398.0" prefWidth="426.0" title="Customer's Appointments By Month" />
+                                          <PieChart fx:id="customerContactsPieChart" layoutX="488.0" layoutY="11.0" prefHeight="293.0" prefWidth="483.0" title="Customer's Appointment By Contact" />
+                                          <Separator layoutX="546.0" layoutY="303.0" prefHeight="3.0" prefWidth="414.0" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -444,11 +432,6 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                              <Tab text="Third Report">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                 </content>
-                              </Tab>
                           </tabs>
                         </TabPane>
                      </children>

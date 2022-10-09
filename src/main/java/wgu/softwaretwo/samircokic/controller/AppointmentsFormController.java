@@ -251,6 +251,10 @@ public class AppointmentsFormController implements Initializable {
     private ComboBox customerReportAppointmentsCombo;
     @FXML
     private PieChart customerAppointmentsPieChart;
+    @FXML
+    private PieChart customerMonthlyMeetingsPieChart;
+    @FXML
+    private PieChart customerContactsPieChart;
 
 
     @Override
@@ -689,11 +693,15 @@ public class AppointmentsFormController implements Initializable {
     public void customerReportAppointmentsClearButton(ActionEvent actionEvent) {
         customerReportAppointmentsCombo.getSelectionModel().clearSelection();
         customerAppointmentsPieChart.getData().clear();
+        customerMonthlyMeetingsPieChart.getData().clear();
+        customerContactsPieChart.getData().clear();
     }
 
     @FXML
     public void customerReportAppointmentsSelectButton(ActionEvent actionEvent) {
         int id = Integer.valueOf(customerReportAppointmentsCombo.getSelectionModel().getSelectedItem().toString());
         customerAppointmentsPieChart.setData(Report.typePieChart(id));
+        customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id,zoneId));
+        customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
 }

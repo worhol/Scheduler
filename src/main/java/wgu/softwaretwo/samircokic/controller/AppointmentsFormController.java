@@ -386,6 +386,23 @@ public class AppointmentsFormController implements Initializable {
             LocalDateTime appointmentEnd = LocalDateTime.of(date, end);
             int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
             int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
+            if(appointmentStart.isAfter(appointmentEnd)||appointmentStart.isEqual(appointmentEnd)){
+                    addAppointmentStart.setStyle("-fx-border-color: RED;");
+                    addAppointmentEnd.setStyle("-fx-border-color: RED;");
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Time issue");
+                alert.setHeaderText(null);
+                alert.setContentText("Appointment start must be earlier than appointment end");
+                addAppointmentStart.setStyle("-fx-border-color: RED;");
+                addAppointmentEnd.setStyle("-fx-border-color: RED;");
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(ButtonType.OK);
+                if (buttonType == ButtonType.OK) {
+                    addAppointmentStart.setStyle(null);
+                    addAppointmentEnd.setStyle(null);
+                }
+                    return;
+            }
             if (!Schedule.appointmentOverlap(appointmentStart, appointmentEnd, customerID)) {
                 AppointmentDao.addAppointment(title, description, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
                 Schedule.getAppointments().clear();
@@ -742,6 +759,23 @@ public class AppointmentsFormController implements Initializable {
             LocalDateTime endAppointment = LocalDateTime.of(date, end);
             int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
             int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
+
+            if(startAppointment.isAfter(endAppointment)||startAppointment.isEqual(endAppointment)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Time issue");
+                alert.setHeaderText(null);
+                alert.setContentText("Appointment start must be earlier than appointment end");
+                updateStartTimeCombo.setStyle("-fx-border-color: RED;");
+                updateEndTimeCombo.setStyle("-fx-border-color: RED;");
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(ButtonType.OK);
+                if (buttonType == ButtonType.OK) {
+                    updateStartTimeCombo.setStyle(null);
+                    updateEndTimeCombo.setStyle(null);
+                }
+                return;
+            }
+
             String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
             AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
             Schedule.refreshAppointments();

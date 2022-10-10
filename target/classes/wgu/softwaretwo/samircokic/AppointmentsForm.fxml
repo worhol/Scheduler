@@ -76,7 +76,12 @@
                                     <ComboBox fx:id="addAppointmentEnd" prefWidth="150.0" promptText="EndTime" />
                                     <ComboBox fx:id="addCustomerID" prefWidth="150.0" promptText="Customer ID" />
                                     <ComboBox fx:id="addUserID" layoutX="11.0" layoutY="160.0" prefWidth="150.0" promptText="User ID" />
-                                    <Button mnemonicParsing="false" onAction="#addAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#cancelAddAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Cancel" textFill="#8c98f2" />
+                                          <Button layoutX="116.0" layoutY="10.0" mnemonicParsing="false" onAction="#addAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                       </children>
+                                    </HBox>
                                  </children>
                                  <padding>
                                     <Insets top="4.0" />
@@ -99,23 +104,24 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="299.0" prefWidth="198.0" style="-fx-background-color: #696969;">
                            <children>
-                              <VBox alignment="CENTER_RIGHT" layoutX="24.2" layoutY="34.2" prefHeight="423.0" prefWidth="175.0" spacing="10.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="23.0">
+                              <VBox alignment="CENTER_RIGHT" layoutX="24.2" layoutY="34.2" prefHeight="423.0" prefWidth="175.0" spacing="10.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="23.0">
                                  <children>
                                     <TextField fx:id="updateAppointmentID" disable="true" editable="false" prefHeight="2.0" prefWidth="168.0" promptText="Auto Genereated" />
                                     <TextField fx:id="updateTitleTxt" promptText="Title" />
                                     <TextField fx:id="updateDescriptionTxt" promptText="Description" />
                                     <TextField fx:id="updateLocationTxt" promptText="Location" />
-                                    <ComboBox fx:id="updateContactCombo" prefHeight="27.0" prefWidth="160.0" promptText="Contact" />
-                                    <ComboBox fx:id="updateTypeCombo" prefHeight="27.0" prefWidth="156.0" promptText="Type" />
+                                    <ComboBox fx:id="updateContactCombo" prefHeight="27.0" prefWidth="171.0" promptText="Contact" />
+                                    <ComboBox fx:id="updateTypeCombo" prefHeight="27.0" prefWidth="170.0" promptText="Type" />
                                     <DatePicker fx:id="updateDatePicker" promptText="Date" />
-                                    <ComboBox fx:id="updateStartTimeCombo" prefHeight="27.0" prefWidth="163.0" promptText="Start Time" />
-                                    <ComboBox fx:id="updateEndTimeCombo" prefHeight="27.0" prefWidth="159.0" promptText="End Time" />
-                                    <ComboBox fx:id="updateCustomerIdCombo" prefHeight="27.0" prefWidth="160.0" promptText="Customer ID" />
-                                    <ComboBox fx:id="updateUserIdCombo" prefHeight="27.0" prefWidth="162.0" promptText="User ID" />
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="153.0" spacing="10.0">
+                                    <ComboBox fx:id="updateStartTimeCombo" prefHeight="27.0" prefWidth="177.0" promptText="Start Time" />
+                                    <ComboBox fx:id="updateEndTimeCombo" prefHeight="27.0" prefWidth="169.0" promptText="End Time" />
+                                    <ComboBox fx:id="updateCustomerIdCombo" prefHeight="27.0" prefWidth="174.0" promptText="Customer ID" />
+                                    <ComboBox fx:id="updateUserIdCombo" prefHeight="27.0" prefWidth="173.0" promptText="User ID" />
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="182.0" spacing="5.0">
                                        <children>
+                                          <Button mnemonicParsing="false" onAction="#cancelUpdateAppointment" prefHeight="29.0" prefWidth="60.0" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Cancel" textFill="#8c98f2" />
                                           <Button mnemonicParsing="false" onAction="#selectAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Select" textFill="#8c98f2" />
-                                          <Button mnemonicParsing="false" onAction="#updateAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                          <Button layoutX="118.0" layoutY="10.0" mnemonicParsing="false" onAction="#updateAppointment" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -181,7 +187,12 @@
                                     <TextField fx:id="addPhoneNumber" layoutX="10.0" layoutY="178.0" promptText="Phone number" />
                                     <ComboBox fx:id="addCustomerCountry" onAction="#chooseCustomerDivision" prefHeight="27.0" prefWidth="179.0" promptText="Country" />
                                     <ComboBox fx:id="addCustomerProvince" layoutX="10.0" layoutY="219.0" prefHeight="27.0" prefWidth="182.0" promptText="State/Province" />
-                                    <Button mnemonicParsing="false" onAction="#addCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#cancelAddCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Cancel" textFill="#8c98f2" />
+                                          <Button layoutX="141.0" layoutY="16.0" mnemonicParsing="false" onAction="#addCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
@@ -201,7 +212,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" style="-fx-background-color: #696969;">
                            <children>
-                              <VBox alignment="TOP_CENTER" layoutX="37.2" layoutY="37.2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="215.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox alignment="TOP_CENTER" layoutX="37.2" layoutY="37.2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="483.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label fx:id="deleteCustomerLabel" alignment="TOP_LEFT" prefHeight="103.0" prefWidth="149.0" text="Please select the customer you want to delete and press SELECT button." textAlignment="CENTER" textFill="#f4f4f8" wrapText="true">
                                        <font>
@@ -246,8 +257,9 @@
                                     <TextField fx:id="updatePhoneNumber" layoutX="10.0" layoutY="178.0" promptText="Phone number" />
                                     <ComboBox fx:id="updateCustomerCountry" onAction="#chooseCustomerDivisionUpdate" prefHeight="27.0" prefWidth="177.0" promptText="Country" />
                                     <ComboBox fx:id="updateCustomerProvince" layoutX="10.0" layoutY="219.0" prefHeight="27.0" prefWidth="179.0" promptText="State/Province" />
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="5.0">
                                        <children>
+                                          <Button layoutX="84.0" layoutY="16.0" mnemonicParsing="false" onAction="#cancelGetCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Cancel" textFill="#8c98f2" />
                                           <Button mnemonicParsing="false" onAction="#getCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Select" textFill="#8c98f2" />
                                           <Button mnemonicParsing="false" onAction="#updateCustomer" style="-fx-background-color: #696969; -fx-border-color: #8c98f2;" text="Save" textFill="#8c98f2" />
                                        </children>

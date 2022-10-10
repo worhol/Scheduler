@@ -704,4 +704,58 @@ public class AppointmentsFormController implements Initializable {
         customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id,zoneId));
         customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
+
+    @FXML
+    public void cancelUpdateAppointment(ActionEvent actionEvent) {
+        updateAppointmentID.clear();
+        updateTitleTxt.clear();
+        updateDescriptionTxt.clear();
+        updateLocationTxt.clear();
+        updateContactCombo.getSelectionModel().clearSelection();
+        updateTypeCombo.getSelectionModel().clearSelection();
+        updateDatePicker.getEditor().clear();
+        updateStartTimeCombo.getSelectionModel().clearSelection();
+        updateEndTimeCombo.getSelectionModel().clearSelection();
+        updateCustomerIdCombo.getSelectionModel().clearSelection();
+        updateUserIdCombo.getSelectionModel().clearSelection();
+        updateAppointmentTitlePane.setExpanded(false);
+    }
+
+    @FXML
+    public void cancelAddCustomer(ActionEvent actionEvent) {
+        addCustomerName.clear();
+        addCustomerAddress.clear();
+        addCustomerPostalCode.clear();
+        addPhoneNumber.clear();
+        addCustomerCountry.getSelectionModel().clearSelection();
+        addCustomerProvince.getSelectionModel().clearSelection();
+        addCostumerTitlePane.setExpanded(false);
+    }
+
+    @FXML
+    public void cancelAddAppointment(ActionEvent actionEvent) {
+        addTitleTxt.clear();
+        addDescriptionTxt.clear();
+        addLocationTxt.clear();
+        addContactDropBox.getSelectionModel().clearSelection();
+        addTypeDropBox.getSelectionModel().clearSelection();
+        addDate.getEditor().clear();
+        addAppointmentStart.getSelectionModel().clearSelection();
+        addAppointmentEnd.getSelectionModel().clearSelection();
+        addCustomerID.getSelectionModel().clearSelection();
+        addUserID.getSelectionModel().clearSelection();
+        addAppointmentTitlePane.setExpanded(false);
+    }
+
+    @FXML
+    public void cancelGetCustomer(ActionEvent actionEvent) {
+        updateCustomerID.clear();
+        updateCustomerName.clear();
+        updateCustomerAddress.clear();
+        updateCustomerPostalCode.clear();
+        updatePhoneNumber.clear();
+        updateCustomerCountry.getSelectionModel().clearSelection();
+        updateCustomerProvince.getSelectionModel().clearSelection();
+        updateCostumerTitlePane.setExpanded(false);
+    }
 }

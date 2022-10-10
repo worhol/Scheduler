@@ -72,6 +72,7 @@ public class Report {
     private static ObservableList<String> customerAppointmentType = FXCollections.observableArrayList();
 
     public static ObservableList<String> allCustomersAppointmentTypes(int id) {
+        customerAppointmentType.clear();
         for (Appointment appointment : Schedule.getAppointments()) {
             if (appointment.getCustomerId() == id) {
                 customerAppointmentType.add(appointment.getType());
@@ -95,6 +96,7 @@ public class Report {
     private static ObservableList<String> customerAppointmentContacts = FXCollections.observableArrayList();
 
     public static ObservableList<String> allCustomersAppointmentContacts(int id) {
+        customerAppointmentContacts.clear();
         for (Appointment appointment : Schedule.getAppointments()) {
             if (appointment.getCustomerId() == id) {
                 customerAppointmentContacts.add(appointment.getContact());

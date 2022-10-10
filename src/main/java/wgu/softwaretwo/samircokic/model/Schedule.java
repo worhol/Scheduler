@@ -36,7 +36,6 @@ public class Schedule {
                         || (end.isAfter(appointment.getStart()) && end.isBefore(appointment.getEnd()))
                         ||(start.isBefore(appointment.getStart())&&end.isAfter(appointment.getEnd()))) {
                     isItOverlap = true;
-                    System.out.println("Overlap");
                 }
             }
 

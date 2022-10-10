@@ -265,7 +265,7 @@ public class AppointmentsFormController implements Initializable {
         timer.schedule(new TimerTask() {
             public void run() {
                 Platform.runLater(() -> {
-                   imageAlert.setVisible(false);
+                    imageAlert.setVisible(false);
                 });
             }
         }, 5000l);
@@ -372,56 +372,100 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void addAppointment(ActionEvent actionEvent) throws SQLException {
-//        int appointmentID = Integer.valueOf(addAppointmentID.getText());
-        String title = addTitleTxt.getText();
-        String descritpion = addDescriptionTxt.getText();
-        String location = addLocationTxt.getText();
-        String contact = addContactDropBox.getSelectionModel().getSelectedItem().toString();
-        String type = addTypeDropBox.getSelectionModel().getSelectedItem().toString();
-        LocalTime start = (LocalTime) addAppointmentStart.getValue();
-        LocalTime end = (LocalTime) addAppointmentEnd.getValue();
-        LocalDate date = addDate.getValue();
-        LocalDateTime appointmentStart = LocalDateTime.of(date, start);
-        LocalDateTime appointmentEnd = LocalDateTime.of(date, end);
-        int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
-        int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
-        if (!Schedule.appointmentOverlap(appointmentStart, appointmentEnd, customerID)) {
-            AppointmentDao.addAppointment(title, descritpion, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
-            Schedule.getAppointments().clear();
-//        AppointmentDao.setTheAppointment(userID);
-            AppointmentDao.setTheAppointment();
-            appointmentsTable.setItems(Schedule.getAppointments());
-            Schedule.getWeeklyAppointments(zoneId).clear();
-            weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
-            Schedule.getMonthlyAppointments(zoneId).clear();
-            monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
 
-            addTitleTxt.clear();
-            addDescriptionTxt.clear();
-            addLocationTxt.clear();
-            addContactDropBox.getSelectionModel().clearSelection();
-            addTypeDropBox.getSelectionModel().clearSelection();
-            addDate.getEditor().clear();
-            addDate.setValue(null);
-            addAppointmentStart.getSelectionModel().clearSelection();
-            addAppointmentEnd.getSelectionModel().clearSelection();
-            addCustomerID.getSelectionModel().clearSelection();
-            addUserID.getSelectionModel().clearSelection();
-            addAppointmentTitlePane.setExpanded(false);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Appointment time overlap");
+        try {
+            String title = addTitleTxt.getText();
+            String description = addDescriptionTxt.getText();
+            String location = addLocationTxt.getText();
+            String contact = addContactDropBox.getSelectionModel().getSelectedItem().toString();
+            String type = addTypeDropBox.getSelectionModel().getSelectedItem().toString();
+            LocalTime start = (LocalTime) addAppointmentStart.getValue();
+            LocalTime end = (LocalTime) addAppointmentEnd.getValue();
+            LocalDate date = addDate.getValue();
+            LocalDateTime appointmentStart = LocalDateTime.of(date, start);
+            LocalDateTime appointmentEnd = LocalDateTime.of(date, end);
+            int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
+            int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
+            if (!Schedule.appointmentOverlap(appointmentStart, appointmentEnd, customerID)) {
+                AppointmentDao.addAppointment(title, description, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
+                Schedule.getAppointments().clear();
+                AppointmentDao.setTheAppointment();
+                appointmentsTable.setItems(Schedule.getAppointments());
+                Schedule.getWeeklyAppointments(zoneId).clear();
+                weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+                Schedule.getMonthlyAppointments(zoneId).clear();
+                monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+
+                addTitleTxt.clear();
+                addDescriptionTxt.clear();
+                addLocationTxt.clear();
+                addContactDropBox.getSelectionModel().clearSelection();
+                addTypeDropBox.getSelectionModel().clearSelection();
+                addDate.getEditor().clear();
+                addAppointmentStart.getSelectionModel().clearSelection();
+                addAppointmentEnd.getSelectionModel().clearSelection();
+                addCustomerID.getSelectionModel().clearSelection();
+                addUserID.getSelectionModel().clearSelection();
+                addAppointmentTitlePane.setExpanded(false);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment time overlap");
+                alert.setHeaderText(null);
+                alert.setContentText("You attempted to schedule meeting that overlaps with the other customer's meetings");
+                addAppointmentStart.setStyle("-fx-border-color: RED;");
+                addAppointmentEnd.setStyle("-fx-border-color: RED;");
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(ButtonType.OK);
+                if (buttonType == ButtonType.OK) {
+                    addAppointmentStart.setStyle(null);
+                }
+
+
+            }
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Empty Fields");
             alert.setHeaderText(null);
-            alert.setContentText("You attempted to schedule meeting that overlaps with the other customer's meetings");
-            addAppointmentStart.setStyle("-fx-border-color: RED;");
-            Optional<ButtonType> result = alert.showAndWait();
-            ButtonType buttonType = result.orElse(ButtonType.OK);
-            if(buttonType==ButtonType.OK){
-                addAppointmentStart.setStyle(null);
+            alert.setContentText("All fields have to be populated");
+            if (addTitleTxt.getText().isEmpty()) {
+                addTitleTxt.setStyle("-fx-border-color: RED;");
+            } else if (addDescriptionTxt.getText().isEmpty()) {
+                addDescriptionTxt.setStyle("-fx-border-color: RED;");
+            } else if (addLocationTxt.getText().isEmpty()) {
+                addLocationTxt.setStyle("-fx-border-color: RED;");
+            } else if (addContactDropBox.getSelectionModel().getSelectedItem() == null) {
+                addContactDropBox.setStyle("-fx-border-color: RED;");
+            } else if (addTypeDropBox.getSelectionModel().getSelectedItem() == null) {
+                addTypeDropBox.setStyle("-fx-border-color: RED;");
+            } else if (addDate.getValue() == null) {
+                addDate.setStyle("-fx-border-color: RED;");
+            } else if (addAppointmentStart.getSelectionModel().getSelectedItem() == null) {
+                addAppointmentStart.setStyle("-fx-border-color: RED;");
+            } else if (addAppointmentEnd.getSelectionModel().getSelectedItem() == null) {
+                addAppointmentEnd.setStyle("-fx-border-color: RED;");
+            } else if (addCustomerID.getSelectionModel().getSelectedItem() == null) {
+                addCustomerID.setStyle("-fx-border-color: RED;");
+            } else if (addUserID.getSelectionModel().getSelectedItem() == null) {
+                addUserID.setStyle("-fx-border-color: RED;");
             }
 
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+            if (buttonType == ButtonType.OK) {
+                addTitleTxt.setStyle(null);
+                addDescriptionTxt.setStyle(null);
+                addLocationTxt.setStyle(null);
+                addContactDropBox.setStyle(null);
+                addTypeDropBox.setStyle(null);
+                addDate.setStyle(null);
+                addAppointmentStart.setStyle(null);
+                addAppointmentEnd.setStyle(null);
+                addCustomerID.setStyle(null);
+                addUserID.setStyle(null);
+            }
 
         }
+
     }
 
 
@@ -434,16 +478,26 @@ public class AppointmentsFormController implements Initializable {
             appointment = appointmentWeekly;
         } else if (appointment == null && appointmentWeekly == null) {
             appointment = appointmentMonthly;
+        } else if (appointment == null && appointmentWeekly == null && appointmentMonthly == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment no selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the appointment you want to cancel");
+            Optional<ButtonType> result = alert.showAndWait();
+//            ButtonType buttonType = result.orElse(ButtonType.OK);
+//            if (buttonType==ButtonType.OK){
+//
+//            }
         }
         AppointmentDao.deleteAppointment(appointment);
         Schedule.refreshAppointments();
 //        AppointmentDao.setTheAppointment(Schedule.getUserID());
         AppointmentDao.setTheAppointment();
-//        Schedule.deleteAppointment(appointment);
+        Schedule.deleteAppointment(appointment); //uncomented due to ConcurrentModificationException
         appointmentsTable.setItems(Schedule.getAppointments());
-//        Schedule.deleteWeeklyAppointment(appointment);
+        Schedule.deleteWeeklyAppointment(appointment);//uncommented due to ConcurrentModificationException
         weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
-//        Schedule.deleteMonthlyAppointment(appointment);
+        Schedule.deleteMonthlyAppointment(appointment);//uncomented due to ConcurrentModificationException
         monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
 
         cancelAppointmentLbl.setText("Appointment " + appointment.getAppointmentId() + " " + appointment.getType() + " was canceled.");
@@ -462,25 +516,59 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void addCustomer(ActionEvent actionEvent) throws SQLException, IOException {
-        String name = addCustomerName.getText();
-        String address = addCustomerAddress.getText();
-        String postalCode = addCustomerPostalCode.getText();
-        String phone = addPhoneNumber.getText();
-        String country = addCustomerCountry.getSelectionModel().getSelectedItem().toString();
-        String province = addCustomerProvince.getSelectionModel().getSelectedItem().toString();
-        int divisionID = CustomerDao.getDivisionId(province);
-        CustomerDao.addCustomer(name, address, postalCode, phone, divisionID);
-        Schedule.refreshCustomers();
+        try {
+            String name = addCustomerName.getText();
+            String address = addCustomerAddress.getText();
+            String postalCode = addCustomerPostalCode.getText();
+            String phone = addPhoneNumber.getText();
+//            String country = addCustomerCountry.getSelectionModel().getSelectedItem().toString();
+            String province = addCustomerProvince.getSelectionModel().getSelectedItem().toString();
+            int divisionID = CustomerDao.getDivisionId(province);
+            CustomerDao.addCustomer(name, address, postalCode, phone, divisionID);
+            Schedule.refreshCustomers();
 
-        customerTable.setItems(Schedule.getCustomers());
-        addCustomerName.clear();
-        addCustomerAddress.clear();
-        addCustomerPostalCode.clear();
-        addPhoneNumber.clear();
-        addCustomerCountry.getSelectionModel().clearSelection();
-        addCustomerProvince.getSelectionModel().clearSelection();
-        addCostumerTitlePane.setExpanded(false);
-        AppointmentDao.customerID();
+            customerTable.setItems(Schedule.getCustomers());
+            addCustomerName.clear();
+            addCustomerAddress.clear();
+            addCustomerPostalCode.clear();
+            addPhoneNumber.clear();
+            addCustomerCountry.getSelectionModel().clearSelection();
+            addCustomerProvince.getSelectionModel().clearSelection();
+            addCostumerTitlePane.setExpanded(false);
+            AppointmentDao.customerID();
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            if (addCustomerName.getText().isEmpty()) {
+                addCustomerName.setStyle("-fx-border-color: RED;");
+            } else if (addCustomerAddress.getText().isEmpty()) {
+                addCustomerAddress.setStyle("-fx-border-color: RED;");
+            } else if (addCustomerPostalCode.getText().isEmpty()) {
+                addCustomerPostalCode.setStyle("-fx-border-color: RED;");
+            } else if (addPhoneNumber.getText().isEmpty()) {
+                addPhoneNumber.setStyle("-fx-border-color: RED;");
+            } else if (addCustomerCountry.getSelectionModel().getSelectedItem() == null) {
+                addCustomerCountry.setStyle("-fx-border-color: RED;");
+            } else if (addCustomerProvince.getSelectionModel().getSelectedItem() == null) {
+                addCustomerProvince.setStyle("-fx-border-color: RED;");
+            }
+
+            alert.setTitle("Fields can not be empty");
+            alert.setHeaderText(null);
+            alert.setContentText("Fields can not be empty");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+            if (buttonType == ButtonType.OK) {
+                addCustomerName.setStyle(null);
+                addCustomerAddress.setStyle(null);
+                addCustomerPostalCode.setStyle(null);
+                addPhoneNumber.setStyle(null);
+                addCustomerCountry.setStyle(null);
+                addCustomerProvince.setStyle(null);
+            }
+
+
+        }
+
     }
 
     @FXML
@@ -503,9 +591,16 @@ public class AppointmentsFormController implements Initializable {
                 customer = Schedule.getCustomers().get(i);
             }
         }
-
+        if (customer==null){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Customer not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to remove");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }
         AppointmentDao.deleteAllCustomerAppointments(id);
-        Schedule.deleteCustomersAppointments(id);
+//        Schedule.deleteCustomersAppointments(id);
         Schedule.getAppointments().clear();
         Schedule.getWeeklyAppointments(zoneId).clear();
         Schedule.getMonthlyAppointments(zoneId).clear();
@@ -522,7 +617,7 @@ public class AppointmentsFormController implements Initializable {
                 public void run() {
                     Platform.runLater(() -> {
                         deleteCostumerTitlePane.setExpanded(false);
-                        cancelAppointmentLbl.setText("Please select the customer you want to remove and press SELECT button");
+                        deleteCustomerLabel.setText("Please select the customer you want to remove and press SELECT button");
 
                     });
                 }
@@ -532,58 +627,79 @@ public class AppointmentsFormController implements Initializable {
 
         Schedule.deleteCustomer(customer);
         customerTable.setItems(Schedule.getCustomers());
+        AppointmentDao.customerID();
 
 
     }
 
     @FXML
     public void updateCustomer(ActionEvent actionEvent) throws SQLException {
-        Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
-        String name = updateCustomerName.getText();
-        String address = updateCustomerAddress.getText();
-        String postalCode = updateCustomerPostalCode.getText();
-        String phone = updatePhoneNumber.getText();
+        try {
+            Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+            String name = updateCustomerName.getText();
+            String address = updateCustomerAddress.getText();
+            String postalCode = updateCustomerPostalCode.getText();
+            String phone = updatePhoneNumber.getText();
 //        String country = updateCustomerCountry.getSelectionModel().getSelectedItem().getCountryName();
-        int divisionId = updateCustomerProvince.getSelectionModel().getSelectedItem().getDivisionId();
-        int customerID = Integer.valueOf(updateCustomerID.getText());
-        if (CustomerDao.updateCustomer(customerID, name, address, postalCode, phone, divisionId) > 0) {
-            Schedule.refreshCustomers();
+            int divisionId = updateCustomerProvince.getSelectionModel().getSelectedItem().getDivisionId();
+            int customerID = Integer.valueOf(updateCustomerID.getText());
+            if (CustomerDao.updateCustomer(customerID, name, address, postalCode, phone, divisionId) > 0) {
+                Schedule.refreshCustomers();
 
-            updateCostumerTitlePane.setExpanded(false);
+                updateCostumerTitlePane.setExpanded(false);
+            }
+            updateCustomerName.clear();
+            updateCustomerAddress.clear();
+            updateCustomerPostalCode.clear();
+            updatePhoneNumber.clear();
+            updateCustomerProvince.getSelectionModel().clearSelection();
+            updateCustomerCountry.getSelectionModel().clearSelection();//this would throw null pointer
+            updateCustomerID.clear();
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Customer not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to update");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
         }
-        updateCustomerName.clear();
-        updateCustomerAddress.clear();
-        updateCustomerPostalCode.clear();
-        updatePhoneNumber.clear();
-        updateCustomerProvince.getSelectionModel().clearSelection();
-        updateCustomerCountry.getSelectionModel().clearSelection();//this would throw null pointer
-        updateCustomerID.clear();
+
     }
 
     @FXML
     public void getCustomer(ActionEvent actionEvent) throws SQLException {
-        Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+        try {
+            Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
 
-        updateCustomerID.setText(String.valueOf(customer.getCustomerId()));
-        updateCustomerName.setText(customer.getCustomerName());
-        updateCustomerAddress.setText(customer.getAddress());
-        updatePhoneNumber.setText(customer.getPhoneNumber());
-        updateCustomerPostalCode.setText(customer.getPostalCode());
+            updateCustomerID.setText(String.valueOf(customer.getCustomerId()));
+            updateCustomerName.setText(customer.getCustomerName());
+            updateCustomerAddress.setText(customer.getAddress());
+            updatePhoneNumber.setText(customer.getPhoneNumber());
+            updateCustomerPostalCode.setText(customer.getPostalCode());
 
-        for (Country country : updateCustomerCountry.getItems()) {
-            if (country.getCountryId() == customer.getCountryID()) {
-                updateCustomerCountry.setValue(country);
-                break;
+            for (Country country : updateCustomerCountry.getItems()) {
+                if (country.getCountryId() == customer.getCountryID()) {
+                    updateCustomerCountry.setValue(country);
+                    break;
+                }
             }
-        }
-        for (Division division : updateCustomerProvince.getItems()) {
-            if (division.getDivisionId() == customer.getDivisionID()) {
-                updateCustomerProvince.setValue(division);
+            for (Division division : updateCustomerProvince.getItems()) {
+                if (division.getDivisionId() == customer.getDivisionID()) {
+                    updateCustomerProvince.setValue(division);
+                }
             }
-        }
 
-        CustomerDao.divisions(customer.getCountryID());
-        updateCustomerProvince.setItems(divisions);
+            CustomerDao.divisions(customer.getCountryID());
+            updateCustomerProvince.setItems(divisions);
+
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Customer not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to update");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }
 
     }
 
@@ -602,50 +718,77 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void updateAppointment(ActionEvent actionEvent) throws SQLException {
-        int appointmentId = Integer.valueOf(updateAppointmentID.getText());
-        String title = updateTitleTxt.getText();
-        String description = updateDescriptionTxt.getText();
-        String location = updateLocationTxt.getText();
-        String type = updateTypeCombo.getSelectionModel().getSelectedItem().toString();
-        LocalTime start = (LocalTime) updateStartTimeCombo.getValue();
-        LocalTime end = (LocalTime) updateEndTimeCombo.getValue();
-        LocalDate date = updateDatePicker.getValue();
-        LocalDateTime startAppointment = LocalDateTime.of(date, start);
-        LocalDateTime endAppointment = LocalDateTime.of(date, end);
-        int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
-        int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
-        String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
-        AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
-        Schedule.refreshAppointments();
+        try {
+            int appointmentId = Integer.valueOf(updateAppointmentID.getText());
+            String title = updateTitleTxt.getText();
+            String description = updateDescriptionTxt.getText();
+            String location = updateLocationTxt.getText();
+            String type = updateTypeCombo.getSelectionModel().getSelectedItem().toString();
+            LocalTime start = (LocalTime) updateStartTimeCombo.getValue();
+            LocalTime end = (LocalTime) updateEndTimeCombo.getValue();
+            LocalDate date = updateDatePicker.getValue();
+            LocalDateTime startAppointment = LocalDateTime.of(date, start);
+            LocalDateTime endAppointment = LocalDateTime.of(date, end);
+            int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
+            int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
+            String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
+            AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
+            Schedule.refreshAppointments();
 //        AppointmentDao.setTheAppointment(userID);
-        AppointmentDao.setTheAppointment();
-        appointmentsTable.setItems(Schedule.getAppointments());
-        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
-        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
-        updateAppointmentTitlePane.setExpanded(false);
+            AppointmentDao.setTheAppointment();
+            appointmentsTable.setItems(Schedule.getAppointments());
+            weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+            monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+            updateAppointmentTitlePane.setExpanded(false);
+
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the appointment you want to cancel");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }catch (NumberFormatException n){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the appointment you want to cancel");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }
     }
 
     @FXML
     public void selectAppointment(ActionEvent actionEvent) {
-        Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
-        Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
-        Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
-        if (appointment == null && appointmentMonthly == null) {
-            appointment = appointmentWeekly;
-        } else if (appointment == null && appointmentWeekly == null) {
-            appointment = appointmentMonthly;
+        try {
+            Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+            Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
+            Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
+            if (appointment == null && appointmentMonthly == null) {
+                appointment = appointmentWeekly;
+            } else if (appointment == null && appointmentWeekly == null) {
+                appointment = appointmentMonthly;
+            }
+            updateAppointmentID.setText(String.valueOf(appointment.getAppointmentId()));
+            updateTitleTxt.setText(appointment.getTitle());
+            updateDescriptionTxt.setText(appointment.getDescription());
+            updateLocationTxt.setText(appointment.getLocation());
+            updateContactCombo.setValue(appointment.getContact());
+            updateTypeCombo.setValue(appointment.getType());
+            updateDatePicker.setValue(appointment.getStart().toLocalDate());
+            updateStartTimeCombo.setValue(appointment.getStart().toLocalTime());
+            updateEndTimeCombo.setValue(appointment.getEnd().toLocalTime());
+            updateCustomerIdCombo.setValue(appointment.getCustomerId());
+            updateUserIdCombo.setValue(appointment.getUserId());
+
+        }catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the appointment you want to cancel");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
         }
-        updateAppointmentID.setText(String.valueOf(appointment.getAppointmentId()));
-        updateTitleTxt.setText(appointment.getTitle());
-        updateDescriptionTxt.setText(appointment.getDescription());
-        updateLocationTxt.setText(appointment.getLocation());
-        updateContactCombo.setValue(appointment.getContact());
-        updateTypeCombo.setValue(appointment.getType());
-        updateDatePicker.setValue(appointment.getStart().toLocalDate());
-        updateStartTimeCombo.setValue(appointment.getStart().toLocalTime());
-        updateEndTimeCombo.setValue(appointment.getEnd().toLocalTime());
-        updateCustomerIdCombo.setValue(appointment.getCustomerId());
-        updateUserIdCombo.setValue(appointment.getUserId());
 
 
     }
@@ -654,6 +797,8 @@ public class AppointmentsFormController implements Initializable {
     public void cancelDeleteAppointment(ActionEvent actionEvent) {
         cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
         appointmentsTable.getSelectionModel().clearSelection();
+        weeklyAppointmentsTable.getSelectionModel().clearSelection();
+        monthlyAppointmentsTable.getSelectionModel().clearSelection();
         deleteAppointmentTitlePane.setExpanded(false);
     }
 
@@ -667,20 +812,51 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void selectAppointmenForDelete(ActionEvent actionEvent) {
-        cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
-                "press CANCEL to exit");
+        Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+        Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
+        Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
+        if (appointment != null ) {
+            cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
+                    "press CANCEL to exit");
+        } else if (appointmentWeekly!=null) {
+            cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
+                   "press CANCEL to exit");
+        } else if (appointmentMonthly!=null) {
+            cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
+                    "press CANCEL to exit");
+        } else if (appointment == null && appointmentWeekly == null && appointmentMonthly == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the appointment you want to cancel");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }
+
+//
     }
 
     @FXML
     public void selectCustomerForDelete(ActionEvent actionEvent) {
-        deleteCustomerLabel.setText("Are you sure you want to remove this customer? Press DELETE to DELETE or " +
-                "press CANCEL to exit");
+        Customer customer =(Customer) customerTable.getSelectionModel().getSelectedItem();
+        if (customer!=null){
+            deleteCustomerLabel.setText("Are you sure you want to remove this customer? Press DELETE to DELETE or " +
+                    "press CANCEL to exit");
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Customer not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the customer you want to remove");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }
+
     }
 
     @FXML
     public void selectContactReportButton(ActionEvent actionEvent) {
         String name = contactReportCombo.getSelectionModel().getSelectedItem().toString();
-       contactReportTable.setItems(Report.contactAppointments(name));
+        contactReportTable.setItems(Report.contactAppointments(name));
     }
 
     @FXML
@@ -701,12 +877,15 @@ public class AppointmentsFormController implements Initializable {
     public void customerReportAppointmentsSelectButton(ActionEvent actionEvent) {
         int id = Integer.valueOf(customerReportAppointmentsCombo.getSelectionModel().getSelectedItem().toString());
         customerAppointmentsPieChart.setData(Report.typePieChart(id));
-        customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id,zoneId));
+        customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id, zoneId));
         customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
 
     @FXML
     public void cancelUpdateAppointment(ActionEvent actionEvent) {
+        appointmentsTable.getSelectionModel().clearSelection();
+        weeklyAppointmentsTable.getSelectionModel().clearSelection();
+        monthlyAppointmentsTable.getSelectionModel().clearSelection();
         updateAppointmentID.clear();
         updateTitleTxt.clear();
         updateDescriptionTxt.clear();
@@ -749,6 +928,7 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void cancelGetCustomer(ActionEvent actionEvent) {
+        customerTable.getSelectionModel().clearSelection();
         updateCustomerID.clear();
         updateCustomerName.clear();
         updateCustomerAddress.clear();

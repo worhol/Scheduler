@@ -471,46 +471,57 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void deleteAppointment(ActionEvent actionEvent) throws SQLException, InterruptedException {
-        Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
-        Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
-        Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
-        if (appointment == null && appointmentMonthly == null) {
-            appointment = appointmentWeekly;
-        } else if (appointment == null && appointmentWeekly == null) {
-            appointment = appointmentMonthly;
-        } else if (appointment == null && appointmentWeekly == null && appointmentMonthly == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Appointment no selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select the appointment you want to cancel");
-            Optional<ButtonType> result = alert.showAndWait();
-//            ButtonType buttonType = result.orElse(ButtonType.OK);
+        try {
+            Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
+            Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
+            Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
+            if (appointment == null && appointmentMonthly == null) {
+                appointment = appointmentWeekly;
+            } else if (appointment == null && appointmentWeekly == null) {
+                appointment = appointmentMonthly;
+            } else if (appointment == null && appointmentWeekly == null && appointmentMonthly == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment not selected");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select the appointment you want to cancel");
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(ButtonType.OK);
 //            if (buttonType==ButtonType.OK){
 //
 //            }
-        }
-        AppointmentDao.deleteAppointment(appointment);
-        Schedule.refreshAppointments();
-//        AppointmentDao.setTheAppointment(Schedule.getUserID());
-        AppointmentDao.setTheAppointment();
-        Schedule.deleteAppointment(appointment); //uncomented due to ConcurrentModificationException
-        appointmentsTable.setItems(Schedule.getAppointments());
-        Schedule.deleteWeeklyAppointment(appointment);//uncommented due to ConcurrentModificationException
-        weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
-        Schedule.deleteMonthlyAppointment(appointment);//uncomented due to ConcurrentModificationException
-        monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
-
-        cancelAppointmentLbl.setText("Appointment " + appointment.getAppointmentId() + " " + appointment.getType() + " was canceled.");
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                Platform.runLater(() -> {
-                    deleteAppointmentTitlePane.setExpanded(false);
-                    cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
-
-                });
             }
-        }, 2000l);
+            AppointmentDao.deleteAppointment(appointment);
+            Schedule.refreshAppointments();
+//        AppointmentDao.setTheAppointment(Schedule.getUserID());
+            AppointmentDao.setTheAppointment();
+            Schedule.deleteAppointment(appointment); //uncomented due to ConcurrentModificationException
+            appointmentsTable.setItems(Schedule.getAppointments());
+            Schedule.deleteWeeklyAppointment(appointment);//uncommented due to ConcurrentModificationException
+            weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+            Schedule.deleteMonthlyAppointment(appointment);//uncomented due to ConcurrentModificationException
+            monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+
+            cancelAppointmentLbl.setText("Appointment " + appointment.getAppointmentId() + " " + appointment.getType() + " was canceled.");
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    Platform.runLater(() -> {
+                        deleteAppointmentTitlePane.setExpanded(false);
+                        cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
+
+                    });
+                }
+            }, 2000l);
+
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment not selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select the appointment you want to cancel");
+            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType buttonType = result.orElse(ButtonType.OK);
+        }
+
     }
 
 
@@ -536,7 +547,7 @@ public class AppointmentsFormController implements Initializable {
             addCustomerProvince.getSelectionModel().clearSelection();
             addCostumerTitlePane.setExpanded(false);
             AppointmentDao.customerID();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             if (addCustomerName.getText().isEmpty()) {
                 addCustomerName.setStyle("-fx-border-color: RED;");
@@ -591,7 +602,7 @@ public class AppointmentsFormController implements Initializable {
                 customer = Schedule.getCustomers().get(i);
             }
         }
-        if (customer==null){
+        if (customer == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Customer not selected");
             alert.setHeaderText(null);
@@ -655,7 +666,7 @@ public class AppointmentsFormController implements Initializable {
             updateCustomerProvince.getSelectionModel().clearSelection();
             updateCustomerCountry.getSelectionModel().clearSelection();//this would throw null pointer
             updateCustomerID.clear();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Customer not selected");
             alert.setHeaderText(null);
@@ -692,7 +703,7 @@ public class AppointmentsFormController implements Initializable {
             CustomerDao.divisions(customer.getCountryID());
             updateCustomerProvince.setItems(divisions);
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Customer not selected");
             alert.setHeaderText(null);
@@ -741,14 +752,14 @@ public class AppointmentsFormController implements Initializable {
             monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
             updateAppointmentTitlePane.setExpanded(false);
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Appointment not selected");
             alert.setHeaderText(null);
             alert.setContentText("Please select the appointment you want to cancel");
             Optional<ButtonType> result = alert.showAndWait();
             ButtonType buttonType = result.orElse(ButtonType.OK);
-        }catch (NumberFormatException n){
+        } catch (NumberFormatException n) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Appointment not selected");
             alert.setHeaderText(null);
@@ -781,7 +792,7 @@ public class AppointmentsFormController implements Initializable {
             updateCustomerIdCombo.setValue(appointment.getCustomerId());
             updateUserIdCombo.setValue(appointment.getUserId());
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Appointment not selected");
             alert.setHeaderText(null);
@@ -815,13 +826,13 @@ public class AppointmentsFormController implements Initializable {
         Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
         Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
         Appointment appointmentMonthly = (Appointment) monthlyAppointmentsTable.getSelectionModel().getSelectedItem();
-        if (appointment != null ) {
+        if (appointment != null) {
             cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
                     "press CANCEL to exit");
-        } else if (appointmentWeekly!=null) {
+        } else if (appointmentWeekly != null) {
             cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
-                   "press CANCEL to exit");
-        } else if (appointmentMonthly!=null) {
+                    "press CANCEL to exit");
+        } else if (appointmentMonthly != null) {
             cancelAppointmentLbl.setText("Are you sure you want to cancel this appointment? Press DELETE to confirm or " +
                     "press CANCEL to exit");
         } else if (appointment == null && appointmentWeekly == null && appointmentMonthly == null) {
@@ -838,11 +849,11 @@ public class AppointmentsFormController implements Initializable {
 
     @FXML
     public void selectCustomerForDelete(ActionEvent actionEvent) {
-        Customer customer =(Customer) customerTable.getSelectionModel().getSelectedItem();
-        if (customer!=null){
+        Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
+        if (customer != null) {
             deleteCustomerLabel.setText("Are you sure you want to remove this customer? Press DELETE to DELETE or " +
                     "press CANCEL to exit");
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Customer not selected");
             alert.setHeaderText(null);

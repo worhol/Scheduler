@@ -4,6 +4,11 @@ import wgu.softwaretwo.samircokic.DAO.UserDao;
 
 import java.sql.SQLException;
 
+/**
+ * <p>The class User is the blueprint for user object which logs in to scheduling application</p>
+ *
+ * @author
+ */
 public class User {
     private int id;
     private String userName;

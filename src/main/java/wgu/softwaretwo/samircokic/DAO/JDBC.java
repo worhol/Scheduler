@@ -3,6 +3,11 @@ package wgu.softwaretwo.samircokic.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * <p>This class is a blueprint for the database connection for the Scheduler application.</p>
+ *
+ * @author Samir Cokic
+ */
 public abstract class JDBC {
 
     private static final String protocol = "jdbc";
@@ -15,6 +20,9 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * <p>this method takes the driver and establishes connection to database with username and a password</p>
+     */
     public static void openConnection()
     {
         try {
@@ -28,6 +36,9 @@ public abstract class JDBC {
         }
     }
 
+    /**
+     * <p>this method closes the connection to the database</p>
+     */
     public static void closeConnection() {
         try {
             connection.close();

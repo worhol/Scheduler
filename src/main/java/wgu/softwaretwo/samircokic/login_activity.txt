@@ -70,3 +70,16 @@ User test attempted login SUCCESS on 2022-10-10T17:45:25.772138200 America/Chica
 User test attempted login SUCCESS on 2022-10-10T17:46:55.633180200 America/Chicago time.
 User test attempted login SUCCESS on 2022-10-10T17:49:39.215137500 America/Chicago time.
 User test attempted login SUCCESS on 2022-10-10T17:52:11.516079400 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T07:01:12.144512200 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T07:03:25.284246600 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T07:08:10.646956100 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T07:11:16.840826600 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T08:22:31.150809400 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T08:23:31.263103400 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T08:25:23.886943500 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T08:26:14.922143500 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T08:46:56.640123100 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-11T12:09:11.643031100 America/Chicago time.
+User unknown attempted login FAILED on 2022-10-11T12:12:41.265658700 America/Chicago time.
+User unknown attempted login FAILED on 2022-10-11T12:12:50.546956400 America/Chicago time.
+User admin attempted login SUCCESS on 2022-10-11T12:13:46.526257900 America/Chicago time.

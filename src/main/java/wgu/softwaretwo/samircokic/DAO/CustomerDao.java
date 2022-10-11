@@ -6,8 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * <p>This class is handling the sql queries for the customer class</p>
+ *
+ * @author Samir Cokic
+ */
 public class CustomerDao {
 
+    /**
+     * <p>This methods retrieve data from countries table and creates the country object and adds ti to observable list.</p>
+     *
+     * @throws SQLException provides information on database access errors.
+     */
     public static void countries() throws SQLException {
         int countryId = 0;
         String countryName = "";
@@ -22,8 +32,13 @@ public class CustomerDao {
         }
     }
 
+    /**
+     * <p>This method takes unique id number and then select all divisions associated with a country's id, then creates the division object and adds it to the observable list.</p>
+     *
+     * @param countryId the unique country's id number
+     * @throws SQLException provides information on database access errors.
+     */
     public static void divisions(int countryId) throws SQLException {
-//        Customer.getDivisions().clear();
         String divisionName = "";
         int divisionId = 0;
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Country_ID = ?";
@@ -38,6 +53,10 @@ public class CustomerDao {
         }
     }
 
+    /**
+     * <p>This method selects all the data from the customers table and for each row it creates customer object, which is then added to observable list.
+     * It catches the sql exceptions.</p>
+     */
     public static void setCustomer() {
         int customerId = 0;
         String customerName = "";
@@ -71,6 +90,18 @@ public class CustomerDao {
         }
     }
 
+    /**
+     * <p>This method updates the data from the arguments into customers table. It returns int > 0 if the update was success, else it returns 0.</p>
+     *
+     * @param customerID the unique customer's id
+     * @param name customer name
+     * @param address customer's address
+     * @param postalCode customer's postal code
+     * @param phone customer's phone number
+     * @param divisionID customer's province/state id number
+     * @return if the update was success returns greater than 0 number of affected rows, else it returns 0.
+     * @throws SQLException provides information on database access errors.
+     */
     public static int updateCustomer(int customerID, String name, String address, String postalCode, String phone, int divisionID) throws SQLException {
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
@@ -84,6 +115,13 @@ public class CustomerDao {
         return rowsAffected;
     }
 
+    /**
+     * <p>This method takes the division id as the argument, queries the first_level_divisions table and returns the country id associated with the state/province id.</p>
+     *
+     * @param divisionID province/state unique id
+     * @return country id associated with a division id.
+     * @throws SQLException provides information on database access errors.
+     */
     public static int getCountryID(int divisionID) throws SQLException {
         int countryID = 0;
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Division_ID = ?";
@@ -96,6 +134,13 @@ public class CustomerDao {
         return countryID;
     }
 
+    /**
+     * <p>This method takes the country id as the argument, queries the countries table and returns the country name associated with the id.</p>
+     *
+     * @param countryID country's unique id
+     * @return country name as a String associated with a country id.
+     * @throws SQLException provides information on database access errors.
+     */
     public static String getCountryName(int countryID) throws SQLException {
         String countryName = "";
         String sql = "SELECT * FROM COUNTRIES WHERE Country_ID = ?";
@@ -108,6 +153,13 @@ public class CustomerDao {
         return countryName;
     }
 
+    /**
+     * <p>This method takes the division id as the argument, queries the first_level_divisions table and returns the division name associated with the id.</p>
+     *
+     * @param divisionID division's unique id
+     * @return division name as a String associated with a division id.
+     * @throws SQLException provides information on database access errors.
+     */
     public static String getDivisionName(int divisionID) throws SQLException {
         String divisionName = "";
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Division_ID = ?";
@@ -120,6 +172,17 @@ public class CustomerDao {
         return divisionName;
     }
 
+    /**
+     * <p>This method inserts the data from the arguments into customers table. It returns int > 0 if the update was success, else it returns 0.</p>
+     *
+     * @param name the name of the customer
+     * @param address customer's address
+     * @param postalCode customer's postal code
+     * @param phone customer's phone number
+     * @param divisionId customer's province/state id number
+     * @return if the update was success returns greater than 0 number of affected rows, else it returns 0.
+     * @throws SQLException provides information on database access errors.
+     */
     public static int addCustomer(String name, String address, String postalCode, String phone, int divisionId) throws SQLException {
         String sql = "INSERT INTO CUSTOMERS (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
@@ -129,13 +192,17 @@ public class CustomerDao {
         preparedStatement.setString(4, phone);
         preparedStatement.setInt(5, divisionId);
 
-//        Schedulle.addCustomers(new Customer(Schedulle.getCustomers().size()+1,name,address,postalCode,phone,getCountryName(getCountryID(divisionId)),getDivisionName(divisionId)));
-
-
         int rowsAffected = preparedStatement.executeUpdate();
         return rowsAffected;
     }
 
+    /**
+     * <p>This method queris the customers table and remove the customer record based on customer's id</p>
+     *
+     * @param id customer id
+     * @return if the deletion was success returns number of affected rows greater than 0 , else it returns 0.
+     * @throws SQLException provides information on database access errors.
+     */
     public static int deleteCustomer(int id) throws SQLException {
         String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID =?";
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement(sql);
@@ -144,6 +211,13 @@ public class CustomerDao {
         return rowsAffected;
     }
 
+    /**
+     * <p> This method accepts division name as the argument and returns the id associated with it from the first_level_divisions table.</p>
+     *
+     * @param name the name of the province/division
+     * @return the division id number
+     * @throws SQLException provides information on database access errors.
+     */
     public static int getDivisionId(String name) throws SQLException {
         int divisionId = 0;
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE Division = ?";

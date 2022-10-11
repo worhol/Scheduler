@@ -24,7 +24,8 @@ public class Report {
             }
         }
         //lambda???
-        contactSchedulle.stream().sorted(Comparator.comparing(Appointment::getStart)).collect(Collectors.toList());
+//      contactSchedulle.stream().sorted(Comparator.comparing(Appointment::getStart)).collect(Collectors.toList());
+//        contactSchedulle.sorted().setComparator(Comparator.comparing(Appointment::getStart))
         return contactSchedulle;
     }
 

@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"wgu.softwaretwo.samircokic.DAO","l":"UserDao"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"wgu.softwaretwo.samircokic.model","l":"Appointment"}];updateSearchResults();

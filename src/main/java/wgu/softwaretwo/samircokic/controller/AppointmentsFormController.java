@@ -9,15 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 import wgu.softwaretwo.samircokic.model.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -54,10 +51,6 @@ public class AppointmentsFormController implements Initializable {
     private TableColumn locationColumn;
     @FXML
     private TableView appointmentsTable;
-
-    Stage stage;
-    Parent scene;
-
 
     ZoneId zoneId = ZoneId.systemDefault();
     @FXML
@@ -264,9 +257,7 @@ public class AppointmentsFormController implements Initializable {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                Platform.runLater(() -> {
-                    imageAlert.setVisible(false);
-                });
+                Platform.runLater(() -> imageAlert.setVisible(false));
             }
         }, 5000l);
 
@@ -922,7 +913,7 @@ public class AppointmentsFormController implements Initializable {
     public void customerReportAppointmentsSelectButton(ActionEvent actionEvent) {
         int id = Integer.valueOf(customerReportAppointmentsCombo.getSelectionModel().getSelectedItem().toString());
         customerAppointmentsPieChart.setData(Report.typePieChart(id));
-        customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id, zoneId));
+        customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id));
         customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
 

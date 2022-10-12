@@ -11,22 +11,45 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.Iterator;
 
+/**
+ * <p>This class is the blueprint for appointments scheduling</p>
+ *
+ * @author Samir Cokic
+ */
 public class Schedule {
 
+    /**
+     * <p>This observable list holds the appointments</p>
+     */
     private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
+    /**
+     * <p>This method adds appointment to appointments list</p>
+     *
+     * @param appointment appointment to be added
+     */
     public static void addAppointment(Appointment appointment) {
         appointments.add(appointment);
     }
-
-    public static void updateAppointment(int index, Appointment appointment) {
-        appointments.set(index, appointment);
-    }
-
+    /**
+     * <p>This method removes appointment from the appointments list</p>
+     *
+     * @param appointment appointment to be removed
+     */
     public static void deleteAppointment(Appointment appointment) {
         appointments.remove(appointment);
     }
 
+    /**
+     * <p>This method takes LocalDateTime arguments and the int and returns boolean.
+     * It searches appointments list for customer id, then it checks the meetings in the list for their scheduled time.
+     * If time does not collide with other meetings it returns true, otherwise it returns false</p>
+     *
+     * @param start beginning of the meeting
+     * @param end end of the meeting
+     * @param customerID customer id
+     * @return boolean true if scheduled meeting overlaps or false if not.
+     */
     public static boolean appointmentOverlap(LocalDateTime start, LocalDateTime end, int customerID) {
         boolean isItOverlap = false;
         for (Appointment appointment : appointments) {
@@ -42,29 +65,22 @@ public class Schedule {
         return isItOverlap;
     }
 
-    public static void deleteCustomersAppointments(int id) {
-        for (Appointment appointment : appointments) {
-            if (appointment.getAppointmentId() == id) {
-                appointments.remove(appointment);
-            }
-        }
-        for (Appointment appointment : weeklyAppointments) {
-            if (appointment.getAppointmentId() == id) {
-                weeklyAppointments.remove(appointment);
-            }
-        }
-        for (Appointment appointment : monthlyAppointments) {
-            if (appointment.getAppointmentId() == id) {
-                monthlyAppointments.remove(appointment);
-            }
-        }
-
-    }
-
+    /**
+     * <p>This method returns appointments observable list</p>
+     *
+     * @return appointments observable list
+     */
     public static ObservableList<Appointment> getAppointments() {
         return appointments;
     }
 
+    /**
+     * <p>This method iterates through the appointments list and looks for the appointments that will begin within 15 minutes.
+     * If there is a meeting it returns the string that inform the user about meeting, if not it informs a user that there are no meetings. </p>
+     *
+     * @param zoneId user
+     * @return String meeting alert.
+     */
     public static String appointmentAlert(ZoneId zoneId) {
         LocalDateTime currentTime = LocalDateTime.now(zoneId);
         String meetingAlert = "";
@@ -79,8 +95,19 @@ public class Schedule {
         return meetingAlert;
     }
 
+    /**
+     * <p>Observable list of weekly appointments</p>
+     */
     public static ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
 
+    /**
+     * <p>This method takes the ZoneId object as the parameter and returns weekly appointments in observable list.
+     * It checks for the first day of the week in a users zone and then select all the appointments in that week and adds them
+     * to weekly appointments list.</p>
+     *
+     * @param zoneId user zone
+     * @return observable list of the appointments
+     */
     public static ObservableList<Appointment> getWeeklyAppointments(ZoneId zoneId) {
         weeklyAppointments.clear();
         LocalDateTime current = LocalDateTime.now();
@@ -97,6 +124,11 @@ public class Schedule {
         return weeklyAppointments;
     }
 
+    /**
+     * <p>This method iterates through the weekly appointments list and removes the appointment given as the argument</p>
+     *
+     * @param appointment appointment
+     */
     public static void deleteWeeklyAppointment(Appointment appointment) {
         Iterator<Appointment> appointmentIterator = weeklyAppointments.iterator();
         while (appointmentIterator.hasNext()) {
@@ -106,7 +138,11 @@ public class Schedule {
             }
         }
     }
-
+    /**
+     * <p>This method iterates through the monthly appointments list and removes the appointment given as the argument</p>
+     *
+     * @param appointment appointment
+     */
     public static void deleteMonthlyAppointment(Appointment appointment) {
         Iterator<Appointment> appointmentIterator = monthlyAppointments.iterator();
         while (appointmentIterator.hasNext()) {
@@ -116,14 +152,19 @@ public class Schedule {
             }
         }
     }
-
-    ///////////////////////////////////////////////////////////////////
-    //Monthly appointments
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-
+    /**
+     * <p>Observable list of monthly appointments</p>
+     */
     public static ObservableList<Appointment> monthlyAppointments = FXCollections.observableArrayList();
 
+    /**
+     * <p>This method takes the ZoneId object as the parameter and returns monthly appointments in observable list.
+     * It checks for the first day of the month in a users zone and then select all the appointments in that month and adds them
+     * to weekly appointments list.</p>
+     *
+     * @param zoneId user zone
+     * @return observable list of the appointments
+     */
     public static ObservableList<Appointment> getMonthlyAppointments(ZoneId zoneId) {
         monthlyAppointments.clear();
         LocalDateTime current = LocalDateTime.now();
@@ -141,35 +182,72 @@ public class Schedule {
     }
 
 
+    /**
+     * <p>Observable list of the users</p>
+     */
     public static ObservableList<User> users = FXCollections.observableArrayList();
 
+    /**
+     * <p>This method returns first element in users list and gets it's id</p>
+     *
+     * @return user id
+     */
     public static int getUserID() {
         return users.get(0).getId();
     }
 
+    /**
+     * <p>This method takes user object as the argument and adds it to the users list.</p>
+     *
+     * @param user user
+     */
     public static void addUser(User user) {
         users.add(user);
     }
 
+    /**
+     * <p>Customers observable list</p>
+     */
     public static ObservableList<Customer> customers = FXCollections.observableArrayList();
 
+    /**
+     * <p>This method returns customers observable list.</p>
+     *
+     * @return observable list
+     */
     public static ObservableList<Customer> getCustomers() {
         return customers;
     }
 
+    /**
+     * <p>This method takes customer object as the argument and adds it to the customer list.</p>
+     *
+     * @param customer customer
+     */
     public static void addCustomers(Customer customer) {
         customers.add(customer);
     }
 
+    /**
+     * <p>This method clears customers list and after that it resets.</p>
+     */
     public static void refreshCustomers() {
         customers.clear();
         CustomerDao.setCustomer();
     }
 
+    /**
+     * <p>This method clears appointments list.</p>
+     */
     public static void refreshAppointments() {
         appointments.clear();
     }
 
+    /**
+     * <p>This method takes customer object as the argument and removes it from the customers list.</p>
+     *
+     * @param customer customer
+     */
     public static void deleteCustomer(Customer customer) {
         customers.remove(customer);
     }

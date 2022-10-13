@@ -418,6 +418,7 @@
                                           <PieChart fx:id="customerMonthlyMeetingsPieChart" layoutX="40.0" layoutY="227.0" prefHeight="398.0" prefWidth="426.0" title="Customer's Appointments By Month" />
                                           <PieChart fx:id="customerContactsPieChart" layoutX="488.0" layoutY="11.0" prefHeight="293.0" prefWidth="483.0" title="Customer's Appointment By Contact" />
                                           <Separator layoutX="546.0" layoutY="303.0" prefHeight="3.0" prefWidth="414.0" />
+                                          <Label layoutX="70.0" layoutY="29.0" prefHeight="17.0" prefWidth="253.0" text="Please select a customer and press select" />
                                        </children>
                                     </AnchorPane>
                               </content>

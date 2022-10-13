@@ -2,3 +2,7 @@ User unknown attempted login FAILED on 2022-10-13T10:40:36.646471200 America/Chi
 User test attempted login SUCCESS on 2022-10-13T10:43:07.859540500 America/Chicago time.
 User test attempted login SUCCESS on 2022-10-13T11:12:22.774310400 America/Chicago time.
 User test attempted login SUCCESS on 2022-10-13T11:14:34.184966400 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-13T15:00:21.563642700 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-13T15:14:18.909076500 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-13T15:24:09.427468 America/Chicago time.
+User test attempted login SUCCESS on 2022-10-13T15:29:13.051720500 America/Chicago time.

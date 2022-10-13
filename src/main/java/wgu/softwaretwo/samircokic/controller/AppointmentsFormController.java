@@ -5,12 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import wgu.softwaretwo.samircokic.DAO.AppointmentDao;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 import wgu.softwaretwo.samircokic.model.*;
@@ -24,6 +22,12 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+/**
+ * <p>This class is the blueprint for all the controls in the main window of the application.</p>
+ *
+ * @author Samir Cokic
+ */
 public class AppointmentsFormController implements Initializable {
 
     @FXML
@@ -48,8 +52,6 @@ public class AppointmentsFormController implements Initializable {
     private TableColumn locationColumn;
     @FXML
     private TableView appointmentsTable;
-
-    ZoneId zoneId = ZoneId.systemDefault();
     @FXML
     private TextField addAppointmentID;
     @FXML
@@ -85,7 +87,16 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private TableView customerTable;
 
+    ZoneId zoneId = ZoneId.systemDefault();
+
+    /**
+     * <p>Observable list of all countries.</p>
+     */
     public static ObservableList<Country> countries;
+
+    /**
+     * <p>Observable list of all divisions.</p>
+     */
     public static ObservableList<Division> divisions;
 
     static {
@@ -247,6 +258,12 @@ public class AppointmentsFormController implements Initializable {
     private PieChart customerContactsPieChart;
 
 
+    /**
+     * <p>This method initializes crucial methods, tables and combo boxes for the main window of the application</p>
+     *
+     * @param url url
+     * @param resourceBundle resource bundle for other languages.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentAlert.setText(Schedule.appointmentAlert(zoneId));
@@ -366,6 +383,12 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /**
+     * <p>This method adds a new appointment to the database</p>
+     *
+     * @param actionEvent action event
+     * @throws SQLException provides information on database access errors.
+     */
     @FXML
     public void addAppointment(ActionEvent actionEvent) throws SQLException {
 
@@ -482,8 +505,15 @@ public class AppointmentsFormController implements Initializable {
     }
 
 
+    /**
+     * <p>This method deletes the appointment from the database.</p>
+     *
+     * @param actionEvent action event
+     * @throws SQLException provides information on database access errors.
+     * @throws InterruptedException
+     */
     @FXML
-    public void deleteAppointment(ActionEvent actionEvent) throws SQLException, InterruptedException {
+    public void deleteAppointment(ActionEvent actionEvent) throws SQLException {
         try {
             Appointment appointment = (Appointment) appointmentsTable.getSelectionModel().getSelectedItem();
             Appointment appointmentWeekly = (Appointment) weeklyAppointmentsTable.getSelectionModel().getSelectedItem();
@@ -505,7 +535,6 @@ public class AppointmentsFormController implements Initializable {
             }
             AppointmentDao.deleteAppointment(appointment);
             Schedule.refreshAppointments();
-//        AppointmentDao.setTheAppointment(Schedule.getUserID());
             AppointmentDao.setTheAppointment();
             Schedule.deleteAppointment(appointment); //uncomented due to ConcurrentModificationException
             appointmentsTable.setItems(Schedule.getAppointments());
@@ -664,6 +693,15 @@ public class AppointmentsFormController implements Initializable {
 //        String country = updateCustomerCountry.getSelectionModel().getSelectedItem().getCountryName();
             int divisionId = updateCustomerProvince.getSelectionModel().getSelectedItem().getDivisionId();
             int customerID = Integer.valueOf(updateCustomerID.getText());
+            if (name.isEmpty()||address.isEmpty()||postalCode.isEmpty()||phone.isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Empty Fields");
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter the data for all fields");
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(ButtonType.OK);
+                return;
+            }
             if (CustomerDao.updateCustomer(customerID, name, address, postalCode, phone, divisionId) > 0) {
                 Schedule.refreshCustomers();
 

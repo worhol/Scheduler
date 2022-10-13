@@ -18,10 +18,7 @@ import wgu.softwaretwo.samircokic.model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -329,8 +326,16 @@ public class AppointmentsFormController implements Initializable {
         customerCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         customerProvinceCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
-        LocalTime timeIn = LocalTime.of(5, 0);
+        LocalTime timeIn = LocalTime.of(8, 0);
+        LocalDateTime dateESTin = LocalDateTime.of(LocalDate.now(),timeIn);
+        ZonedDateTime zoneESTin = dateESTin.atZone(ZoneId.of("America/New_York"));
+        ZonedDateTime zoneLocalIn = zoneESTin.withZoneSameInstant(zoneId);
+        timeIn = zoneLocalIn.toLocalTime();
         LocalTime timeOut = LocalTime.of(22, 0);
+        LocalDateTime dateESTout = LocalDateTime.of(LocalDate.now(),timeOut);
+        ZonedDateTime zoneESTout = dateESTout.atZone(ZoneId.of("America/New_York"));
+        ZonedDateTime zoneLocalOut = zoneESTout.withZoneSameInstant(zoneId);
+        timeOut = zoneLocalOut.toLocalTime();
         while (timeIn.isBefore(timeOut.plusSeconds(1))) {
             addAppointmentStart.getItems().add(timeIn);
             addAppointmentEnd.getItems().add(timeIn);

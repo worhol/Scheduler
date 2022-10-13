@@ -11,7 +11,7 @@ Application Version: 1
 Date: 10/14/2022
 
 IDE: IntelliJ IDEA 2021.3.3 (Community Edition)
-JDK version: java version "16.0.1" 2021-04-20
+JDK version: java version "17.0.1"
 JAVAFX version: javafx-17.0.1
 
 
@@ -32,4 +32,4 @@ Description of the additional report in part A3f:
 Customer's Appointment By Contact report shows the number of appointments that each customer had with every
 contact.
 
-MySQL Connector driver: mysql-connector-java-8.0.30
+MySQL Connector driver: mysql-connector-java-8.0.25

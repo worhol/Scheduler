@@ -125,7 +125,7 @@ public class LoginFormController implements Initializable {
      * @throws IOException provides information on database access errors.
      */
     public static void loginActivity(String user, boolean success, ZoneId zoneId) throws IOException {
-        String filename = "src/main/java/wgu/softwaretwo/samircokic/login_activity.txt";
+        String filename = "login_activity.txt";
         FileWriter fileWriter = new FileWriter(filename,true);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         if (success){

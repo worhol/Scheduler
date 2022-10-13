@@ -19,7 +19,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.security.Timestamp;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -28,6 +27,11 @@ import java.util.ResourceBundle;
 import static wgu.softwaretwo.samircokic.DAO.UserDao.usernameAndPasswordCheck;
 import static wgu.softwaretwo.samircokic.DAO.UserDao.usernameCheck;
 
+/**
+ * <p>This class is the blueprint for controller of the Login page</p>
+ *
+ * @author Samir Cokic
+ */
 public class LoginFormController implements Initializable {
 
     @FXML
@@ -44,10 +48,22 @@ public class LoginFormController implements Initializable {
     private TextField username;
     Stage stage;
     Parent scene;
+    /**
+     * <p>Zone id takes the zone of user's computer.</p>
+     */
     ZoneId zoneId = ZoneId.systemDefault();
+    /**
+     * <p>Resource bundle uses data from language file to translate the Login page and it's warning messages to French.</p>
+     */
     ResourceBundle bundle = ResourceBundle.getBundle("languages/language");
 
 
+    /**
+     * <p>This method initialize necessary objects on login page</p>
+     *
+     * @param url url
+     * @param resourceBundle resource bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zone.setText(zoneId.toString());
@@ -56,6 +72,16 @@ public class LoginFormController implements Initializable {
         password.setPromptText(bundle.getString("PASSWORD"));
     }
 
+    /**
+     * <p>This method displays appointment form. It first checks for username and a password. If one or both of those
+     * are incorrect it displays the warning message. If the user comes from the French speaking country
+     * the warning message is displayed in French. It also calls the login activity method that writes login
+     * activity onto a file.</p>
+     *
+     * @param actionEvent action event
+     * @throws IOException provides information on file writing errors.
+     * @throws SQLException provides information on database access errors.
+     */
     @FXML
     public void displayAppointmentsForm(ActionEvent actionEvent) throws IOException, SQLException {
         errorPassword.setText("");
@@ -79,20 +105,6 @@ public class LoginFormController implements Initializable {
             stage.setResizable(false);
             stage.centerOnScreen();
             stage.setMaximized(true);
-//            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-//
-////set Stage boundaries to the lower right corner of the visible bounds of the main screen
-//            stage.setX(primaryScreenBounds.getMinX() + primaryScreenBounds.getWidth() - 1280);
-//            stage.setY(primaryScreenBounds.getMinY() + primaryScreenBounds.getHeight() - 700);
-//            stage.setWidth(1280);
-//            stage.setHeight(700);
-//
-//            stage.show();
-//            stage.setMaximized(true);
-
-//            stage.setFullScreen(true);
-//            stage.getMinHeight();
-//            stage.getMinWidth();
             stage.show();
         } else if (usernameCheck(user) > 0 && usernameAndPasswordCheck(user, pass) == 0) {
             boolean success = false;
@@ -101,6 +113,17 @@ public class LoginFormController implements Initializable {
         }
     }
 
+    /**
+     * <p>This method takes the string filename as the parameter which contains the path to file were login
+     * activity of the user is documented. The method takes the boolean argument and depending of outcome
+     * it calls the printwriter method to print the string containing username, whether the login was success or failure and date and time of
+     * the login attempt as well as the user's zone.</p>
+     *
+     * @param user user
+     * @param success checks if the login was success
+     * @param zoneId the zone id of the user
+     * @throws IOException provides information on database access errors.
+     */
     public static void loginActivity(String user, boolean success, ZoneId zoneId) throws IOException {
         String filename = "src/main/java/wgu/softwaretwo/samircokic/login_activity.txt";
         FileWriter fileWriter = new FileWriter(filename,true);

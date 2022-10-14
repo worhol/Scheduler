@@ -267,14 +267,6 @@ public class AppointmentsFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentAlert.setText(Schedule.appointmentAlert(zoneId));
-        imageAlert.setVisible(true);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                Platform.runLater(() -> imageAlert.setVisible(false));
-            }
-        }, 5000l);
-
 
         //All appointments table
         appointmentsTable.setItems(Schedule.getAppointments());
@@ -384,7 +376,10 @@ public class AppointmentsFormController implements Initializable {
     }
 
     /**
-     * <p>This method adds a new appointment to the database</p>
+     * <p>This method adds a new appointment to the database. It retrieves input from the user and then creates
+     * an object of appointment that's added to the database. Before addition, the method checks if the
+     * appointment is overlaps with other appointments and if that's true it alerts the user.
+     * the method also make sure that all fields of the appointment are populated and if not it alerts the user.</p>
      *
      * @param actionEvent action event
      * @throws SQLException provides information on database access errors.
@@ -506,11 +501,13 @@ public class AppointmentsFormController implements Initializable {
 
 
     /**
-     * <p>This method deletes the appointment from the database.</p>
+     * <p>This method deletes the appointment from the database. It selects the apointemnt from one of the three tables
+     * all appointments, weekly or monthly appointments. If there is no selection it throws the alert for user.
+     * After selection is completed it it removes the scheduled appointment.
+     * Method also utilizes lambda expression to time the message displayed in order to inform user about procedure for deletion. </p>
      *
      * @param actionEvent action event
      * @throws SQLException provides information on database access errors.
-     * @throws InterruptedException
      */
     @FXML
     public void deleteAppointment(ActionEvent actionEvent) throws SQLException {
@@ -567,6 +564,15 @@ public class AppointmentsFormController implements Initializable {
     }
 
 
+    /**
+     * <p>This method adds customer to the database. It takes the input from populated fields and
+     * then it creates the customer object that's get added to the table. the method checks for null pointer exceptions,
+     * making sure that all fields are populated and if not it alerts the user.</p>
+     *
+     * @param actionEvent event
+     * @throws SQLException provides information on database access errors.
+     * @throws IOException provides information on input or output  errors.
+     */
     @FXML
     public void addCustomer(ActionEvent actionEvent) throws SQLException, IOException {
         try {
@@ -574,7 +580,6 @@ public class AppointmentsFormController implements Initializable {
             String address = addCustomerAddress.getText();
             String postalCode = addCustomerPostalCode.getText();
             String phone = addPhoneNumber.getText();
-//            String country = addCustomerCountry.getSelectionModel().getSelectedItem().toString();
             String province = addCustomerProvince.getSelectionModel().getSelectedItem().toString();
             int divisionID = CustomerDao.getDivisionId(province);
             CustomerDao.addCustomer(name, address, postalCode, phone, divisionID);
@@ -624,6 +629,12 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /**
+     * <p>This method populates combo box with selected country divisions</p>
+     *
+     * @param actionEvent  event
+     * @throws SQLException provides information on database access errors.
+     */
     @FXML
     public void chooseCustomerDivision(ActionEvent actionEvent) throws SQLException {
         int c = addCustomerCountry.getSelectionModel().getSelectedIndex();
@@ -633,6 +644,15 @@ public class AppointmentsFormController implements Initializable {
         addCustomerProvince.setVisibleRowCount(5);
     }
 
+    /**
+     * <p>This method removes customer from the customers table, and also removes all customer appointments.
+     * The method utilize the lambda expression to show the messages in ui that guide user in deletion.</p>
+     *
+     * @param actionEvent  event
+     * @throws SQLException provides information on database access errors.
+     * @throws InterruptedException
+     * @throws IOException
+     */
     @FXML
     public void deleteCustomer(ActionEvent actionEvent) throws SQLException, InterruptedException, IOException {
         int index = customerTable.getSelectionModel().getSelectedIndex();
@@ -682,6 +702,14 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /**
+     * <p>This method updates customers data. It checks for selection in customer table, then it populates the
+     * fields with selectd customer data. The method checks for empty fields and alerts the users that all fields
+     * has to be populated. </p>
+     *
+     * @param actionEvent event
+     * @throws SQLException provides information on database access errors.
+     */
     @FXML
     public void updateCustomer(ActionEvent actionEvent) throws SQLException {
         try {
@@ -725,6 +753,13 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /**
+     * <p>This method updates customers data. It checks for selection in customer table, then it populates the
+     * fields with selectd customer data. The method checks if the user customer was selected and alerts user accordingly. </p>
+     *
+     * @param actionEvent event
+     * @throws SQLException provides information on database access errors.
+     */
     @FXML
     public void getCustomer(ActionEvent actionEvent) throws SQLException {
         try {
@@ -762,6 +797,12 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /**
+     * <p>This method populates the customer division combo box</p>
+     *
+     * @param actionEvent event
+     * @throws SQLException provides information on database access errors.
+     */
     @FXML
     public void chooseCustomerDivisionUpdate(ActionEvent actionEvent) throws SQLException {
         Country c = updateCustomerCountry.getValue();
@@ -774,7 +815,13 @@ public class AppointmentsFormController implements Initializable {
         updateCustomerProvince.setVisibleRowCount(5);
 
     }
-
+    /**
+     * <p>This method updates the appointment, it populates the filed, then checks for overlap in the appointments
+     * and alerts the user if there is overlap. Then if there is no overlap updates the appointment object in the database</p>
+     *
+     * @param actionEvent event
+     * @throws SQLException
+     */
     @FXML
     public void updateAppointment(ActionEvent actionEvent) throws SQLException {
         try {
@@ -833,7 +880,12 @@ public class AppointmentsFormController implements Initializable {
             ButtonType buttonType = result.orElse(ButtonType.OK);
         }
     }
-
+    /**
+     * <p>This method selects the appointment from all three tables, and informs the user if the selection was not
+     * done</p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void selectAppointment(ActionEvent actionEvent) {
         try {
@@ -868,7 +920,11 @@ public class AppointmentsFormController implements Initializable {
 
 
     }
-
+    /**
+     * <p>This method cancels the deletion of the appointment then close the titled pane</p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void cancelDeleteAppointment(ActionEvent actionEvent) {
         cancelAppointmentLbl.setText("Please select the appointment you want to cancel and press SELECT button");
@@ -877,14 +933,22 @@ public class AppointmentsFormController implements Initializable {
         monthlyAppointmentsTable.getSelectionModel().clearSelection();
         deleteAppointmentTitlePane.setExpanded(false);
     }
-
+    /**
+     * <p>This method cancels the deletion of the customer then close the titled pane</p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void cancelDeleteCustomer(ActionEvent actionEvent) {
         deleteCustomerLabel.setText("Please select the customer you want to delete and press SELECT button");
         customerTable.getSelectionModel().clearSelection();
         deleteCostumerTitlePane.setExpanded(false);
     }
-
+    /**
+     * <p>This method selects the appointment from the all three tables and informs the usewr about the action.</p>
+     *
+     * @param actionEvent event
+     */
 
     @FXML
     public void selectAppointmenForDelete(ActionEvent actionEvent) {
@@ -909,9 +973,13 @@ public class AppointmentsFormController implements Initializable {
             ButtonType buttonType = result.orElse(ButtonType.OK);
         }
 
-//
     }
 
+    /**
+     * <p>This method selects the customer from the table and alerts the user about the action.</p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void selectCustomerForDelete(ActionEvent actionEvent) {
         Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
@@ -929,18 +997,33 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /**
+     * <p>This method selects the contact from the combo box and sets the tables to display data about contact in the reports tab. </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void selectContactReportButton(ActionEvent actionEvent) {
         String name = contactReportCombo.getSelectionModel().getSelectedItem().toString();
         contactReportTable.setItems(Report.contactAppointments(name));
     }
 
+    /**
+     * <p>This method clears selection of the selected contact. </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void clearContactReportButton(ActionEvent actionEvent) {
         contactReportCombo.getSelectionModel().clearSelection();
         contactReportTable.getItems().clear();
     }
 
+    /**
+     * <p>This method clears selection of the selected customer. </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void customerReportAppointmentsClearButton(ActionEvent actionEvent) {
         customerReportAppointmentsCombo.getSelectionModel().clearSelection();
@@ -949,6 +1032,11 @@ public class AppointmentsFormController implements Initializable {
         customerContactsPieChart.getData().clear();
     }
 
+    /**
+     * <p>This method selects the customer from the combo box and sets the pie charts to display data about customer in the reports tab. </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void customerReportAppointmentsSelectButton(ActionEvent actionEvent) {
         int id = Integer.valueOf(customerReportAppointmentsCombo.getSelectionModel().getSelectedItem().toString());
@@ -956,7 +1044,11 @@ public class AppointmentsFormController implements Initializable {
         customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id));
         customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
-
+    /**
+     * <p>This method cancels appointment selection, clears the populated fields then close the title pane </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void cancelUpdateAppointment(ActionEvent actionEvent) {
         appointmentsTable.getSelectionModel().clearSelection();
@@ -976,6 +1068,11 @@ public class AppointmentsFormController implements Initializable {
         updateAppointmentTitlePane.setExpanded(false);
     }
 
+    /**
+     * <p>This method cancels customer's selection, clears the populated fields then close the title pane </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void cancelAddCustomer(ActionEvent actionEvent) {
         addCustomerName.clear();
@@ -987,6 +1084,11 @@ public class AppointmentsFormController implements Initializable {
         addCostumerTitlePane.setExpanded(false);
     }
 
+    /**
+     * <p>This method cancels appointment selection, clears the populated fields then close the title pane </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void cancelAddAppointment(ActionEvent actionEvent) {
         addTitleTxt.clear();
@@ -1002,6 +1104,11 @@ public class AppointmentsFormController implements Initializable {
         addAppointmentTitlePane.setExpanded(false);
     }
 
+    /**
+     * <p>This method cancels customer's selection, clears the populated fields then close the title pane </p>
+     *
+     * @param actionEvent event
+     */
     @FXML
     public void cancelGetCustomer(ActionEvent actionEvent) {
         customerTable.getSelectionModel().clearSelection();

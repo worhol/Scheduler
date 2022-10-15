@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"wgu.softwaretwo.samircokic.model"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"wgu.softwaretwo.demo","l":"wgu.softwaretwo.samircokic"},{"m":"wgu.softwaretwo.demo","l":"wgu.softwaretwo.samircokic.controller"},{"m":"wgu.softwaretwo.demo","l":"wgu.softwaretwo.samircokic.DAO"},{"m":"wgu.softwaretwo.demo","l":"wgu.softwaretwo.samircokic.model"}];updateSearchResults();

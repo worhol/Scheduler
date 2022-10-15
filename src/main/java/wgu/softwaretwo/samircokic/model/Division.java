@@ -12,8 +12,8 @@ public class Division {
 
     /**
      * @param divisionId unique number associated with division.
-     * @param divisionName
-     * @param countryId
+     * @param divisionName division name
+     * @param countryId country id
      */
     public Division(int divisionId, String divisionName, int countryId) {
         this.divisionId = divisionId;

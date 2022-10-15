@@ -1,1 +1,5 @@
+module:wgu.softwaretwo.demo
+wgu.softwaretwo.samircokic
+wgu.softwaretwo.samircokic.controller
+wgu.softwaretwo.samircokic.DAO
 wgu.softwaretwo.samircokic.model

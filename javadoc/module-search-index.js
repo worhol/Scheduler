@@ -1,1 +1,1 @@
-moduleSearchIndex = [];updateSearchResults();
+moduleSearchIndex = [{"l":"wgu.softwaretwo.demo"}];updateSearchResults();

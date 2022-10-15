@@ -642,8 +642,8 @@ public class AppointmentsFormController implements Initializable {
      *
      * @param actionEvent event
      * @throws SQLException         provides information on database access errors.
-     * @throws InterruptedException
-     * @throws IOException
+     * @throws InterruptedException provides information on thread errors.
+     * @throws IOException provides information IO errors.
      */
     @FXML
     public void deleteCustomer(ActionEvent actionEvent) throws SQLException, InterruptedException, IOException {
@@ -813,7 +813,7 @@ public class AppointmentsFormController implements Initializable {
      * and alerts the user if there is overlap. Then if there is no overlap updates the appointment object in the database</p>
      *
      * @param actionEvent event
-     * @throws SQLException
+     * @throws SQLException provides information on database access errors.
      */
     @FXML
     public void updateAppointment(ActionEvent actionEvent) throws SQLException {

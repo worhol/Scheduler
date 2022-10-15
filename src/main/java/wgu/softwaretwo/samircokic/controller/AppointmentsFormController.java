@@ -226,8 +226,6 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private Label appointmentAlert;
     @FXML
-    private ImageView imageAlert;
-    @FXML
     private ComboBox contactReportCombo;
     @FXML
     private TableColumn contactReportCustomerIDColumn;
@@ -248,11 +246,9 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     private ComboBox customerReportAppointmentsCombo;
     @FXML
-    private PieChart customerAppointmentsPieChart;
-    @FXML
-    private PieChart customerMonthlyMeetingsPieChart;
-    @FXML
     private PieChart customerContactsPieChart;
+    @FXML
+    private Label customerAppByMonthAndTypeLbl;
 
 
     /**
@@ -1040,8 +1036,7 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     public void customerReportAppointmentsClearButton(ActionEvent actionEvent) {
         customerReportAppointmentsCombo.getSelectionModel().clearSelection();
-        customerAppointmentsPieChart.getData().clear();
-        customerMonthlyMeetingsPieChart.getData().clear();
+        customerAppByMonthAndTypeLbl.setText("");
         customerContactsPieChart.getData().clear();
     }
 
@@ -1053,8 +1048,7 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     public void customerReportAppointmentsSelectButton(ActionEvent actionEvent) {
         int id = Integer.valueOf(customerReportAppointmentsCombo.getSelectionModel().getSelectedItem().toString());
-        customerAppointmentsPieChart.setData(Report.typePieChart(id));
-        customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id));
+       customerAppByMonthAndTypeLbl.setText(Report.monthlyType(id));
         customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
 

@@ -53,6 +53,152 @@ public class Report {
         Schedule.getAppointments().stream().filter(appointment -> appointment.getCustomerId() == id).forEach(customerAppointment::add);
         return customerAppointment;
     }
+    ///////////////////////////////////////////////////////////////////
+
+    public static ObservableList<String> allCustomersMonthlyTypeAppointments(int id, int month) {
+        ObservableList<String> customerAppointment = FXCollections.observableArrayList();
+        for (Appointment appointment:Schedule.getAppointments()){
+            if (appointment.getStart().getMonthValue()==month&&appointment.getCustomerId()==id){
+                customerAppointment.add(appointment.getType());
+            }
+        }
+        return customerAppointment;
+    }
+    public static String monthlyType(int id){
+//        allCustomersAppointments(id).clear();
+//        allCustomersAppointmentTypes(id).clear();
+
+        String report = "";
+        String jan = "";
+        String feb = "";
+        String mar ="";
+        String apr = "";
+        String may = "";
+        String jun = "";
+        String jul = "";
+        String aug = "";
+        String sep = "";
+        String oct = "";
+        String nov = "";
+        String dec = "";
+        for (Appointment appointment:allCustomersAppointments(id)){
+            if (allCustomersMonthlyTypeAppointments(id,1)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,1), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,1), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,1), "De-Briefing");
+                jan=  "JANUARY:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                jan ="JANUARY  |  Preliminary "+0+"|  General "+0+"|  De-Briefing "+0;
+//            }
+             if (allCustomersMonthlyTypeAppointments(id,2)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,2), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,2), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,2), "De-Briefing");
+                feb=  "FEBRUARY:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//             else {
+//                 feb ="FEB Preliminary "+0+" General "+0+" De-Briefing "+0;
+//             }
+            if (allCustomersMonthlyTypeAppointments(id,3)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,3), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,3), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,3), "De-Briefing");
+                mar=  "MARCH:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//              mar ="MARCH Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+             if (allCustomersMonthlyTypeAppointments(id,4)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,4), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,4), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,4), "De-Briefing");
+                apr = "APRIL:    Preliminary "+preliminary+"  General "+general+"|  De-Briefing "+debriefing;
+             }
+//             else {
+//                 apr ="APRIL Preliminary "+0+" General "+0+" De-Briefing "+0;
+//             }
+            if (allCustomersMonthlyTypeAppointments(id,5)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,5), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,5), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,5), "De-Briefing");
+                may = "MAY:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                may ="MAY Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,6)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,6), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,6), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,6), "De-Briefing");
+                jun = "JUNE:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                jun ="JUNE Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,7)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,7), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,7), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,7), "De-Briefing");
+                jul = "JULY:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                jul ="JULY Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,8)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,8), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,8), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,8), "De-Briefing");
+                aug = "AUGUST:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                aug ="AUGUST Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,9)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,9), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,9), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,9), "De-Briefing");
+                sep = "SEPTEMBER:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                sep ="SEPTEMBER Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,10)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,10), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,10), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,10), "De-Briefing");
+                oct = "OCTOBER:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                oct ="OCTOBER Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,11)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,11), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,11), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,11), "De-Briefing");
+                nov = "NOVEMBER:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                nov ="NOVEMBER Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+            if (allCustomersMonthlyTypeAppointments(id,12)!=null){
+                int preliminary = Collections.frequency(allCustomersMonthlyTypeAppointments(id,12), "Preliminary");
+                int general = Collections.frequency(allCustomersMonthlyTypeAppointments(id,12), "General");
+                int debriefing = Collections.frequency(allCustomersMonthlyTypeAppointments(id,12), "De-Briefing");
+                dec = "DECEMBER:    Preliminary "+preliminary+"  General "+general+"  De-Briefing "+debriefing;
+            }
+//            else {
+//                dec ="DECEMBER Preliminary "+0+" General "+0+" De-Briefing "+0;
+//            }
+        }
+        report=jan+"\n\n"+feb+"\n\n"+mar+"\n\n"+apr+"\n\n"+may+"\n\n"+jun+"\n\n"+jul+"\n\n"+aug+"\n\n"+sep+"\n\n"+oct+"\n\n"+nov+"\n\n"+dec;
+        return report;
+    }
+
+
+
+
+    //////////////////////////////////////////////////////////////////
 
     /**
      * <p>This method takes the int as the argument and then utilize lambda expression to return the observable list of PieChart.Data type.

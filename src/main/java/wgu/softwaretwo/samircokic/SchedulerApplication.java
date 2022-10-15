@@ -11,6 +11,8 @@ import wgu.softwaretwo.samircokic.model.Report;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 
 public class SchedulerApplication extends Application {
@@ -25,23 +27,8 @@ public class SchedulerApplication extends Application {
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
 //        Locale.setDefault(new Locale("fr"));;
-//        int rowsAffected = AppointmentDao.addAppointment("One","Two","Three","Four",null,null,3,1,2);
-//        if (rowsAffected>0){
-//            System.out.println("Insertion successful");
-//        }else {
-//            System.out.println("Insert failed");
-//        }
-//        int rows = CustomerDao.addCustomer("Y","Y","u","p",9);
-//        System.out.println(rows);
-//        System.out.println(CustomerDao.getDivisionId("Alaska"));
-//        int rows = CustomerDao.updateCustomer(45,"YES","YES","YES","YES", 45);
-//        System.out.println(rows);
         launch();
-        ;
-//        System.out.println(AppointmentDao.setTheAppointment(1).getType());
-//        AppointmentDao.setTheAppointment(1);
-//        System.out.println(Schedulle.getAppointments());
-        JDBC.closeConnection();
+           JDBC.closeConnection();
 
     }
 }

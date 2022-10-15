@@ -2,14 +2,15 @@ package wgu.softwaretwo.samircokic.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import wgu.softwaretwo.samircokic.DAO.CustomerDao;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * <p>This class is the blueprint for appointments scheduling</p>
@@ -118,11 +119,14 @@ public class Schedule {
      * @return String meeting alert.
      */
     public static String appointmentAlert(ZoneId zoneId) {
-        LocalDateTime currentTime = LocalDateTime.now(zoneId);
+        LocalTime currentTime = LocalTime.now();
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),currentTime);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
+        ZonedDateTime currentLocaltime = zonedDateTime.withZoneSameInstant(zoneId);
         String meetingAlert = "";
         for (Appointment appointment : appointments) {
-            long timeDifference = ChronoUnit.MINUTES.between(currentTime, appointment.getStart());
-            if (timeDifference < 15 && timeDifference > 0) {
+            long timeDifference = ChronoUnit.MINUTES.between(currentLocaltime, appointment.getStart().atZone(zoneId));
+            if (timeDifference < 15 && timeDifference >= 0) {
                 meetingAlert = "You have upcoming appointment with the id: " + appointment.getAppointmentId() + " at: " + appointment.getStart();
             } else {
                 meetingAlert = "There are no upcoming appointments";

@@ -66,6 +66,42 @@ public class Schedule {
     }
 
     /**
+     * <p>This method takes LocalDateTime arguments and the int and returns boolean.
+     * It searches appointments list for customer id, then it checks the meetings in the list for their scheduled time.
+     * If time does not collide with other meetings it returns true, otherwise it returns false.
+     * If the user is keeping the start and end time of the meeting unchanged, the method will allow it.</p>
+     *
+     * @param start beginning of the meeting
+     * @param end end of the meeting
+     * @param customerID customer id
+     * @param appointmentID appointment id
+     * @return  boolean true if scheduled meeting overlaps or false if not.
+     */
+    public static boolean updateAppointmentOverlap(LocalDateTime start, LocalDateTime end, int customerID, int appointmentID){
+        boolean isItOverlap = false;
+        for (Appointment appointment : appointments) {
+            if (appointment.getCustomerId() == customerID) {
+                if ((start.isAfter(appointment.getStart()) && start.isBefore(appointment.getEnd()))
+                        || ((start.isEqual(appointment.getStart()))&&end.isAfter(appointment.getEnd()))
+                        || ((start.isEqual(appointment.getStart()))&&end.isBefore(appointment.getEnd()))
+                        || (end.isAfter(appointment.getStart()) && end.isBefore(appointment.getEnd()))
+                        ||(start.isBefore(appointment.getStart())&&end.isAfter(appointment.getEnd()))) {
+                    isItOverlap = true;
+                }else if(start.isEqual(appointment.getStart())&& end.isEqual(appointment.getEnd())){
+                    if(appointmentID==appointment.getAppointmentId()){
+                        isItOverlap = false;
+                    }else {
+                        isItOverlap = true;
+                    }
+
+                }
+            }
+
+        }
+        return isItOverlap;
+    }
+
+    /**
      * <p>This method returns appointments observable list</p>
      *
      * @return appointments observable list

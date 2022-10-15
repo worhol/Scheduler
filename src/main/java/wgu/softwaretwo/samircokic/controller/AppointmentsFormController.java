@@ -30,6 +30,29 @@ import java.util.TimerTask;
  */
 public class AppointmentsFormController implements Initializable {
 
+    /**
+     * <p>Observable list of all countries.</p>
+     */
+    public static ObservableList<Country> countries;
+    /**
+     * <p>Observable list of all divisions.</p>
+     */
+    public static ObservableList<Division> divisions;
+
+    static {
+        try {
+            divisions = Customer.getDivisions();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            countries = Customer.getCountries();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ZoneId zoneId = ZoneId.systemDefault();
     @FXML
     private TableColumn contactColumn;
     @FXML
@@ -86,32 +109,6 @@ public class AppointmentsFormController implements Initializable {
     private ComboBox addCustomerProvince;
     @FXML
     private TableView customerTable;
-
-    ZoneId zoneId = ZoneId.systemDefault();
-
-    /**
-     * <p>Observable list of all countries.</p>
-     */
-    public static ObservableList<Country> countries;
-
-    /**
-     * <p>Observable list of all divisions.</p>
-     */
-    public static ObservableList<Division> divisions;
-
-    static {
-        try {
-            divisions = Customer.getDivisions();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            countries = Customer.getCountries();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     @FXML
     private TableColumn customerNameCol;
     @FXML
@@ -261,7 +258,7 @@ public class AppointmentsFormController implements Initializable {
     /**
      * <p>This method initializes crucial methods, tables and combo boxes for the main window of the application</p>
      *
-     * @param url url
+     * @param url            url
      * @param resourceBundle resource bundle for other languages.
      */
     @Override
@@ -336,12 +333,12 @@ public class AppointmentsFormController implements Initializable {
         customerProvinceCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
         LocalTime timeIn = LocalTime.of(8, 0);
-        LocalDateTime dateESTin = LocalDateTime.of(LocalDate.now(),timeIn);
+        LocalDateTime dateESTin = LocalDateTime.of(LocalDate.now(), timeIn);
         ZonedDateTime zoneESTin = dateESTin.atZone(ZoneId.of("America/New_York"));
         ZonedDateTime zoneLocalIn = zoneESTin.withZoneSameInstant(zoneId);
         timeIn = zoneLocalIn.toLocalTime();
         LocalTime timeOut = LocalTime.of(22, 0);
-        LocalDateTime dateESTout = LocalDateTime.of(LocalDate.now(),timeOut);
+        LocalDateTime dateESTout = LocalDateTime.of(LocalDate.now(), timeOut);
         ZonedDateTime zoneESTout = dateESTout.atZone(ZoneId.of("America/New_York"));
         ZonedDateTime zoneLocalOut = zoneESTout.withZoneSameInstant(zoneId);
         timeOut = zoneLocalOut.toLocalTime();
@@ -400,9 +397,9 @@ public class AppointmentsFormController implements Initializable {
             LocalDateTime appointmentEnd = LocalDateTime.of(date, end);
             int customerID = Integer.valueOf(addCustomerID.getSelectionModel().getSelectedItem().toString());
             int userID = Integer.valueOf(addUserID.getSelectionModel().getSelectedItem().toString());
-            if(appointmentStart.isAfter(appointmentEnd)||appointmentStart.isEqual(appointmentEnd)){
-                    addAppointmentStart.setStyle("-fx-border-color: RED;");
-                    addAppointmentEnd.setStyle("-fx-border-color: RED;");
+            if (appointmentStart.isAfter(appointmentEnd) || appointmentStart.isEqual(appointmentEnd)) {
+                addAppointmentStart.setStyle("-fx-border-color: RED;");
+                addAppointmentEnd.setStyle("-fx-border-color: RED;");
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Time issue");
                 alert.setHeaderText(null);
@@ -415,9 +412,8 @@ public class AppointmentsFormController implements Initializable {
                     addAppointmentStart.setStyle(null);
                     addAppointmentEnd.setStyle(null);
                 }
-                    return;
-            }
-            if (!Schedule.appointmentOverlap(appointmentStart, appointmentEnd, customerID)) {
+                return;
+            } else if (!Schedule.appointmentOverlap(appointmentStart, appointmentEnd, customerID)) {
                 AppointmentDao.addAppointment(title, description, location, type, appointmentStart, appointmentEnd, customerID, userID, contact);
                 Schedule.getAppointments().clear();
                 AppointmentDao.setTheAppointment();
@@ -571,7 +567,7 @@ public class AppointmentsFormController implements Initializable {
      *
      * @param actionEvent event
      * @throws SQLException provides information on database access errors.
-     * @throws IOException provides information on input or output  errors.
+     * @throws IOException  provides information on input or output  errors.
      */
     @FXML
     public void addCustomer(ActionEvent actionEvent) throws SQLException, IOException {
@@ -632,7 +628,7 @@ public class AppointmentsFormController implements Initializable {
     /**
      * <p>This method populates combo box with selected country divisions</p>
      *
-     * @param actionEvent  event
+     * @param actionEvent event
      * @throws SQLException provides information on database access errors.
      */
     @FXML
@@ -648,8 +644,8 @@ public class AppointmentsFormController implements Initializable {
      * <p>This method removes customer from the customers table, and also removes all customer appointments.
      * The method utilize the lambda expression to show the messages in ui that guide user in deletion.</p>
      *
-     * @param actionEvent  event
-     * @throws SQLException provides information on database access errors.
+     * @param actionEvent event
+     * @throws SQLException         provides information on database access errors.
      * @throws InterruptedException
      * @throws IOException
      */
@@ -721,7 +717,7 @@ public class AppointmentsFormController implements Initializable {
 //        String country = updateCustomerCountry.getSelectionModel().getSelectedItem().getCountryName();
             int divisionId = updateCustomerProvince.getSelectionModel().getSelectedItem().getDivisionId();
             int customerID = Integer.valueOf(updateCustomerID.getText());
-            if (name.isEmpty()||address.isEmpty()||postalCode.isEmpty()||phone.isEmpty()){
+            if (name.isEmpty() || address.isEmpty() || postalCode.isEmpty() || phone.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Empty Fields");
                 alert.setHeaderText(null);
@@ -815,6 +811,7 @@ public class AppointmentsFormController implements Initializable {
         updateCustomerProvince.setVisibleRowCount(5);
 
     }
+
     /**
      * <p>This method updates the appointment, it populates the filed, then checks for overlap in the appointments
      * and alerts the user if there is overlap. Then if there is no overlap updates the appointment object in the database</p>
@@ -837,8 +834,9 @@ public class AppointmentsFormController implements Initializable {
             LocalDateTime endAppointment = LocalDateTime.of(date, end);
             int customerID = Integer.valueOf(updateCustomerIdCombo.getSelectionModel().getSelectedItem().toString());
             int userID = Integer.valueOf(updateUserIdCombo.getSelectionModel().getSelectedItem().toString());
+            String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
 
-            if(startAppointment.isAfter(endAppointment)||startAppointment.isEqual(endAppointment)){
+            if (startAppointment.isAfter(endAppointment) || startAppointment.isEqual(endAppointment)) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Time issue");
                 alert.setHeaderText(null);
@@ -852,18 +850,29 @@ public class AppointmentsFormController implements Initializable {
                     updateEndTimeCombo.setStyle(null);
                 }
                 return;
-            }
-
-            String contact = updateContactCombo.getSelectionModel().getSelectedItem().toString();// when not changed to number exception
-            AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
-            Schedule.refreshAppointments();
+            } else if (!Schedule.updateAppointmentOverlap(startAppointment, endAppointment, customerID,appointmentId)) {
+                AppointmentDao.updateAppointment(title, description, location, type, startAppointment, endAppointment, customerID, userID, contact, appointmentId);
+                Schedule.refreshAppointments();
 //        AppointmentDao.setTheAppointment(userID);
-            AppointmentDao.setTheAppointment();
-            appointmentsTable.setItems(Schedule.getAppointments());
-            weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
-            monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
-            updateAppointmentTitlePane.setExpanded(false);
+                AppointmentDao.setTheAppointment();
+                appointmentsTable.setItems(Schedule.getAppointments());
+                weeklyAppointmentsTable.setItems(Schedule.getWeeklyAppointments(zoneId));
+                monthlyAppointmentsTable.setItems(Schedule.getMonthlyAppointments(zoneId));
+                updateAppointmentTitlePane.setExpanded(false);
 
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment time overlap");
+                alert.setHeaderText(null);
+                alert.setContentText("You attempted to schedule meeting that overlaps with the other customer's meetings");
+                addAppointmentStart.setStyle("-fx-border-color: RED;");
+                addAppointmentEnd.setStyle("-fx-border-color: RED;");
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(ButtonType.OK);
+                if (buttonType == ButtonType.OK) {
+                    addAppointmentStart.setStyle(null);
+                }
+            }
         } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Appointment not selected");
@@ -880,6 +889,7 @@ public class AppointmentsFormController implements Initializable {
             ButtonType buttonType = result.orElse(ButtonType.OK);
         }
     }
+
     /**
      * <p>This method selects the appointment from all three tables, and informs the user if the selection was not
      * done</p>
@@ -920,6 +930,7 @@ public class AppointmentsFormController implements Initializable {
 
 
     }
+
     /**
      * <p>This method cancels the deletion of the appointment then close the titled pane</p>
      *
@@ -933,6 +944,7 @@ public class AppointmentsFormController implements Initializable {
         monthlyAppointmentsTable.getSelectionModel().clearSelection();
         deleteAppointmentTitlePane.setExpanded(false);
     }
+
     /**
      * <p>This method cancels the deletion of the customer then close the titled pane</p>
      *
@@ -944,6 +956,7 @@ public class AppointmentsFormController implements Initializable {
         customerTable.getSelectionModel().clearSelection();
         deleteCostumerTitlePane.setExpanded(false);
     }
+
     /**
      * <p>This method selects the appointment from the all three tables and informs the usewr about the action.</p>
      *
@@ -1044,6 +1057,7 @@ public class AppointmentsFormController implements Initializable {
         customerMonthlyMeetingsPieChart.setData(Report.monthlyPieChart(id));
         customerContactsPieChart.setData(Report.customerContactPieChart(id));
     }
+
     /**
      * <p>This method cancels appointment selection, clears the populated fields then close the title pane </p>
      *

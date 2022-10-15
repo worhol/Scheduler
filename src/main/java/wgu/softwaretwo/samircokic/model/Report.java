@@ -130,7 +130,7 @@ public class Report {
     }
     /**
      * <p>This method takes integer as the argument and returns observable list of customer appointment contacts associated with the argument.
-     * It first clears the cash from customerAppointmentContacts observable list.
+     * It first clears the cache from customerAppointmentContacts observable list.
      * After that it utilize lambda expression to return observable list. It converts the all appointments list from Schedule class into a stream using the stream method.
      * Then it filters the appointments by their customer id. At the end filtered appointments are added
      * to customerAppointmentContacts observable list. </p>

@@ -115,19 +115,19 @@ public class Schedule {
      * <p>This method iterates through the appointments list and looks for the appointments that will begin within 15 minutes.
      * If there is a meeting it returns the string that inform the user about meeting, if not it informs a user that there are no meetings. </p>
      *
-     * @param zoneId user
      * @return String meeting alert.
      */
-    public static String appointmentAlert(ZoneId zoneId) {
-        LocalTime currentTime = LocalTime.now();
-        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(),currentTime);
-        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
-        ZonedDateTime currentLocaltime = zonedDateTime.withZoneSameInstant(zoneId);
+    public static String appointmentAlert(int id) {
+        LocalDateTime now = LocalDateTime.now();
         String meetingAlert = "";
         for (Appointment appointment : appointments) {
-            long timeDifference = ChronoUnit.MINUTES.between(currentLocaltime, appointment.getStart().atZone(zoneId));
-            if (timeDifference < 15 && timeDifference >= 0) {
+            if(appointment.getUserId()!=id){
+                continue;
+            }
+            long timeDifference = ChronoUnit.MINUTES.between(now, appointment.getStart());
+            if (timeDifference <= 15 && timeDifference > 0) {
                 meetingAlert = "You have upcoming appointment with the id: " + appointment.getAppointmentId() + " at: " + appointment.getStart();
+                break;
             } else {
                 meetingAlert = "There are no upcoming appointments";
             }

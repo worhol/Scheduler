@@ -259,7 +259,7 @@ public class AppointmentsFormController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        appointmentAlert.setText(Schedule.appointmentAlert(zoneId));
+        appointmentAlert.setText(Schedule.appointmentAlert(Schedule.getUserID()));
 
         //All appointments table
         appointmentsTable.setItems(Schedule.getAppointments());

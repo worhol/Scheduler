@@ -5,8 +5,6 @@
 Scheduler application was made to ease a scheduling of the appointments for the users of global organization,
 and conduct business in multiple languages and time zones.
 
-Author: Samir Cokic.
-Contact: scokic1@wgu.edu
 Application Version: 1
 Date: 10/14/2022
 
